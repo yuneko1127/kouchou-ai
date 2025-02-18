@@ -1,5 +1,5 @@
-# dummy-server
-- これはダミーサーバーです
+# shotokutaishi-dummy-server
+これはダミーサーバーです
 
 ## endpoints
 - GET /
@@ -8,7 +8,7 @@
   - レポート発行者情報
 - GET /meta/reporter.png
   - レポート発行者画像
-- GET meta/icon.png
+- GET /meta/icon.png
   - レポートアイコン
 - GET /reports
   - レポート出力ステータス一覧
