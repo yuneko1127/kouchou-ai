@@ -8,9 +8,9 @@ import {About} from '@/components/report/About'
 import {Separator} from '@chakra-ui/react'
 
 type PageProps = {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export async function generateStaticParams() {
