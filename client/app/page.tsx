@@ -1,7 +1,7 @@
 import {Header} from '@/components/Header'
 import {Footer} from '@/components/Footer'
 import {Meta} from '@/type'
-import {About} from '@/components/report/About'
+import {About} from '@/components/About'
 import {Box, Card, Heading, HStack, Text} from '@chakra-ui/react'
 import Link from 'next/link'
 import {CircleCheckIcon, CircleFadingArrowUpIcon} from 'lucide-react'

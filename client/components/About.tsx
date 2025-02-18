@@ -1,6 +1,6 @@
 'use client'
 
-import {Box, Button, Heading, HStack, Image, Text, VStack} from '@chakra-ui/react'
+import {Box, Button, Heading, Image, Text, VStack} from '@chakra-ui/react'
 import {Meta} from '@/type'
 import {ExternalLinkIcon} from 'lucide-react'
 import Link from 'next/link'
@@ -30,18 +30,6 @@ export function About({meta}: AboutProps) {
             <Button size={'2xl'} w={'300px'} className={'gradientButton'}>ウェブサイトを見る<ExternalLinkIcon /></Button>
           </Link>
         )}
-        <HStack gap={4}>
-          {meta.privacyLink && (
-            <Link href={meta.privacyLink} target={'_blank'} rel={'noopener noreferrer'}>
-              <Text fontSize={'xs'} className={'textLink'}>プライバシーポリシー</Text>
-            </Link>
-          )}
-          {meta.termsLink && (
-            <Link href={meta.termsLink} target={'_blank'} rel={'noopener noreferrer'}>
-              <Text fontSize={'xs'} className={'textLink'}>利用規約</Text>
-            </Link>
-          )}
-        </HStack>
       </VStack>
     </Box>
   )

@@ -4,7 +4,7 @@ import {Header} from '@/components/Header'
 import {Overview} from '@/components/report/Overview'
 import {Footer} from '@/components/Footer'
 import {ClusterOverview} from '@/components/report/ClusterOverview'
-import {About} from '@/components/report/About'
+import {About} from '@/components/About'
 import {Separator} from '@chakra-ui/react'
 
 type PageProps = {
