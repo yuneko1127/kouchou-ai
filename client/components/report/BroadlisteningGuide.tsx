@@ -12,9 +12,9 @@ export function BroadlisteningGuide() {
   return (
     <DialogRoot size="xl" placement="center" motionPreset="slide-in-bottom">
       <DialogTrigger asChild>
-        <Button variant={'outline'}>
+        <Button variant={'ghost'}>
           <CircleHelpIcon />
-          <Text display={{ base: 'none', lg: 'block' }}>ブロードリスニングについて</Text>
+          <Text display={{ base: 'none', lg: 'block' }}>ブロードリスニングの解説</Text>
         </Button>
       </DialogTrigger>
       <DialogContent>
