@@ -17,8 +17,7 @@ export default async function Page() {
     <>
       <div className={'container'}>
         <Header meta={meta} />
-        <Box mx={'auto'} maxW={'750px'} mb={10}>
-          <About meta={meta} />
+        <Box mx={'auto'} maxW={'900px'} mb={10}>
           <Heading textAlign={'center'} fontSize={'xl'} mb={5}>Reports</Heading>
           {reports.filter(r => r.status === 'ready').map(report => (
             <Link
@@ -54,6 +53,7 @@ export default async function Page() {
             </Link>
           ))}
         </Box>
+        <About meta={meta} />
       </div>
       <Footer meta={meta} />
     </>
