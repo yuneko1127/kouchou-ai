@@ -1,22 +1,31 @@
+'use client'
+
 import {Header} from '@/components/Header'
-import {Meta, Report} from '@/type'
+import {Report} from '@/type'
 import {Box, Button, Card, Heading, HStack, Text} from '@chakra-ui/react'
 import Link from 'next/link'
 import {CircleCheckIcon, CircleFadingArrowUpIcon, EllipsisIcon, ExternalLinkIcon} from 'lucide-react'
 import {MenuContent, MenuItem, MenuRoot, MenuTrigger} from '@/components/ui/menu'
+import {useEffect, useState} from 'react'
 
-export default async function Page() {
-  const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
-  const reportsResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/admin/reports')
-  if (!metaResponse.ok || !reportsResponse.ok) {
-    return <></>
+export default function Page() {
+  const [reports, setReports] = useState<Report[]>([])
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/admin/reports')
+      if (!response.ok) return
+      setReports(await response.json())
+    })()
+  }, [])
+
+  if (!reports) {
+    return <>Loading...</>
   }
-  const meta: Meta = await metaResponse.json()
-  const reports: Report[] = await reportsResponse.json()
+
   return (
     <>
       <div className={'container'}>
-        <Header meta={meta} />
+        <Header />
         <Box mx={'auto'} maxW={'1000px'} mb={5}>
           <Heading textAlign={'center'} fontSize={'xl'} mb={5}>Admin Dashboard</Heading>
           <Heading textAlign={'center'} fontSize={'xl'} mb={5}>Reports</Heading>

@@ -1,28 +1,19 @@
 import {Alert, Heading, HStack, Image} from '@chakra-ui/react'
 import {XIcon} from 'lucide-react'
-import {Meta} from '@/type'
 
-type Props = {
-  meta: Meta | null
-}
-
-export function Header({meta}: Props) {
+export function Header() {
   return (
     <HStack justify="space-between" alignItems={'center'} mb={8} mx={'auto'} maxW={'1200px'}>
       <HStack>
-        {meta && (
-          <>
-            <Image
-              src={process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/reporter.png'}
-              mx={'auto'}
-              objectFit={'cover'}
-              maxH={{base: '40px', md: '60px'}}
-              maxW={{base: '120px', md: '200px'}}
-              alt={meta.reporter}
-            />
-            <XIcon color={'gray'}/>
-          </>
-        )}
+        <Image
+          src={process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/reporter.png'}
+          mx={'auto'}
+          objectFit={'cover'}
+          maxH={{base: '40px', md: '60px'}}
+          maxW={{base: '120px', md: '200px'}}
+          alt={'レポート発行者'}
+        />
+        <XIcon color={'gray'}/>
         <Heading
           as={'h1'}
           size={{base: 'sm', md: 'lg'}}
