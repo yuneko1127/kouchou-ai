@@ -44,7 +44,7 @@ export default async function Page({params}: PageProps) {
             <ClusterOverview key={c.id} cluster={c} />
           ))}
         </ClientContainer>
-        <Separator my={12} w={'750px'} mx={'auto'}/>
+        <Separator my={12} maxW={'750px'} mx={'auto'}/>
         <About meta={meta} />
       </div>
       <Footer meta={meta} />

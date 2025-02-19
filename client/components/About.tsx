@@ -27,7 +27,7 @@ export function About({meta}: AboutProps) {
       <VStack>
         {meta.projectLink && (
           <Link href={meta.projectLink} target={'_blank'} rel={'noopener noreferrer'}>
-            <Button size={'2xl'} w={'300px'} className={'gradientButton'}>ウェブサイトを見る<ExternalLinkIcon /></Button>
+            <Button size={'2xl'} w={'300px'} className={'gradientBg shadow'}>ウェブサイトを見る<ExternalLinkIcon /></Button>
           </Link>
         )}
       </VStack>

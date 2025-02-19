@@ -29,10 +29,11 @@ export default async function Page() {
               <Card.Root
                 size="md"
                 key={report.slug}
-                mb={2}
+                mb={4}
                 borderLeftWidth={10}
                 borderLeftColor={report.status === 'ready' ? 'green' : 'gray'}
                 cursor={report.status === 'ready' ? 'pointer' : 'progress'}
+                className={report.status === 'ready' ? 'shadow' : ''}
               >
                 <Card.Body>
                   <HStack>
