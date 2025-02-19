@@ -55,7 +55,7 @@ export function Footer({meta}: Props) {
     <footer>
       <Stack direction={{base: 'column', lg: 'row'}} justify={'space-between'} maxW={'800px'} mx={'auto'}>
         <HStack gap={5} justify={'center'} align={'center'}>
-          <Text fontWeight={'bold'} fontSize={'lg'}>{meta.reporterName}</Text>
+          <Text fontWeight={'bold'} fontSize={'lg'}>{meta.reporter}</Text>
           {meta.privacyLink && (
             <Link href={meta.privacyLink} target={'_blank'} rel={'noopener noreferrer'}>
               <Text fontSize={'xs'} className={'textLink'}>プライバシーポリシー</Text>

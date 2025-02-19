@@ -19,15 +19,19 @@ export function About({meta}: AboutProps) {
         mb={5}
         objectFit={'cover'}
         maxW={'250px'}
-        alt={meta.reporterName}
+        alt={meta.reporter}
       />
       <Text mb={5} whiteSpace={'pre-line'}>
-        {meta.projectMessage}
+        {meta.message}
       </Text>
       <VStack>
-        {meta.projectLink && (
-          <Link href={meta.projectLink} target={'_blank'} rel={'noopener noreferrer'}>
-            <Button size={'2xl'} w={'300px'} className={'gradientBg shadow'}>ウェブサイトを見る<ExternalLinkIcon /></Button>
+        {meta.webLink && (
+          <Link href={meta.webLink} target={'_blank'} rel={'noopener noreferrer'}>
+            <Button size={'2xl'} minW={'300px'} bgColor={meta.brandColor || '#2577B1'}>
+              <Image src={process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/icon.png'} w={30} />
+              {meta.reporter}のページへ
+              <ExternalLinkIcon />
+            </Button>
           </Link>
         )}
       </VStack>

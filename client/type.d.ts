@@ -1,9 +1,10 @@
 export type Meta = {
-  reporterName: string // レポート作成者名
-  projectMessage: string // プロジェクトについて
-  projectLink?: string // プロジェクト詳細リンク
+  reporter: string // レポート作成者名
+  message: string // レポート作成者からのメッセージ
+  webLink?: string // レポート作成者URL
   privacyLink?: string // プライバシーポリシーURL
   termsLink?: string // 利用規約URL
+  brandColor?: string // ブランドカラー
 }
 
 export type Result = {

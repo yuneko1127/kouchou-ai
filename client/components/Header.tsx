@@ -19,7 +19,7 @@ export function Header({meta}: Props) {
               objectFit={'cover'}
               maxH={{base: '40px', md: '60px'}}
               maxW={{base: '120px', md: '200px'}}
-              alt={meta.reporterName}
+              alt={meta.reporter}
             />
             <XIcon color={'gray'}/>
           </>
