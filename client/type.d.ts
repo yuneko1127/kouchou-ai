@@ -7,6 +7,13 @@ export type Meta = {
   brandColor?: string // ブランドカラー
 }
 
+export type Report = {
+  slug: string,
+  status: string,
+  title: string
+  description: string
+}
+
 export type Result = {
   arguments: Argument[] // 抽出された意見のリスト
   clusters: Cluster[] // クラスタ情報

@@ -28,7 +28,7 @@ export function About({meta}: AboutProps) {
         {meta.webLink && (
           <Link href={meta.webLink} target={'_blank'} rel={'noopener noreferrer'}>
             <Button size={'2xl'} minW={'300px'} bgColor={meta.brandColor || '#2577B1'}>
-              <Image src={process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/icon.png'} w={30} />
+              <Image src={process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/icon.png'} w={30} alt={meta.reporter} />
               {meta.reporter}のページへ
               <ExternalLinkIcon />
             </Button>

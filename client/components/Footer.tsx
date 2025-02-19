@@ -36,12 +36,12 @@ const members: Member[] = [
   {
     name: '西尾 泰和',
     enName: 'NISHIO Hirokazu',
-    role: 'Research / ML',
+    role: 'ML Research',
   },
   {
     name: '角野 為耶',
     enName: 'SUMINO Nasuka',
-    role: 'Research / ML',
+    role: 'ML Research',
   },
   {
     name: '小林 修平',

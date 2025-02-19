@@ -1,4 +1,4 @@
-import {Meta, Result} from '@/type'
+import {Meta, Report, Result} from '@/type'
 import {ClientContainer} from '@/components/report/ClientContainer'
 import {Header} from '@/components/Header'
 import {Overview} from '@/components/report/Overview'
@@ -14,7 +14,7 @@ type PageProps = {
 }
 
 export async function generateStaticParams() {
-  const reports: { slug: string, status: string, title: string }[] = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/reports').then((res) => res.json())
+  const reports: Report[] = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/reports').then((res) => res.json())
   return reports
     .filter((report) => report.status === 'ready')
     .map((report) => ({
