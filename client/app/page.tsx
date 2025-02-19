@@ -9,7 +9,7 @@ export default async function Page() {
   const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
   const reportsResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/reports')
   if (!metaResponse.ok || !reportsResponse.ok) {
-    return <p>エラー：サーバーサイドレンダリングに失敗しました</p>
+    return <></>
   }
   const meta: Meta = await metaResponse.json()
   const reports: Report[] = await reportsResponse.json()
@@ -19,10 +19,10 @@ export default async function Page() {
         <Header meta={meta} />
         <Box mx={'auto'} maxW={'900px'} mb={10}>
           <Heading textAlign={'center'} fontSize={'xl'} mb={5}>Reports</Heading>
-          {reports.filter(r => r.status === 'ready').map(report => (
+          {reports.map(report => (
             <Link
               key={report.slug}
-              href={`/reports/${report.slug}`}
+              href={`/${report.slug}`}
             >
               <Card.Root
                 size="md"
@@ -30,15 +30,15 @@ export default async function Page() {
                 mb={4}
                 borderLeftWidth={10}
                 borderLeftColor={meta.brandColor || '#2577b1'}
-                cursor={report.status === 'ready' ? 'pointer' : 'progress'}
-                className={report.status === 'ready' ? 'shadow' : ''}
+                cursor={'pointer'}
+                className={'shadow'}
               >
                 <Card.Body>
                   <HStack>
                     <Box>
                       <Card.Title>
                         <Text
-                          fontSize={'xl'}
+                          fontSize={'lg'}
                           color={'#2577b1'}
                           mb={1}
                         >{report.title}</Text>

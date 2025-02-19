@@ -1,16 +1,15 @@
 import {Header} from '@/components/Header'
-import {Footer} from '@/components/Footer'
 import {Meta, Report} from '@/type'
-import {Alert, Box, Button, Card, Heading, HStack, Text} from '@chakra-ui/react'
+import {Box, Button, Card, Heading, HStack, Text} from '@chakra-ui/react'
 import Link from 'next/link'
 import {CircleCheckIcon, CircleFadingArrowUpIcon, EllipsisIcon, ExternalLinkIcon} from 'lucide-react'
 import {MenuContent, MenuItem, MenuRoot, MenuTrigger} from '@/components/ui/menu'
 
 export default async function Page() {
   const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
-  const reportsResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/reports')
+  const reportsResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/admin/reports')
   if (!metaResponse.ok || !reportsResponse.ok) {
-    return <p>エラー：サーバーサイドレンダリングに失敗しました</p>
+    return <></>
   }
   const meta: Meta = await metaResponse.json()
   const reports: Report[] = await reportsResponse.json()
@@ -20,16 +19,6 @@ export default async function Page() {
         <Header meta={meta} />
         <Box mx={'auto'} maxW={'1000px'} mb={5}>
           <Heading textAlign={'center'} fontSize={'xl'} mb={5}>Admin Dashboard</Heading>
-          <Alert.Root status="warning" mb={10}>
-            <Alert.Indicator />
-            <Alert.Content>
-              <Alert.Title fontSize={'md'}>注意</Alert.Title>
-              <Alert.Description>
-                このページはレポート作成者向けの管理画面です<br />
-                <b>/admin</b> 以下の URL は管理者以外がアクセスできないように設定することを強く推奨します
-              </Alert.Description>
-            </Alert.Content>
-          </Alert.Root>
           <Heading textAlign={'center'} fontSize={'xl'} mb={5}>Reports</Heading>
           {reports.map(report => (
             <Card.Root
@@ -53,13 +42,13 @@ export default async function Page() {
                         >{report.title}</Text>
                       </Card.Title>
                       <Card.Description>
-                        /reports/{report.slug}
+                        {`${process.env.NEXT_PUBLIC_CLIENT_BASEPATH}/${report.slug}`}
                       </Card.Description>
                     </Box>
                   </HStack>
                   <HStack>
                     {report.status === 'ready' && (
-                      <Link href={`/reports/${report.slug}`}>
+                      <Link href={`${process.env.NEXT_PUBLIC_CLIENT_BASEPATH}/${report.slug}`} target={'_blank'}>
                         <Button variant={'ghost'}>
                           <ExternalLinkIcon />
                         </Button>
@@ -86,13 +75,12 @@ export default async function Page() {
             </Card.Root>
           ))}
           <HStack justify={'center'} mt={10}>
-            <Link href={'/admin/create'}>
+            <Link href={'/create'}>
               <Button size={'xl'}>新しいレポートを作成する</Button>
             </Link>
           </HStack>
         </Box>
       </div>
-      <Footer meta={meta} />
     </>
   )
 }

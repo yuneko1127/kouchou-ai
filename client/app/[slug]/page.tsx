@@ -27,7 +27,7 @@ export default async function Page({params}: PageProps) {
   const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
   const resultResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + `/reports/${slug}`)
   if (!resultResponse.ok || !metaResponse.ok) {
-    return <p>エラー：サーバーサイドレンダリングに失敗しました</p>
+    return <></>
   }
   const contentLength = resultResponse.headers.get('Content-Length')
   const resultSize = contentLength ? parseInt(contentLength, 10) : 0

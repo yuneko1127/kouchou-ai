@@ -14,7 +14,7 @@ export function CreateForm() {
 
   return (
     <Box mx={'auto'} maxW={'800px'}>
-      <Heading textAlign={'center'} mb={10}>新しいレポートを作成する</Heading>
+      <Heading textAlign={'center'} my={10}>新しいレポートを作成する</Heading>
       <VStack gap={5}>
         <Field.Root>
           <Field.Label>ID</Field.Label>
