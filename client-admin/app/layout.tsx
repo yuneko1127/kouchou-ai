@@ -13,6 +13,7 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
           {children}
           <Toaster />
         </ClientProvider>
+        <footer>デジタル民主主義2030プロジェクト</footer>
       </body>
     </html>
   )

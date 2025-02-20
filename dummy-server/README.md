@@ -1,6 +1,10 @@
 # shotokutaishi-dummy-server
 これはダミーサーバーです
 
+## Environment variables
+- `API_KEY`
+  - shotokutaishi-client-admin からのリクエストを受け付けるためのAPIキー
+
 ## endpoints
 - GET /
   - (ヘルスチェック用)
