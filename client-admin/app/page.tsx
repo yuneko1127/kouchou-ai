@@ -12,7 +12,13 @@ export default function Page() {
   const [reports, setReports] = useState<Report[]>([])
   useEffect(() => {
     (async () => {
-      const response = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/admin/reports')
+      const response = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/admin/reports', {
+        method: 'GET',
+        headers: {
+          'x-api-key': process.env.NEXT_PUBLIC_API_KEY || '',
+          'Content-Type': 'application/json'
+        },
+      })
       if (!response.ok) return
       setReports(await response.json())
     })()

@@ -1,4 +1,15 @@
-export async function GET() {
+export async function GET(request: Request) {
+  const requestApiKey = request.headers.get('x-api-key')
+  const validApiKey = process.env.API_KEY
+  if (!requestApiKey || requestApiKey !== validApiKey) {
+    return new Response(null, {
+      status: 401,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
+    })
+  }
   // admin では全てのステータスのレポートを返す
   const data = [
     {
@@ -21,7 +32,20 @@ export async function GET() {
   })
 }
 
-export async function POST() {
+export async function POST(request: Request) {
+  const requestApiKey = request.headers.get('x-api-key')
+  const validApiKey = process.env.API_KEY
+  if (!requestApiKey || requestApiKey !== validApiKey) {
+    return new Response(null, {
+      status: 401,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
+    })
+  }
+  const body = await request.json()
+  console.log(body)
   return new Response(null, {
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +60,7 @@ export async function OPTIONS() {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type'
+      'Access-Control-Allow-Headers': 'Content-Type, x-api-key'
     }
   })
 }
