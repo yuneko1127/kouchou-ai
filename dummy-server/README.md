@@ -4,6 +4,7 @@
 ## Environment variables
 - `API_KEY`
   - shotokutaishi-client-admin からのリクエストを受け付けるためのAPIキー
+  - /admin 以下のエンドポイントにアクセスする際に必要
 
 ## endpoints
 - GET /
@@ -15,9 +16,13 @@
 - GET /meta/icon.png
   - レポートアイコン
 - GET /reports
-  - レポート出力ステータス一覧
+  - レポート一覧
 - GET /reports/:slug
   - レポート本体
+- GET /admin/reports
+  - レポート一覧(公開前含む)
+- POST /admin/reports
+  - レポート作成
 
 ## metadata
 - reporter: string
