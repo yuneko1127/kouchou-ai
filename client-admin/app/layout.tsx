@@ -1,5 +1,6 @@
 import ClientProvider from './ClientProvider'
 import './global.css'
+import {Toaster} from '@/components/ui/toaster'
 
 export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
   return (
@@ -10,6 +11,7 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
       <body>
         <ClientProvider>
           {children}
+          <Toaster />
         </ClientProvider>
       </body>
     </html>
