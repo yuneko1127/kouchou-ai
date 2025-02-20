@@ -15,6 +15,8 @@
   - レポート発行者画像
 - GET /meta/icon.png
   - レポートアイコン
+- GET /meta/ogp.png
+  - OGP画像(1200x630推奨)
 - GET /reports
   - レポート一覧
 - GET /reports/:slug

@@ -6,6 +6,7 @@ import {Footer} from '@/components/Footer'
 import {ClusterOverview} from '@/components/report/ClusterOverview'
 import {About} from '@/components/About'
 import {Separator} from '@chakra-ui/react'
+import {Metadata, ResolvingMetadata} from 'next'
 
 type PageProps = {
   params: Promise<{
@@ -20,6 +21,21 @@ export async function generateStaticParams() {
     .map((report) => ({
       slug: report.slug,
     }))
+}
+
+export async function generateMetadata({ params }: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
+  const slug = (await params).slug
+  const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
+  const resultResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + `/reports/${slug}`)
+  const meta: Meta = await metaResponse.json()
+  const result: Result = await resultResponse.json()
+  return {
+    title: `${result.config.question} - ${meta.reporter}`,
+    description: `${result.overview}`,
+    openGraph: {
+      images: [process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/ogp.png'],
+    },
+  }
 }
 
 export default async function Page({params}: PageProps) {

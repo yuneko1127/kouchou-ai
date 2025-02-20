@@ -4,6 +4,19 @@ import {Meta, Report} from '@/type'
 import {About} from '@/components/About'
 import {Box, Card, Heading, HStack, Text} from '@chakra-ui/react'
 import Link from 'next/link'
+import {Metadata} from 'next'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
+  const meta: Meta = await metaResponse.json()
+  return {
+    title: `${meta.reporter} - デジタル民主主義2030 ブロードリスニング`,
+    description: `${meta.message}`,
+    openGraph: {
+      images: [process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/ogp.png'],
+    },
+  }
+}
 
 export default async function Page() {
   const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')

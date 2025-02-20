@@ -1,6 +1,15 @@
 import ClientProvider from './ClientProvider'
 import './global.css'
 import {Toaster} from '@/components/ui/toaster'
+import {Metadata} from 'next'
+
+export const metadata: Metadata = {
+  title: 'デジタル民主主義2030ブロードリスニング',
+  robots: {
+    index: false,
+    follow: false
+  }
+}
 
 export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
   return (
