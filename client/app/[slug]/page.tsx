@@ -6,7 +6,7 @@ import {Footer} from '@/components/Footer'
 import {ClusterOverview} from '@/components/report/ClusterOverview'
 import {About} from '@/components/About'
 import {Separator} from '@chakra-ui/react'
-import {Metadata, ResolvingMetadata} from 'next'
+import {Metadata} from 'next'
 
 type PageProps = {
   params: Promise<{
@@ -23,7 +23,7 @@ export async function generateStaticParams() {
     }))
 }
 
-export async function generateMetadata({ params }: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const slug = (await params).slug
   const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
   const resultResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + `/reports/${slug}`)
