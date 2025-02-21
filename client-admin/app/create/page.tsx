@@ -166,7 +166,7 @@ export default function Page() {
               <Field.Root>
                 <Field.Label>クラスター深度</Field.Label>
                 <HStack>
-                  <StepperInput value={clusterNum} onValueChange={(e) => setClusterNum(e.value)} />
+                  <StepperInput value={clusterNum} min={1} max={10} onValueChange={(e) => setClusterNum(e.value)} />
                 </HStack>
                 <Field.HelperText>
                   クラスタリングの階層数です (階層が増えるとクラスター総数は指数的に増加します)
