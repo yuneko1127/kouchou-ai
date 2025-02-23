@@ -28,7 +28,12 @@ async def get_reports(api_key: str = Depends(verify_api_key)) -> list[Report]:
             "title": "[テスト]人類が人工知能を開発・展開する上で、最優先すべき課題は何でしょうか？",
             "description": "あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。",
         },
-        {"slug": "processing", "status": "processing", "title": "[テスト]出力中のレポート"},
+        {
+            "slug": "example_2",
+            "status": "processing",
+            "title": "[テスト]出力中のレポート",
+            "description": "テストです",
+        },
     ]
     sample_reports = [Report(**report) for report in sample_reports]
     return sample_reports
