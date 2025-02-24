@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-
 from src.routers import admin_report, healthcheck, meta, report
 
 router = APIRouter()

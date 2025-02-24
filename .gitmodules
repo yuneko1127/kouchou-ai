@@ -1,0 +1,6 @@
+[submodule "broadlistening"]
+	path = broadlistening
+	url = https://github.com/takahiroanno2024/anno-broadlistening
+[submodule "server/broadlistening"]
+	path = server/broadlistening
+	url = https://github.com/takahiroanno2024/anno-broadlistening

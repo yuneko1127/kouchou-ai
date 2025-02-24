@@ -1,36 +1,34 @@
 import json
-from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
-
+from src.config import settings
 from src.schemas.report import Report, ReportStatus
+from src.services.report_status import load_status_as_reports
 
 router = APIRouter()
 
 
 @router.get("/reports")
 async def reports() -> list[Report]:
-    # NOTE: 一旦固定値で実装
-    return [
-        Report(
-            slug="example",
-            title="[テスト]人類が人工知能を開発・展開する上で、最優先すべき課題は何でしょうか？",
-            description="あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。",
-            status=ReportStatus.READY,
-        ),
-    ]
+    all_reports = load_status_as_reports()
+    ready_reports = [report for report in all_reports if report.status == ReportStatus.READY]
+    return ready_reports
 
 
 @router.get("/reports/{slug}")
 async def report(slug: str) -> dict:
-    report_path = Path(__file__).parent.parent / "reports" / slug
-    # NOTE: 実際のパスは、レポートの出力パスに合わせる。暫定的にサンプルのパスを指定
-    report_result_path = report_path / "hierarchical_result.json"
+    report_path = settings.REPORT_DIR / slug / "hierarchical_result.json"
+    all_reports = load_status_as_reports()
+    target_report_status = next((report for report in all_reports if report.slug == slug), None)
 
-    if not report_result_path.exists():
+    if target_report_status is None:
+        raise HTTPException(status_code=404, detail="Report not found")
+    if target_report_status.status != ReportStatus.READY:
+        raise HTTPException(status_code=404, detail="Report is not ready")
+    if not report_path.exists():
         raise HTTPException(status_code=404, detail="Report not found")
 
-    with open(report_result_path) as f:
+    with open(report_path) as f:
         report_result = json.load(f)
 
     return report_result
