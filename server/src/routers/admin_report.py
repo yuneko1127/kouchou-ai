@@ -14,27 +14,32 @@ router = APIRouter()
 api_key_header = APIKeyHeader(name="x-api-key", auto_error=False)
 
 
-async def verify_api_key(api_key: str = Security(api_key_header)):
-    if not api_key or api_key != settings.API_KEY:
+async def verify_admin_api_key(api_key: str = Security(api_key_header)):
+    if not api_key or api_key != settings.ADMIN_API_KEY:
         raise HTTPException(status_code=401, detail="Invalid API key")
     return api_key
 
 
 @router.get("/admin/reports")
-async def get_reports(api_key: str = Depends(verify_api_key)) -> list[Report]:
+async def get_reports(api_key: str = Depends(verify_admin_api_key)) -> list[Report]:
     return load_status_as_reports()
 
 
-@router.post("/admin/reports")
-async def create_report(report: ReportInput, api_key: str = Depends(verify_api_key)):
-    launch_report_generation(report)
-    return ORJSONResponse(
-        content=None,
-        headers={
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-        },
-    )
+@router.post("/admin/reports", status_code=202)
+async def create_report(report: ReportInput, api_key: str = Depends(verify_admin_api_key)):
+    try:
+        launch_report_generation(report)
+        return ORJSONResponse(
+            content=None,
+            headers={
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+            },
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal server error") from e
 
 
 @router.options("/admin/reports")
