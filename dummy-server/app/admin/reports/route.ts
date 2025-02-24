@@ -1,6 +1,7 @@
 export async function GET(request: Request) {
   const requestApiKey = request.headers.get('x-api-key')
   const validApiKey = process.env.ADMIN_API_KEY
+  console.log(`DEBUG requestApiKey: ${requestApiKey}, validApiKey: ${validApiKey}, result: ${requestApiKey === validApiKey}`)
   if (!requestApiKey || requestApiKey !== validApiKey) {
     return new Response(null, {
       status: 401,
@@ -35,6 +36,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const requestApiKey = request.headers.get('x-api-key')
   const validApiKey = process.env.ADMIN_API_KEY
+  console.log(`DEBUG requestApiKey: ${requestApiKey}, validApiKey: ${validApiKey}, result: ${requestApiKey === validApiKey}`)
   if (!requestApiKey || requestApiKey !== validApiKey) {
     return new Response(null, {
       status: 401,
