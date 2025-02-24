@@ -19,7 +19,10 @@ import {StepperInput} from '@/components/ui/stepper-input'
 import {parseCsv} from '@/app/create/parseCsv'
 import {useRouter} from 'next/navigation'
 import {toaster} from '@/components/ui/toaster'
-import {defaultPrompt} from './defaultPrompt'
+import {extractionPrompt} from './extractionPrompt'
+import {initialLabellingPrompt} from '@/app/create/initialLabellingPrompt'
+import {mergeLabellingPrompt} from '@/app/create/mergeLabellingPrompt'
+import {overviewPrompt} from '@/app/create/overviewPrompt'
 
 export default function Page() {
   const router = useRouter()
@@ -30,8 +33,11 @@ export default function Page() {
   const [intro, setIntro] = useState<string>('')
   const [csv, setCsv] = useState<File | null>(null)
   const [model, setModel] = useState<string>('gpt-4o')
-  const [clusterNum, setClusterNum] = useState<string>('3')
-  const [prompt, setPrompt] = useState<string>(defaultPrompt)
+  const [cluster, setCluster] = useState<number[]>([3,9,27])
+  const [extraction, setExtraction] = useState<string>(extractionPrompt)
+  const [initialLabelling, setInitialLabelling] = useState<string>(initialLabellingPrompt)
+  const [mergeLabelling, setMergeLabelling] = useState<string>(mergeLabellingPrompt)
+  const [overview, setOverview] = useState<string>(overviewPrompt)
 
   async function onSubmit() {
     setLoading(true)
@@ -39,9 +45,9 @@ export default function Page() {
       /^[a-z](?:[a-z0-9-]*[a-z0-9])?$/.test(input),
       question.length > 0,
       intro.length > 0,
-      clusterNum.length > 0,
+      cluster[0] > 0,
       model.length > 0,
-      prompt.length > 0,
+      extraction.length > 0,
       !!csv
     ].every(Boolean)
     if (!precheck) {
@@ -78,9 +84,14 @@ export default function Page() {
           question,
           intro,
           comments,
-          clusterNum: Number(clusterNum),
+          cluster,
           model,
-          prompt
+          prompt: {
+            extraction,
+            initialLabelling,
+            mergeLabelling,
+            overview
+          }
         })
       })
       if (!response.ok) {
@@ -162,11 +173,19 @@ export default function Page() {
             </Button>
           </HStack>
           <Presence present={open} w={'full'}>
-            <VStack gap={5}>
+            <VStack gap={10}>
               <Field.Root>
                 <Field.Label>クラスター深度</Field.Label>
                 <HStack>
-                  <StepperInput value={clusterNum} min={1} max={10} onValueChange={(e) => setClusterNum(e.value)} />
+                  <StepperInput
+                    value={cluster[0].toString()}
+                    min={1}
+                    max={10}
+                    onValueChange={(e) => {
+                      const v = Number(e.value)
+                      setCluster([v, v * v, v * v * v])
+                    }}
+                  />
                 </HStack>
                 <Field.HelperText>
                   クラスタリングの階層数です (階層が増えるとクラスター総数は指数的に増加します)
@@ -191,14 +210,47 @@ export default function Page() {
                 </Field.HelperText>
               </Field.Root>
               <Field.Root>
-                <Field.Label>プロンプト</Field.Label>
+                <Field.Label>抽出プロンプト</Field.Label>
                 <Textarea
                   h={'150px'}
-                  value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
+                  value={extraction}
+                  onChange={(e) => setExtraction(e.target.value)}
                 />
                 <Field.HelperText>
-                  AIに提示するプロンプトです(通常は変更不要です)
+                  AIに提示する抽出プロンプトです(通常は変更不要です)
+                </Field.HelperText>
+              </Field.Root>
+              <Field.Root>
+                <Field.Label>初期ラベリングプロンプト</Field.Label>
+                <Textarea
+                  h={'150px'}
+                  value={initialLabelling}
+                  onChange={(e) => setInitialLabelling(e.target.value)}
+                />
+                <Field.HelperText>
+                  AIに提示する初期ラベリングプロンプトです(通常は変更不要です)
+                </Field.HelperText>
+              </Field.Root>
+              <Field.Root>
+                <Field.Label>統合ラベリングプロンプト</Field.Label>
+                <Textarea
+                  h={'150px'}
+                  value={mergeLabelling}
+                  onChange={(e) => setMergeLabelling(e.target.value)}
+                />
+                <Field.HelperText>
+                  AIに提示する統合ラベリングプロンプトです(通常は変更不要です)
+                </Field.HelperText>
+              </Field.Root>
+              <Field.Root>
+                <Field.Label>要約プロンプト</Field.Label>
+                <Textarea
+                  h={'150px'}
+                  value={overview}
+                  onChange={(e) => setOverview(e.target.value)}
+                />
+                <Field.HelperText>
+                  AIに提示する要約プロンプトです(通常は変更不要です)
                 </Field.HelperText>
               </Field.Root>
             </VStack>
