@@ -11,8 +11,6 @@ from src.services.report_status import add_new_report_to_status, set_status
 
 def _build_config(report_input: ReportInput) -> dict:
     comment_num = len(report_input.comments)
-    # NOTE: 一旦5のべき乗で固定
-    cluster_nums = [5 ** num for num in range(1, report_input.cluster_num + 1)]
     config = {
         "name": report_input.input,
         "input": report_input.input,
@@ -20,14 +18,23 @@ def _build_config(report_input: ReportInput) -> dict:
         "intro": report_input.intro,
         "model": report_input.model,
         "extraction": {
-            # TODO: プロンプトのフィールド名を変更する
-            "prompt": report_input.prompt,
+            "prompt": report_input.prompt.extraction,
             "workers": 30,
             "limit": comment_num
         },
         "hierarchical_clustering": {
-            # TODO: 固定値から変更する
-            "cluster_nums": cluster_nums
+            "cluster_nums": report_input.cluster,
+        },
+        "hierarchical_initial_labelling": {
+            "prompt": report_input.prompt.initial_labelling,
+            "sampling_num": 30
+        },
+        "hierarchical_merge_labelling": {
+            "prompt": report_input.prompt.merge_labelling,
+            "sampling_num": 30
+        },
+        "hierarchical_overview": {
+            "prompt": report_input.prompt.overview
         },
         "hierarchical_aggregation": {
             "sampling_num": 30

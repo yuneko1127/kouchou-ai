@@ -25,16 +25,21 @@ async def get_reports(api_key: str = Depends(verify_admin_api_key)) -> list[Repo
     return load_status_as_reports()
 
 
-@router.post("/admin/reports")
+@router.post("/admin/reports", status_code=202)
 async def create_report(report: ReportInput, api_key: str = Depends(verify_admin_api_key)):
-    launch_report_generation(report)
-    return ORJSONResponse(
-        content=None,
-        headers={
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-        },
-    )
+    try:
+        launch_report_generation(report)
+        return ORJSONResponse(
+            content=None,
+            headers={
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+            },
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal server error") from e
 
 
 @router.options("/admin/reports")
