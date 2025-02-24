@@ -20,7 +20,12 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Page() {
   const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
-  const reportsResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/reports')
+  const reportsResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/reports', {
+    headers: {
+      'x-api-key': process.env.NEXT_PUBLIC_PUBLIC_API_KEY || '',
+      'Content-Type': 'application/json'
+    },
+  })
   if (!metaResponse.ok || !reportsResponse.ok) {
     return <></>
   }

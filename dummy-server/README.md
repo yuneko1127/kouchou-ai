@@ -2,9 +2,13 @@
 これはダミーサーバーです
 
 ## Environment variables
-- `API_KEY`
+- `PUBLIC_API_KEY`
+  - shotokutaishi-client からのリクエストを受け付けるためのAPIキー
+  - /reports および /reports/:slug へアクセスする際に必要
+  - (/ や /meta/** へのアクセスには不要)
+- `ADMIN_API_KEY`
   - shotokutaishi-client-admin からのリクエストを受け付けるためのAPIキー
-  - /admin 以下のエンドポイントにアクセスする際に必要
+  - /admin/reports へアクセスする際に必要
 
 ## endpoints
 - GET /

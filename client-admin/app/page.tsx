@@ -15,7 +15,7 @@ export default function Page() {
       const response = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/admin/reports', {
         method: 'GET',
         headers: {
-          'x-api-key': process.env.NEXT_PUBLIC_API_KEY || '',
+          'x-api-key': process.env.NEXT_PUBLIC_ADMIN_API_KEY || '',
           'Content-Type': 'application/json'
         },
       })
