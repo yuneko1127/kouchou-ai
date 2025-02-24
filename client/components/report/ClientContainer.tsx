@@ -31,18 +31,19 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
   const [selectedClusters, setSelectedClusters] = useState<Cluster[]>([])
   const [openFilterSetting, setOpenFilterSetting] = useState(false)
   const [selectedChart, setSelectedChart] = useState('scatter')
+  const [isOnlyDense, setIsOnlyDense] = useState(false)
 
   useEffect(() => {
     fetchReport()
   }, [])
 
-  function onChangeFilter(lv1: string, lv2: string, lv3: string, lv4: string) {
+  function onChangeFilter(isOnlyDense: boolean, lv1: string, lv2: string, lv3: string, lv4: string) {
     if (!result) return
     setRootLevel(getRootLevel(lv1, lv2, lv3, lv4))
-    setSelectedClusters(getSelectedClusters(result.clusters || [], lv1, lv2, lv3, lv4))
+    setSelectedClusters(getSelectedClusters(result.clusters || [], isOnlyDense, lv1, lv2, lv3, lv4))
     setFilteredResult({
       ...result,
-      clusters: getFilteredClusters(result.clusters || [], lv1, lv2, lv3, lv4)
+      clusters: getFilteredClusters(result.clusters || [], isOnlyDense, lv1, lv2, lv3, lv4)
     })
   }
 
@@ -94,7 +95,11 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
           result={result}
           selectedClusters={selectedClusters}
           onClose={() => {setOpenFilterSetting(false)}}
-          onChangeFilter={onChangeFilter}
+          onChangeFilter={(isOnlyDense, level1, level2, level3, level4) => {
+            setIsOnlyDense(isOnlyDense)
+            onChangeFilter(isOnlyDense, level1, level2, level3, level4)
+          }}
+          isOnlyDense={isOnlyDense}
         />
       )}
       <Chart
@@ -106,11 +111,11 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
         selected={selectedChart}
         onChange={setSelectedChart}
         onClickSetting={() => {setOpenFilterSetting(true)}}
-        isApplyFilter={result.clusters.length !== filteredResult.clusters.length}
+        isApplyFilter={result.clusters.length !== filteredResult.clusters.length || isOnlyDense}
       />
       <ClusterBreadcrumb
         selectedClusters={selectedClusters}
-        onChangeFilter={onChangeFilter}
+        onChangeFilter={(level1, level2, level3, level4) => {onChangeFilter(isOnlyDense, level1, level2, level3, level4)}}
       />
       { rootLevel === 0 && children }
       { rootLevel !== 0 && (
@@ -131,7 +136,11 @@ function getRootLevel(level1Id:string, level2Id:string, level3Id:string, level4I
   return 0
 }
 
-function getSelectedClusters(clusters: Cluster[], level1Id:string, level2Id:string, level3Id:string, level4Id:string): Cluster[] {
+function getSelectedClusters(clusters: Cluster[], isOnlyDense: boolean, level1Id:string, level2Id:string, level3Id:string, level4Id:string): Cluster[] {
+
+  // TODO 濃いクラスターのみ抽出機能を実装
+  console.log(isOnlyDense)
+
   const results: Cluster[] = []
   if (level1Id !== '0') results.push(clusters.find(c => c.id === level1Id)!)
   if (level2Id !== '0') results.push(clusters.find(c => c.id === level2Id)!)
@@ -140,7 +149,11 @@ function getSelectedClusters(clusters: Cluster[], level1Id:string, level2Id:stri
   return results
 }
 
-function getFilteredClusters(clusters: Cluster[], level1Id:string, level2Id:string, level3Id:string, level4Id:string): Cluster[] {
+function getFilteredClusters(clusters: Cluster[], isOnlyDense: boolean, level1Id:string, level2Id:string, level3Id:string, level4Id:string): Cluster[] {
+
+  // TODO 濃いクラスターのみ抽出機能を実装
+  console.log(isOnlyDense)
+
   if (level4Id !== '0') {
     const lv1cluster = clusters.find(c => c.id === level1Id)!
     const lv2cluster = clusters.find(c => c.id === level2Id)!
