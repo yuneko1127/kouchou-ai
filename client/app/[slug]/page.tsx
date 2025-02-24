@@ -15,7 +15,12 @@ type PageProps = {
 }
 
 export async function generateStaticParams() {
-  const reports: Report[] = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/reports').then((res) => res.json())
+  const reports: Report[] = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/reports', {
+    headers: {
+      'x-api-key': process.env.NEXT_PUBLIC_PUBLIC_API_KEY || '',
+      'Content-Type': 'application/json'
+    },
+  }).then((res) => res.json())
   return reports
     .filter((report) => report.status === 'ready')
     .map((report) => ({
@@ -26,7 +31,12 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const slug = (await params).slug
   const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
-  const resultResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + `/reports/${slug}`)
+  const resultResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + `/reports/${slug}`, {
+    headers: {
+      'x-api-key': process.env.NEXT_PUBLIC_PUBLIC_API_KEY || '',
+      'Content-Type': 'application/json'
+    },
+  })
   const meta: Meta = await metaResponse.json()
   const result: Result = await resultResponse.json()
   return {
@@ -41,7 +51,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function Page({params}: PageProps) {
   const slug = (await params).slug
   const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
-  const resultResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + `/reports/${slug}`)
+  const resultResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + `/reports/${slug}`, {
+    headers: {
+      'x-api-key': process.env.NEXT_PUBLIC_PUBLIC_API_KEY || '',
+      'Content-Type': 'application/json'
+    },
+  })
   if (!resultResponse.ok || !metaResponse.ok) {
     return <></>
   }

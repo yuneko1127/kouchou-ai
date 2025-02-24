@@ -49,7 +49,8 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
   async function fetchReport() {
     const response = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + `/reports/${reportName}`, {
       headers: {
-        'Accept': 'application/json'
+        'x-api-key': process.env.NEXT_PUBLIC_PUBLIC_API_KEY || '',
+        'Content-Type': 'application/json'
       }
     })
     const reader = response.body?.getReader()

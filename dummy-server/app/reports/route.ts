@@ -1,4 +1,15 @@
-export async function GET() {
+export async function GET(request: Request) {
+  const requestApiKey = request.headers.get('x-api-key')
+  const validApiKey = process.env.PUBLIC_API_KEY
+  if (!requestApiKey || requestApiKey !== validApiKey) {
+    return new Response(null, {
+      status: 401,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
+    })
+  }
   // reports では ready ステータスのレポートだけを返す
   const data = [
     {
@@ -13,5 +24,16 @@ export async function GET() {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
     },
+  })
+}
+
+export async function OPTIONS() {
+  return new Response(null, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, x-api-key'
+    }
   })
 }
