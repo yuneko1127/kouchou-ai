@@ -1,5 +1,6 @@
-# shotokutaishi-dummy-server
-これはダミーサーバーです
+# utils/dummy-server
+これはダミーサーバーです  
+フロントエンドの開発時にのみ利用してください
 
 ## Environment variables
 - `PUBLIC_API_KEY`
