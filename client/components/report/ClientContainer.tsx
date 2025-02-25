@@ -16,13 +16,6 @@ type Props = {
   resultSize: number
 }
 
-// NOTE これはなにか？
-// hierarchical_result.json はサイズの大きいJSONファイルである
-// 全て事前レンダリングしてしまうと html ファイルが巨大になるので初期表示が重くなってしまう
-// そのためJSONファイルはクライアント側で fetch して Chart と Analysis に渡している
-// それ以外のコンポーネント群は事前レンダリングしたほうが高速なので親要素から受け取っている
-// 最終的にページが完成する速度は大差ないが、先に出せるものを出すことで、体感として高速に感じるようにしている
-
 export function ClientContainer({reportName, resultSize, children}: PropsWithChildren<Props>) {
   const [loadedSize, setLoadedSize] = useState(0)
   const [result, setResult] = useState<Result>()
@@ -40,7 +33,7 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
   function onChangeFilter(isOnlyDense: boolean, lv1: string, lv2: string, lv3: string, lv4: string) {
     if (!result) return
     setRootLevel(getRootLevel(lv1, lv2, lv3, lv4))
-    setSelectedClusters(getSelectedClusters(result.clusters || [], isOnlyDense, lv1, lv2, lv3, lv4))
+    setSelectedClusters(getSelectedClusters(result.clusters || [], lv1, lv2, lv3, lv4))
     setFilteredResult({
       ...result,
       clusters: getFilteredClusters(result.clusters || [], isOnlyDense, lv1, lv2, lv3, lv4)
@@ -136,11 +129,7 @@ function getRootLevel(level1Id:string, level2Id:string, level3Id:string, level4I
   return 0
 }
 
-function getSelectedClusters(clusters: Cluster[], isOnlyDense: boolean, level1Id:string, level2Id:string, level3Id:string, level4Id:string): Cluster[] {
-
-  // TODO 濃いクラスターのみ抽出機能を実装
-  console.log(isOnlyDense)
-
+function getSelectedClusters(clusters: Cluster[], level1Id:string, level2Id:string, level3Id:string, level4Id:string): Cluster[] {
   const results: Cluster[] = []
   if (level1Id !== '0') results.push(clusters.find(c => c.id === level1Id)!)
   if (level2Id !== '0') results.push(clusters.find(c => c.id === level2Id)!)
@@ -150,10 +139,6 @@ function getSelectedClusters(clusters: Cluster[], isOnlyDense: boolean, level1Id
 }
 
 function getFilteredClusters(clusters: Cluster[], isOnlyDense: boolean, level1Id:string, level2Id:string, level3Id:string, level4Id:string): Cluster[] {
-
-  // TODO 濃いクラスターのみ抽出機能を実装
-  console.log(isOnlyDense)
-
   if (level4Id !== '0') {
     const lv1cluster = clusters.find(c => c.id === level1Id)!
     const lv2cluster = clusters.find(c => c.id === level2Id)!
@@ -186,5 +171,10 @@ function getFilteredClusters(clusters: Cluster[], isOnlyDense: boolean, level1Id
     const lv5clusters = clusters.filter(c => lv4clusters.some(lv4 => lv4.id === c.parent))
     return [lv1cluster, ...lv2clusters, ...lv3clusters, ...lv4clusters, ...lv5clusters]
   }
-  return clusters
+  return isOnlyDense ? getDenseClusters(clusters) : clusters
+}
+
+function getDenseClusters(clusters: Cluster[]) {
+  // density_rank_percentile が 0.1 以下 かつ value が 5 件以上のクラスターを抽出
+  return clusters.filter(c => c.density_rank_percentile <= 0.1).filter(c => c.value >= 5)
 }

@@ -12,19 +12,22 @@ import {
   DialogTitle
 } from '@/components/ui/dialog'
 import {ChevronDownIcon} from 'lucide-react'
+import {Checkbox} from '@/components/ui/checkbox'
 
 type Props = {
   result: Result
   selectedClusters: Cluster[]
   onClose: () => void
-  onChangeFilter: (level1: string, level2: string, level3: string, level4: string) => void
+  onChangeFilter: (isOnlyDense: boolean, level1: string, level2: string, level3: string, level4: string) => void
+  isOnlyDense: boolean
 }
 
-export function FilterSettingDialog({result, selectedClusters, onClose, onChangeFilter}: Props) {
+export function FilterSettingDialog({result, selectedClusters, onClose, onChangeFilter, isOnlyDense}: Props) {
   const [level1, setLevel1] = useState<string>(selectedClusters[0]?.id || '0')
   const [level2, setLevel2] = useState<string>(selectedClusters[1]?.id || '0')
   const [level3, setLevel3] = useState<string>(selectedClusters[2]?.id || '0')
   const [level4, setLevel4] = useState<string>(selectedClusters[3]?.id || '0')
+  const [nextIsOnlyDense, setNextIsOnlyDense] = useState<boolean>(isOnlyDense)
 
   function onChangeLevel(level: number, id: string) {
     switch (level) {
@@ -50,7 +53,7 @@ export function FilterSettingDialog({result, selectedClusters, onClose, onChange
   }
 
   function onApply() {
-    onChangeFilter(level1, level2, level3, level4)
+    onChangeFilter(nextIsOnlyDense, level1, level2, level3, level4)
     onClose()
   }
   function onReset() {
@@ -58,7 +61,7 @@ export function FilterSettingDialog({result, selectedClusters, onClose, onChange
     setLevel2('0')
     setLevel3('0')
     setLevel4('0')
-    onChangeFilter('0', '0', '0', '0')
+    onChangeFilter(false, '0', '0', '0', '0')
     onClose()
   }
 
@@ -131,6 +134,12 @@ export function FilterSettingDialog({result, selectedClusters, onClose, onChange
               </NativeSelectRoot>
             </VStack>
           )}
+          <Box mt={4}>
+            <Checkbox
+              checked={nextIsOnlyDense}
+              onCheckedChange={(e) => setNextIsOnlyDense(!!e.checked)}
+            >濃いクラスターのみ表示する</Checkbox>
+          </Box>
         </DialogBody>
         <DialogFooter>
           <Button variant={'outline'} onClick={onReset}>リセット</Button>
