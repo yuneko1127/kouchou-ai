@@ -16,13 +16,6 @@ type Props = {
   resultSize: number
 }
 
-// NOTE これはなにか？
-// hierarchical_result.json はサイズの大きいJSONファイルである
-// 全て事前レンダリングしてしまうと html ファイルが巨大になるので初期表示が重くなってしまう
-// そのためJSONファイルはクライアント側で fetch して Chart と Analysis に渡している
-// それ以外のコンポーネント群は事前レンダリングしたほうが高速なので親要素から受け取っている
-// 最終的にページが完成する速度は大差ないが、先に出せるものを出すことで、体感として高速に感じるようにしている
-
 export function ClientContainer({reportName, resultSize, children}: PropsWithChildren<Props>) {
   const [loadedSize, setLoadedSize] = useState(0)
   const [result, setResult] = useState<Result>()
@@ -31,18 +24,20 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
   const [selectedClusters, setSelectedClusters] = useState<Cluster[]>([])
   const [openFilterSetting, setOpenFilterSetting] = useState(false)
   const [selectedChart, setSelectedChart] = useState('scatter')
+  const [maxDensity, setMaxDensity] = useState<number>(1)
+  const [minValue, setMinValue] = useState<number>(0)
 
   useEffect(() => {
     fetchReport()
   }, [])
 
-  function onChangeFilter(lv1: string, lv2: string, lv3: string, lv4: string) {
+  function onChangeFilter(maxDensity: number, minValue: number, lv1: string, lv2: string, lv3: string, lv4: string) {
     if (!result) return
     setRootLevel(getRootLevel(lv1, lv2, lv3, lv4))
     setSelectedClusters(getSelectedClusters(result.clusters || [], lv1, lv2, lv3, lv4))
     setFilteredResult({
       ...result,
-      clusters: getFilteredClusters(result.clusters || [], lv1, lv2, lv3, lv4)
+      clusters: getFilteredClusters(result.clusters || [], maxDensity, minValue, lv1, lv2, lv3, lv4)
     })
   }
 
@@ -94,7 +89,13 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
           result={result}
           selectedClusters={selectedClusters}
           onClose={() => {setOpenFilterSetting(false)}}
-          onChangeFilter={onChangeFilter}
+          onChangeFilter={(maxDensity, minValue, level1, level2, level3, level4) => {
+            setMaxDensity(maxDensity)
+            setMinValue(minValue)
+            onChangeFilter(maxDensity, minValue, level1, level2, level3, level4)
+          }}
+          currentMaxDensity={maxDensity}
+          currentMinValue={minValue}
         />
       )}
       <Chart
@@ -106,11 +107,11 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
         selected={selectedChart}
         onChange={setSelectedChart}
         onClickSetting={() => {setOpenFilterSetting(true)}}
-        isApplyFilter={result.clusters.length !== filteredResult.clusters.length}
+        isApplyFilter={result.clusters.length !== filteredResult.clusters.length || maxDensity !== 1 || minValue !== 0}
       />
       <ClusterBreadcrumb
         selectedClusters={selectedClusters}
-        onChangeFilter={onChangeFilter}
+        onChangeFilter={(level1, level2, level3, level4) => {onChangeFilter(maxDensity, minValue, level1, level2, level3, level4)}}
       />
       { rootLevel === 0 && children }
       { rootLevel !== 0 && (
@@ -140,14 +141,15 @@ function getSelectedClusters(clusters: Cluster[], level1Id:string, level2Id:stri
   return results
 }
 
-function getFilteredClusters(clusters: Cluster[], level1Id:string, level2Id:string, level3Id:string, level4Id:string): Cluster[] {
+function getFilteredClusters(clusters: Cluster[], maxDensity: number, minValue: number, level1Id:string, level2Id:string, level3Id:string, level4Id:string): Cluster[] {
   if (level4Id !== '0') {
     const lv1cluster = clusters.find(c => c.id === level1Id)!
     const lv2cluster = clusters.find(c => c.id === level2Id)!
     const lv3cluster = clusters.find(c => c.id === level3Id)!
     const lv4cluster = clusters.find(c => c.id === level4Id)!
     const lv5clusters = clusters.filter(c => c.parent === level4Id)
-    return [lv1cluster, lv2cluster, lv3cluster, lv4cluster, ...lv5clusters]
+    const filtered = [lv1cluster, lv2cluster, lv3cluster, lv4cluster, ...lv5clusters]
+    return getDenseClusters(filtered, maxDensity, minValue)
   }
   if (level3Id !== '0') {
     const lv1cluster = clusters.find(c => c.id === level1Id)!
@@ -155,7 +157,8 @@ function getFilteredClusters(clusters: Cluster[], level1Id:string, level2Id:stri
     const lv3cluster = clusters.find(c => c.id === level3Id)!
     const lv4clusters = clusters.filter(c => c.parent === level3Id)
     const lv5clusters = clusters.filter(c => lv4clusters.some(lv4 => lv4.id === c.parent))
-    return [lv1cluster, lv2cluster, lv3cluster, ...lv4clusters, ...lv5clusters]
+    const filtered = [lv1cluster, lv2cluster, lv3cluster, ...lv4clusters, ...lv5clusters]
+    return getDenseClusters(filtered, maxDensity, minValue)
   }
   if (level2Id !== '0') {
     const lv1cluster = clusters.find(c => c.id === level1Id)!
@@ -163,7 +166,8 @@ function getFilteredClusters(clusters: Cluster[], level1Id:string, level2Id:stri
     const lv3clusters = clusters.filter(c => c.parent === level2Id)
     const lv4clusters = clusters.filter(c => lv3clusters.some(lv3 => lv3.id === c.parent))
     const lv5clusters = clusters.filter(c => lv4clusters.some(lv4 => lv4.id === c.parent))
-    return [lv1cluster, lv2cluster, ...lv3clusters, ...lv4clusters, ...lv5clusters]
+    const filtered = [lv1cluster, lv2cluster, ...lv3clusters, ...lv4clusters, ...lv5clusters]
+    return getDenseClusters(filtered, maxDensity, minValue)
   }
   if (level1Id !== '0') {
     const lv1cluster = clusters.find(c => c.id === level1Id)!
@@ -171,7 +175,16 @@ function getFilteredClusters(clusters: Cluster[], level1Id:string, level2Id:stri
     const lv3clusters = clusters.filter(c => lv2clusters.some(lv2 => lv2.id === c.parent))
     const lv4clusters = clusters.filter(c => lv3clusters.some(lv3 => lv3.id === c.parent))
     const lv5clusters = clusters.filter(c => lv4clusters.some(lv4 => lv4.id === c.parent))
-    return [lv1cluster, ...lv2clusters, ...lv3clusters, ...lv4clusters, ...lv5clusters]
+    const filtered = [lv1cluster, ...lv2clusters, ...lv3clusters, ...lv4clusters, ...lv5clusters]
+    return getDenseClusters(filtered, maxDensity, minValue)
   }
-  return clusters
+  return getDenseClusters(clusters, maxDensity, minValue)
+}
+
+function getDenseClusters(clusters: Cluster[], maxDensity: number, minValue: number): Cluster[] {
+  const deepestLevel = clusters.reduce((maxLevel, cluster) => Math.max(maxLevel, cluster.level), 0)
+  return [
+    ...clusters.filter(c => c.level !== deepestLevel),
+    ...clusters.filter(c => c.level === deepestLevel).filter(c => c.density_rank_percentile <= maxDensity).filter(c => c.value >= minValue)
+  ]
 }

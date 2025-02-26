@@ -41,6 +41,7 @@ export type Cluster = {
   takeaway: string // クラスタの要約
   value: number // クラスタのサイズ・スコア
   parent: string // 親クラスタの ID（ルートは空文字）
+  density_rank_percentile: number // 密度ランクのパーセンタイル
 }
 
 type Comments = Record<string, { comment: string }> // コメントIDをキーに持つオブジェクト

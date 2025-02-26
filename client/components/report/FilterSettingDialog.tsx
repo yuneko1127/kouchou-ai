@@ -1,4 +1,4 @@
-import {Box, Button, Text, VStack} from '@chakra-ui/react'
+import {Box, Button, Heading, Presence, Text, useDisclosure, VStack} from '@chakra-ui/react'
 import React, {useState} from 'react'
 import {NativeSelectField, NativeSelectRoot} from '@/components/ui/native-select'
 import {Cluster, Result} from '@/type'
@@ -12,19 +12,27 @@ import {
   DialogTitle
 } from '@/components/ui/dialog'
 import {ChevronDownIcon} from 'lucide-react'
+import {Slider} from '@/components/ui/slider'
 
 type Props = {
   result: Result
   selectedClusters: Cluster[]
   onClose: () => void
-  onChangeFilter: (level1: string, level2: string, level3: string, level4: string) => void
+  onChangeFilter: (maxDensity: number, minValue: number, level1: string, level2: string, level3: string, level4: string) => void
+  currentMaxDensity: number
+  currentMinValue: number
 }
 
-export function FilterSettingDialog({result, selectedClusters, onClose, onChangeFilter}: Props) {
+export function FilterSettingDialog({result, selectedClusters, onClose, onChangeFilter, currentMaxDensity, currentMinValue}: Props) {
   const [level1, setLevel1] = useState<string>(selectedClusters[0]?.id || '0')
   const [level2, setLevel2] = useState<string>(selectedClusters[1]?.id || '0')
   const [level3, setLevel3] = useState<string>(selectedClusters[2]?.id || '0')
   const [level4, setLevel4] = useState<string>(selectedClusters[3]?.id || '0')
+  const [maxDensity, setMaxDensity] = useState<number>(currentMaxDensity || 1)
+  const [minValue, setMinValue] = useState<number>(currentMinValue || 0)
+  const { open, onToggle } = useDisclosure({
+    defaultOpen: currentMaxDensity !== 1 || currentMinValue !== 0
+  })
 
   function onChangeLevel(level: number, id: string) {
     switch (level) {
@@ -50,7 +58,7 @@ export function FilterSettingDialog({result, selectedClusters, onClose, onChange
   }
 
   function onApply() {
-    onChangeFilter(level1, level2, level3, level4)
+    onChangeFilter(maxDensity, minValue, level1, level2, level3, level4)
     onClose()
   }
   function onReset() {
@@ -58,7 +66,7 @@ export function FilterSettingDialog({result, selectedClusters, onClose, onChange
     setLevel2('0')
     setLevel3('0')
     setLevel4('0')
-    onChangeFilter('0', '0', '0', '0')
+    onChangeFilter(1, 0, '0', '0', '0', '0')
     onClose()
   }
 
@@ -131,10 +139,48 @@ export function FilterSettingDialog({result, selectedClusters, onClose, onChange
               </NativeSelectRoot>
             </VStack>
           )}
+          <Presence present={open} w={'full'} mt={10}>
+            <Heading size={'md'} mb={2}>詳細設定</Heading>
+            <Box mb={4}>
+              <Slider
+                label={`上位何％のクラスタを表示するか: ${maxDensity * 100}%`}
+                step={0.1}
+                min={0.1}
+                max={1}
+                value={[maxDensity]}
+                onValueChange={(e) => setMaxDensity(Number(e.value[0]))}
+                marks={[
+                  { value: 0.1, label: '10%' },
+                  { value: 1, label: '100%' },
+                ]}
+              />
+            </Box>
+            <Box>
+              <Slider
+                label={`クラスタのサンプル数の最小数: ${minValue}`}
+                step={1}
+                min={0}
+                max={10}
+                value={[minValue]}
+                onValueChange={(e) => setMinValue(Number(e.value[0]))}
+                marks={[
+                  { value: 0, label: '0' },
+                  { value: 10, label: '10' },
+                ]}
+              />
+            </Box>
+          </Presence>
         </DialogBody>
-        <DialogFooter>
-          <Button variant={'outline'} onClick={onReset}>リセット</Button>
-          <Button onClick={onApply}>設定を適用</Button>
+        <DialogFooter justifyContent={'space-between'}>
+          <Box>
+            <Button onClick={onToggle} variant={'subtle'}>
+              詳細設定
+            </Button>
+          </Box>
+          <Box>
+            <Button variant={'outline'} onClick={onReset} mr={2}>リセット</Button>
+            <Button onClick={onApply}>設定を適用</Button>
+          </Box>
         </DialogFooter>
         <DialogCloseTrigger />
       </DialogContent>
