@@ -32,7 +32,7 @@ export default function Page() {
   const [question, setQuestion] = useState<string>('')
   const [intro, setIntro] = useState<string>('')
   const [csv, setCsv] = useState<File | null>(null)
-  const [model, setModel] = useState<string>('gpt-4o')
+  const [model, setModel] = useState<string>('gpt-4o-mini')
   const [cluster, setCluster] = useState<number[]>([3,9,27])
   const [extraction, setExtraction] = useState<string>(extractionPrompt)
   const [initialLabelling, setInitialLabelling] = useState<string>(initialLabellingPrompt)
@@ -195,18 +195,16 @@ export default function Page() {
                 <Field.Label>AIモデル</Field.Label>
                 <NativeSelect.Root w={'40%'}>
                   <NativeSelect.Field value={model} onChange={(e) => setModel(e.target.value)}>
-                    <option value={'gpt-4o'}>OpenAI GPT-4o</option>
                     <option value={'gpt-4o-mini'}>OpenAI GPT-4o mini</option>
-                    <option value={'o1'}>OpenAI o1</option>
+                    <option value={'gpt-4o'}>OpenAI GPT-4o</option>
                     <option value={'o3-mini'}>OpenAI o3-mini</option>
                   </NativeSelect.Field>
                   <NativeSelect.Indicator/>
                 </NativeSelect.Root>
                 <Field.HelperText>
-                  {model === 'gpt-4o' && 'GPT-4oの特徴：すごいモデルです'}
-                  {model === 'gpt-4o-mini' && 'GPT-4o miniの特徴：すごいモデルです'}
-                  {model === 'o1' && 'o1の特徴：すごいモデルです'}
-                  {model === 'o3-mini' && 'o3-miniの特徴：すごいモデルです'}
+                  {model === 'gpt-4o-mini' && 'GPT-4o mini：最も安価に利用できるモデルです。価格の詳細はOpenAIが公開しているAPI料金のページをご参照ください。'}
+                  {model === 'gpt-4o' && 'GPT-4o：gpt-4o-miniと比較して高性能なモデルです。性能は高くなりますが、gpt-4o-miniと比較してOpenAI APIの料金は高くなります。'}
+                  {model === 'o3-mini' && 'o3-mini：gpt-4oよりも高度な推論能力を備えたモデルです。性能はより高くなりますが、gpt-4oと比較してOpenAI APIの料金は高くなります。'}
                 </Field.HelperText>
               </Field.Root>
               <Field.Root>
