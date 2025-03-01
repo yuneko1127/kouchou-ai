@@ -14,6 +14,9 @@ type PageProps = {
   }>
 }
 
+// ISR 5分おきにレポート更新確認
+export const revalidate = 300
+
 export async function generateStaticParams() {
   const reports: Report[] = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/reports', {
     headers: {
