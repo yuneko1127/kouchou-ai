@@ -7,6 +7,7 @@ import {ClusterOverview} from '@/components/report/ClusterOverview'
 import {About} from '@/components/About'
 import {Separator} from '@chakra-ui/react'
 import {Metadata} from 'next'
+import {getApiBaseUrl} from '../../app/utils/api'
 
 type PageProps = {
   params: Promise<{
@@ -15,7 +16,7 @@ type PageProps = {
 }
 
 export async function generateStaticParams() {
-  const reports: Report[] = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/reports', {
+  const reports: Report[] = await fetch(getApiBaseUrl() + '/reports', {
     headers: {
       'x-api-key': process.env.NEXT_PUBLIC_PUBLIC_API_KEY || '',
       'Content-Type': 'application/json'
@@ -30,8 +31,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const slug = (await params).slug
-  const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
-  const resultResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + `/reports/${slug}`, {
+  const metaResponse = await fetch(getApiBaseUrl() + '/meta/metadata.json')
+  const resultResponse = await fetch(getApiBaseUrl() + `/reports/${slug}`, {
     headers: {
       'x-api-key': process.env.NEXT_PUBLIC_PUBLIC_API_KEY || '',
       'Content-Type': 'application/json'
@@ -43,15 +44,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: `${result.config.question} - ${meta.reporter}`,
     description: `${result.overview}`,
     openGraph: {
-      images: [process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/ogp.png'],
+      images: [getApiBaseUrl() + '/meta/ogp.png'],
     },
   }
 }
 
 export default async function Page({params}: PageProps) {
   const slug = (await params).slug
-  const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
-  const resultResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + `/reports/${slug}`, {
+  const metaResponse = await fetch(getApiBaseUrl() + '/meta/metadata.json')
+  const resultResponse = await fetch(getApiBaseUrl() + `/reports/${slug}`, {
     headers: {
       'x-api-key': process.env.NEXT_PUBLIC_PUBLIC_API_KEY || '',
       'Content-Type': 'application/json'

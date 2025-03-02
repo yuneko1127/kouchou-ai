@@ -23,6 +23,7 @@ import {extractionPrompt} from './extractionPrompt'
 import {initialLabellingPrompt} from '@/app/create/initialLabellingPrompt'
 import {mergeLabellingPrompt} from '@/app/create/mergeLabellingPrompt'
 import {overviewPrompt} from '@/app/create/overviewPrompt'
+import {getApiBaseUrl} from '../utils/api'
 
 export default function Page() {
   const router = useRouter()
@@ -38,6 +39,7 @@ export default function Page() {
   const [initialLabelling, setInitialLabelling] = useState<string>(initialLabellingPrompt)
   const [mergeLabelling, setMergeLabelling] = useState<string>(mergeLabellingPrompt)
   const [overview, setOverview] = useState<string>(overviewPrompt)
+  const apiBaseUrl = getApiBaseUrl()
 
   async function onSubmit() {
     setLoading(true)
@@ -73,7 +75,7 @@ export default function Page() {
       return
     }
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/admin/reports', {
+      const response = await fetch(apiBaseUrl + '/admin/reports', {
         method: 'POST',
         headers: {
           'x-api-key': process.env.NEXT_PUBLIC_ADMIN_API_KEY || '',

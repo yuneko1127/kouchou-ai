@@ -7,12 +7,13 @@ import Link from 'next/link'
 import {CircleCheckIcon, CircleFadingArrowUpIcon, EllipsisIcon, ExternalLinkIcon} from 'lucide-react'
 import {MenuContent, MenuItem, MenuRoot, MenuTrigger} from '@/components/ui/menu'
 import {useEffect, useState} from 'react'
+import {getApiBaseUrl} from './utils/api'
 
 export default function Page() {
   const [reports, setReports] = useState<Report[]>([])
   useEffect(() => {
     (async () => {
-      const response = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/admin/reports', {
+      const response = await fetch(getApiBaseUrl() + '/admin/reports', {
         method: 'GET',
         headers: {
           'x-api-key': process.env.NEXT_PUBLIC_ADMIN_API_KEY || '',
