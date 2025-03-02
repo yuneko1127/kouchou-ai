@@ -41,4 +41,4 @@ COPY --from=builder /app/tsconfig.json ./tsconfig.json
 COPY --from=builder /app/type.d.ts ./type.d.ts
 COPY --from=builder /app/.next ./
 EXPOSE 4000
-CMD ["npm",  "start"]
+CMD ["npm",  "run", "dev"]
