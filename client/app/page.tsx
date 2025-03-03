@@ -8,6 +8,11 @@ import {Metadata} from 'next'
 
 export async function generateMetadata(): Promise<Metadata> {
   const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
+  if (!metaResponse.ok) {
+    return {
+      title: 'デジタル民主主義2030 ブロードリスニング',
+    }
+  }
   const meta: Meta = await metaResponse.json()
   return {
     title: `${meta.reporter} - デジタル民主主義2030 ブロードリスニング`,
@@ -27,7 +32,7 @@ export default async function Page() {
     },
   })
   if (!metaResponse.ok || !reportsResponse.ok) {
-    return <></>
+    return <p>エラー：データの取得に失敗しました (error: fetch failed {process.env.NEXT_PUBLIC_API_BASEPATH}.)</p>
   }
   const meta: Meta = await metaResponse.json()
   const reports: Report[] = await reportsResponse.json()
