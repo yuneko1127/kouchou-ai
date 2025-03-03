@@ -58,8 +58,6 @@ services:
         - API_BASEPATH=http://api:8000
     ports:
       - "4000:4000"
-    volumes:
-      - ./client-admin:/app
     environment:
       - NEXT_PUBLIC_CLIENT_BASEPATH=http://localhost:3000
       - NEXT_PUBLIC_API_BASEPATH=http://localhost:8000
