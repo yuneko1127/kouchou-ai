@@ -4,7 +4,7 @@ from src.schemas.base import SchemaBaseModel
 
 
 class ReportStatus(Enum):
-    PROGRESS = "progress"
+    PROCESSING = "processing"
     READY = "ready"
     ERROR = "error"
 
