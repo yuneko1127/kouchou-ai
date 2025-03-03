@@ -181,7 +181,7 @@ export default function Page() {
                 <HStack>
                   <StepperInput
                     value={cluster[0].toString()}
-                    min={1}
+                    min={2}
                     max={10}
                     onValueChange={(e) => {
                       const v = Number(e.value)
