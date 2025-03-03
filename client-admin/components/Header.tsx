@@ -1,13 +1,13 @@
 import {Alert, Heading, HStack, Image} from '@chakra-ui/react'
 import {XIcon} from 'lucide-react'
-import {getApiBaseUrl} from '../app/utils/api'
+
 
 export function Header() {
   return (
     <HStack justify="space-between" alignItems={'center'} mb={8} mx={'auto'} maxW={'1200px'}>
       <HStack>
         <Image
-          src={getApiBaseUrl() + '/meta/reporter.png'}
+          src={process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/reporter.png'}
           mx={'auto'}
           objectFit={'cover'}
           maxH={{base: '40px', md: '60px'}}
