@@ -7,6 +7,7 @@ import {ClusterOverview} from '@/components/report/ClusterOverview'
 import {About} from '@/components/About'
 import {Separator} from '@chakra-ui/react'
 import {Metadata} from 'next'
+import {getApiBaseUrl} from '../utils/api'
 
 type PageProps = {
   params: Promise<{
@@ -19,7 +20,7 @@ export const revalidate = 300
 
 export async function generateStaticParams() {
   try {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/reports', {
+    const response = await fetch(getApiBaseUrl() + '/reports', {
       headers: {
         'x-api-key': process.env.NEXT_PUBLIC_PUBLIC_API_KEY || '',
         'Content-Type': 'application/json'

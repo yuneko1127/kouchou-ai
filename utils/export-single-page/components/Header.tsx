@@ -2,6 +2,8 @@ import {Heading, HStack, Image} from '@chakra-ui/react'
 import {XIcon} from 'lucide-react'
 import {BroadlisteningGuide} from '@/components/report/BroadlisteningGuide'
 import {Meta} from '@/type'
+import {getApiBaseUrl} from '../../../client/app/utils/api'
+
 
 type Props = {
   meta: Meta | null
@@ -14,7 +16,7 @@ export function Header({meta}: Props) {
         {meta && (
           <>
             <Image
-              src={'./meta/reporter.png'}
+              src={getApiBaseUrl() + '/meta/reporter.png'}
               mx={'auto'}
               objectFit={'cover'}
               maxH={{base: '40px', md: '60px'}}

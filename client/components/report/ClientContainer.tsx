@@ -10,7 +10,7 @@ import {FilterSettingDialog} from '@/components/report/FilterSettingDialog'
 import {ClusterOverview} from '@/components/report/ClusterOverview'
 import {SelectChartButton} from '@/components/charts/SelectChartButton'
 import {ClusterBreadcrumb} from '@/components/report/ClusterBreadcrumb'
-
+import {getApiBaseUrl} from '../../app/utils/api'
 type Props = {
   reportName: string
   resultSize: number
@@ -42,7 +42,7 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
   }
 
   async function fetchReport() {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + `/reports/${reportName}`, {
+    const response = await fetch(getApiBaseUrl() + `/reports/${reportName}`, {
       headers: {
         'x-api-key': process.env.NEXT_PUBLIC_PUBLIC_API_KEY || '',
         'Content-Type': 'application/json'
