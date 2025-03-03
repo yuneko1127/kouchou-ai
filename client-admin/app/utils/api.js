@@ -4,7 +4,3 @@ export const getApiBaseUrl = () => {
   }
   return process.env.API_BASEPATH
 }
-
-export const getResourceUrl = (path) => {
-  return `${getApiBaseUrl()}${path}`
-}
