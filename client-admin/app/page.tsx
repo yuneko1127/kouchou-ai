@@ -77,6 +77,9 @@ export default function Page() {
                       </Button>
                     </MenuTrigger>
                     <MenuContent>
+                      <MenuItem value={'duplicate'}>
+                        レポートを複製して新規作成(開発中)
+                      </MenuItem>
                       <MenuItem
                         value="delete"
                         color="fg.error"

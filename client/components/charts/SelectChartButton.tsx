@@ -2,7 +2,7 @@ import {RadioCardItem, RadioCardRoot} from '@/components/ui/radio-card'
 import {Button, HStack, Icon, useBreakpointValue} from '@chakra-ui/react'
 import {
   ChartScatterIcon, CogIcon,
-  FlameIcon, MessageCircleWarningIcon,
+  MessageCircleWarningIcon,
   SquareSquareIcon
 } from 'lucide-react'
 import React from 'react'
