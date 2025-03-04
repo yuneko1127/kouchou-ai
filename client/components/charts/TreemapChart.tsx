@@ -5,13 +5,15 @@ import {ChartCore} from './ChartCore'
 
 type Props = {
   clusterList: Cluster[]
-  argumentList: Argument[] // TODO 現状結合できていない、最下層のクラスタに argument を紐づけたい
-  rootLevel: number
+  argumentList: Argument[]
 }
 
-export function TreemapChart({clusterList, rootLevel}: Props) {
+export function TreemapChart({clusterList, argumentList}: Props) {
+
+  // TODO 末尾に arguments を追加する対応
+  console.log(argumentList)
+
   const filteredClusterList = clusterList
-    .filter(cluster => cluster.level >= rootLevel)
     .map((cluster, index) => index === 0 ? { ...cluster, parent: '' } : cluster)
   const ids = filteredClusterList.map(node => node.id)
   const labels = filteredClusterList.map(node => node.label)

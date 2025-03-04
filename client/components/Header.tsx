@@ -2,7 +2,7 @@ import {Heading, HStack, Image} from '@chakra-ui/react'
 import {XIcon} from 'lucide-react'
 import {BroadlisteningGuide} from '@/components/report/BroadlisteningGuide'
 import {Meta} from '@/type'
-import {getApiBaseUrl} from '../app/utils/api'
+import {getApiBaseUrl} from '@/app/utils/api'
 
 type Props = {
   meta: Meta | null

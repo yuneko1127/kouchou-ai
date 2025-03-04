@@ -4,7 +4,7 @@ import {Box, Button, Heading, Image, Text, VStack} from '@chakra-ui/react'
 import {Meta} from '@/type'
 import {ExternalLinkIcon} from 'lucide-react'
 import Link from 'next/link'
-import {getApiBaseUrl} from '../app/utils/api'
+import {getApiBaseUrl} from '@/app/utils/api'
 type AboutProps = {
   meta: Meta
 }

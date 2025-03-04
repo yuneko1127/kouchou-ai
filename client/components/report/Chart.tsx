@@ -5,22 +5,32 @@ import {Box} from '@chakra-ui/react'
 
 type ReportProps = {
   result: Result
-  rootLevel: number
   selectedChart: string
 }
 
-export function Chart({result, rootLevel, selectedChart}: ReportProps) {
+export function Chart({result, selectedChart}: ReportProps) {
   return (
     <Box mx={'auto'} w={'100%'} maxW={'1200px'}>
       <Box h={'500px'} mb={5}>
         {selectedChart === 'treemap' && (
-          <TreemapChart clusterList={result.clusters} argumentList={result.arguments} rootLevel={rootLevel}  />
+          <TreemapChart
+            clusterList={result.clusters}
+            argumentList={result.arguments}
+          />
         )}
         {selectedChart === 'scatterAll' && (
-          <ScatterChart clusterList={result.clusters} argumentList={result.arguments} rootLevel={rootLevel} />
+          <ScatterChart
+            clusterList={result.clusters}
+            argumentList={result.arguments}
+            targetLevel={1}
+          />
         )}
         {selectedChart === 'scatterDensity' && (
-          <ScatterChart clusterList={result.clusters} argumentList={result.arguments} rootLevel={rootLevel} />
+          <ScatterChart
+            clusterList={result.clusters}
+            argumentList={result.arguments}
+            targetLevel={Math.max(...result.clusters.map(c => c.level))}
+          />
         )}
       </Box>
     </Box>

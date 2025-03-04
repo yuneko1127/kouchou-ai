@@ -1,8 +1,9 @@
 import {RadioCardItem, RadioCardRoot} from '@/components/ui/radio-card'
 import {Button, HStack, Icon, useBreakpointValue} from '@chakra-ui/react'
 import {
-  ChartScatterIcon, FlameIcon,
-  SquareSquareIcon, ZoomInIcon
+  ChartScatterIcon,
+  FlameIcon,
+  SquareSquareIcon
 } from 'lucide-react'
 import React from 'react'
 import {Tooltip} from '@/components/ui/tooltip'
@@ -10,12 +11,10 @@ import {Tooltip} from '@/components/ui/tooltip'
 type Props = {
   selected: string
   onChange: (value: string) => void
-  onClickClusterSetting: () => void
   onClickDensitySetting: () => void
-  isApplyClusterFilter: boolean
 }
 
-export function SelectChartButton({selected, onChange, onClickClusterSetting, onClickDensitySetting, isApplyClusterFilter}: Props) {
+export function SelectChartButton({selected, onChange, onClickDensitySetting}: Props) {
   return (
     <HStack w={'100%'} justify={'center'} align={'center'} mb={10}>
       <RadioCardRoot
@@ -54,15 +53,6 @@ export function SelectChartButton({selected, onChange, onClickClusterSetting, on
           />
         </HStack>
       </RadioCardRoot>
-      <Tooltip content={isApplyClusterFilter ? '表示クラスタ設定が有効です' : '表示クラスタ設定'} openDelay={0} closeDelay={0}>
-        <Button
-          onClick={onClickClusterSetting}
-          variant={isApplyClusterFilter ? 'solid' : 'outline'}
-          h={'50px'}
-        >
-          <Icon><ZoomInIcon /></Icon>
-        </Button>
-      </Tooltip>
       <Tooltip content={'濃いクラスタ設定'} openDelay={0} closeDelay={0}>
         <Button
           onClick={onClickDensitySetting}
