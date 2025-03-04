@@ -46,3 +46,8 @@ htmlcov/
 
 # ログ
 *.log
+
+
+broadlistening/pipeline/inputs/*
+broadlistening/pipeline/configs/*
+broadlistening/pipeline/outputs/*
