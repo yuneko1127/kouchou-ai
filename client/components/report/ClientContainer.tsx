@@ -27,7 +27,7 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
   const [openClusterFilterSetting, setOpenClusterFilterSetting] = useState(false)
   const [openDensityFilterSetting, setOpenDensityFilterSetting] = useState(false)
   const [selectedChart, setSelectedChart] = useState('scatterAll')
-  const [maxDensity, setMaxDensity] = useState(0.5)
+  const [maxDensity, setMaxDensity] = useState(0.2)
   const [minValue, setMinValue] = useState(5)
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
   function onChangeDensityFilter(maxDensity: number, minValue: number) {
     setMaxDensity(maxDensity)
     setMinValue(minValue)
-    if (selectedChart !== 'scatterAll') {
+    if (selectedChart === 'scatterDensity') {
       updateFilteredResult(maxDensity, minValue, selectedClusters)
     }
   }
@@ -133,10 +133,10 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
         selected={selectedChart}
         onChange={(selectedChart) => {
           setSelectedChart(selectedChart)
-          if (selectedChart === 'scatterAll') {
+          if (selectedChart === 'scatterAll' || selectedChart === 'treemap') {
             updateFilteredResult(1, 0, selectedClusters)
           }
-          if (selectedChart === 'scatterDensity' || selectedChart === 'treemap') {
+          if (selectedChart === 'scatterDensity') {
             updateFilteredResult(maxDensity, minValue, selectedClusters)
           }
         }}
