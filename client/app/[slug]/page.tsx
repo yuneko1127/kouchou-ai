@@ -40,8 +40,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
     const slug = (await params).slug
-    const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
-    const resultResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + `/reports/${slug}`, {
+    const metaResponse = await fetch(getApiBaseUrl() + '/meta/metadata.json')
+    const resultResponse = await fetch(getApiBaseUrl() + `/reports/${slug}`, {
       headers: {
         'x-api-key': process.env.NEXT_PUBLIC_PUBLIC_API_KEY || '',
         'Content-Type': 'application/json'
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: `${result.config.question} - ${meta.reporter}`,
       description: `${result.overview}`,
       openGraph: {
-        images: [process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/ogp.png'],
+        images: [getApiBaseUrl() + '/meta/ogp.png'],
       },
     }
   } catch (_e) {
@@ -67,8 +67,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function Page({params}: PageProps) {
   try {
     const slug = (await params).slug
-    const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
-    const resultResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + `/reports/${slug}`, {
+    const metaResponse = await fetch(getApiBaseUrl() + '/meta/metadata.json')
+    const resultResponse = await fetch(getApiBaseUrl() + `/reports/${slug}`, {
       headers: {
         'x-api-key': process.env.NEXT_PUBLIC_PUBLIC_API_KEY || '',
         'Content-Type': 'application/json'
