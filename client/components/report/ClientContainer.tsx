@@ -99,10 +99,6 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
           onChangeFilter={onChangeDensityFilter}
         />
       )}
-      <Chart
-        result={filteredResult}
-        selectedChart={selectedChart}
-      />
       <SelectChartButton
         selected={selectedChart}
         onChange={(selectedChart) => {
@@ -115,6 +111,10 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
           }
         }}
         onClickDensitySetting={() => {setOpenDensityFilterSetting(true)}}
+      />
+      <Chart
+        result={filteredResult}
+        selectedChart={selectedChart}
       />
       { children }
       <Analysis result={result} />

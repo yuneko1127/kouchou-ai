@@ -1,8 +1,8 @@
 import {RadioCardItem, RadioCardRoot} from '@/components/ui/radio-card'
 import {Button, HStack, Icon, useBreakpointValue} from '@chakra-ui/react'
 import {
-  ChartScatterIcon,
-  FlameIcon,
+  ChartScatterIcon, CogIcon,
+  FlameIcon, MessageCircleWarningIcon,
   SquareSquareIcon
 } from 'lucide-react'
 import React from 'react'
@@ -16,7 +16,7 @@ type Props = {
 
 export function SelectChartButton({selected, onChange, onClickDensitySetting}: Props) {
   return (
-    <HStack w={'100%'} justify={'center'} align={'center'} mb={10}>
+    <HStack w={'100%'} maxW={'1200px'} mx={'auto'} justify={'space-between'} align={'center'} mb={2}>
       <RadioCardRoot
         orientation="horizontal"
         align="center"
@@ -41,12 +41,12 @@ export function SelectChartButton({selected, onChange, onClickDensitySetting}: P
             value={'scatterDensity'}
             label={useBreakpointValue({ base: '', md: '濃いクラスタ' })}
             indicator={false}
-            icon={<Icon><ChartScatterIcon /></Icon>}
+            icon={<Icon><MessageCircleWarningIcon /></Icon>}
             cursor={'pointer'}
           />
           <RadioCardItem
             value={'treemap'}
-            label={useBreakpointValue({ base: '', md: 'ツリーマップ' })}
+            label={useBreakpointValue({ base: '', md: '階層図' })}
             indicator={false}
             icon={<Icon><SquareSquareIcon /></Icon>}
             cursor={'pointer'}
@@ -59,7 +59,7 @@ export function SelectChartButton({selected, onChange, onClickDensitySetting}: P
           variant={'outline'}
           h={'50px'}
         >
-          <Icon><FlameIcon /></Icon>
+          <Icon><CogIcon /></Icon>
         </Button>
       </Tooltip>
     </HStack>

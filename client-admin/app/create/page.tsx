@@ -24,12 +24,13 @@ import {initialLabellingPrompt} from '@/app/create/initialLabellingPrompt'
 import {mergeLabellingPrompt} from '@/app/create/mergeLabellingPrompt'
 import {overviewPrompt} from '@/app/create/overviewPrompt'
 import {ChevronRightIcon} from 'lucide-react'
+import { v4 } from 'uuid'
 
 export default function Page() {
   const router = useRouter()
   const { open, onToggle } = useDisclosure()
   const [loading, setLoading] = useState<boolean>(false)
-  const [input, setInput] = useState<string>('')
+  const [input, setInput] = useState<string>(v4())
   const [question, setQuestion] = useState<string>('')
   const [intro, setIntro] = useState<string>('')
   const [csv, setCsv] = useState<File | null>(null)
@@ -127,16 +128,6 @@ export default function Page() {
         <Heading textAlign={'center'} my={10}>新しいレポートを作成する</Heading>
         <VStack gap={5}>
           <Field.Root>
-            <Field.Label>ID</Field.Label>
-            <Input
-              w={'40%'}
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              placeholder="例：example"
-            />
-            <Field.HelperText>英字小文字と数字とハイフンのみ</Field.HelperText>
-          </Field.Root>
-          <Field.Root>
             <Field.Label>タイトル</Field.Label>
             <Input
               value={question}
@@ -177,6 +168,16 @@ export default function Page() {
           </HStack>
           <Presence present={open} w={'full'}>
             <VStack gap={10}>
+              <Field.Root>
+                <Field.Label>ID</Field.Label>
+                <Input
+                  w={'40%'}
+                  value={input}
+                  onChange={e => setInput(e.target.value)}
+                  placeholder="例：example"
+                />
+                <Field.HelperText>英字小文字と数字とハイフンのみ(URLで利用されます)</Field.HelperText>
+              </Field.Root>
               <Field.Root>
                 <Field.Label>クラスター数</Field.Label>
                 <HStack>
