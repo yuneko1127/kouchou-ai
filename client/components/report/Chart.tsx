@@ -24,7 +24,6 @@ export function Chart({result, selectedChart, isFullscreen, onExitFullscreen}: R
         >
           <Button
             onClick={onExitFullscreen}
-            variant={'outline'}
             h={'50px'}
             position={'fixed'}
             top={5}
