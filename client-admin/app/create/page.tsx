@@ -23,6 +23,7 @@ import {extractionPrompt} from './extractionPrompt'
 import {initialLabellingPrompt} from '@/app/create/initialLabellingPrompt'
 import {mergeLabellingPrompt} from '@/app/create/mergeLabellingPrompt'
 import {overviewPrompt} from '@/app/create/overviewPrompt'
+import {ChevronRightIcon} from 'lucide-react'
 
 export default function Page() {
   const router = useRouter()
@@ -33,7 +34,8 @@ export default function Page() {
   const [intro, setIntro] = useState<string>('')
   const [csv, setCsv] = useState<File | null>(null)
   const [model, setModel] = useState<string>('gpt-4o-mini')
-  const [cluster, setCluster] = useState<number[]>([2,4,8])
+  const [clusterLv1, setClusterLv1] = useState<number>(5)
+  const [clusterLv2, setClusterLv2] = useState<number>(50)
   const [extraction, setExtraction] = useState<string>(extractionPrompt)
   const [initialLabelling, setInitialLabelling] = useState<string>(initialLabellingPrompt)
   const [mergeLabelling, setMergeLabelling] = useState<string>(mergeLabellingPrompt)
@@ -45,7 +47,8 @@ export default function Page() {
       /^[a-z](?:[a-z0-9-]*[a-z0-9])?$/.test(input),
       question.length > 0,
       intro.length > 0,
-      cluster[0] > 0,
+      clusterLv1 > 0,
+      clusterLv2 > 0,
       model.length > 0,
       extraction.length > 0,
       !!csv
@@ -84,7 +87,7 @@ export default function Page() {
           question,
           intro,
           comments,
-          cluster,
+          cluster: [clusterLv1, clusterLv2],
           model,
           prompt: {
             extraction,
@@ -175,20 +178,30 @@ export default function Page() {
           <Presence present={open} w={'full'}>
             <VStack gap={10}>
               <Field.Root>
-                <Field.Label>クラスター深度</Field.Label>
+                <Field.Label>クラスター数</Field.Label>
                 <HStack>
                   <StepperInput
-                    value={cluster[0].toString()}
+                    value={clusterLv1.toString()}
                     min={2}
                     max={10}
                     onValueChange={(e) => {
                       const v = Number(e.value)
-                      setCluster([v, v * v, v * v * v])
+                      setClusterLv1(v)
+                    }}
+                  />
+                  <ChevronRightIcon />
+                  <StepperInput
+                    value={clusterLv2.toString()}
+                    min={2}
+                    max={1000}
+                    onValueChange={(e) => {
+                      const v = Number(e.value)
+                      setClusterLv2(v)
                     }}
                   />
                 </HStack>
                 <Field.HelperText>
-                  クラスタリングの階層数です (階層が増えるとクラスター総数は指数的に増加します)
+                  階層ごとのクラスタ生成数です
                 </Field.HelperText>
               </Field.Root>
               <Field.Root>
