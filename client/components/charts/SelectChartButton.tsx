@@ -9,7 +9,6 @@ import React from 'react'
 import {Tooltip} from '@/components/ui/tooltip'
 
 type Props = {
-  isFullscreen: boolean
   selected: string
   onChange: (value: string) => void
   onClickDensitySetting: () => void
@@ -72,7 +71,7 @@ export function SelectChartButton({selected, onChange, onClickDensitySetting, on
             <Icon><CogIcon /></Icon>
           </Button>
         </Tooltip>
-        <Tooltip content={'フルスクリーン表示'} openDelay={0} closeDelay={0}>
+        <Tooltip content={'全画面表示'} openDelay={0} closeDelay={0}>
           <Button
             onClick={onClickFullscreen}
             variant={'outline'}

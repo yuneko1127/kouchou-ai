@@ -18,7 +18,7 @@ export function Chart({result, selectedChart, isFullscreen, onExitFullscreen}: R
     return (
       <Box w={'100%'} h={'100vh'} position={'fixed'} top={0} bottom={0} left={0} right={0} bgColor={'#fff'}>
         <Tooltip
-          content={'フルスクリーン終了'}
+          content={'全画面終了'}
           openDelay={0}
           closeDelay={0}
         >
@@ -29,7 +29,6 @@ export function Chart({result, selectedChart, isFullscreen, onExitFullscreen}: R
             top={5}
             right={5}
             zIndex={1}
-            bgColor={'#fff'}
             borderWidth={2}
           >
             <Icon><Undo2Icon /></Icon>
