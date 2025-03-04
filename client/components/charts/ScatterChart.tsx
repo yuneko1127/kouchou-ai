@@ -5,11 +5,11 @@ import {Argument, Cluster} from '@/type'
 type Props = {
   clusterList: Cluster[]
   argumentList: Argument[]
-  rootLevel: number
+  targetLevel: number
 }
 
-export function ScatterChart({clusterList, argumentList, rootLevel}: Props) {
-  const targetClusters = clusterList.filter((cluster) => cluster.level === rootLevel + 1)
+export function ScatterChart({clusterList, argumentList, targetLevel}: Props) {
+  const targetClusters = clusterList.filter((cluster) => cluster.level === targetLevel)
   const softColors = ['#8fbf6a', '#e89bbd', '#a3c4e5', '#f3d07a', '#5a9bb0']
   const clusterColorMap = targetClusters.reduce((acc, cluster, index) => {
     acc[cluster.id] = softColors[index % softColors.length]
