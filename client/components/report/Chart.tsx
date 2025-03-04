@@ -18,18 +18,11 @@ export function Chart({result, selectedChart}: ReportProps) {
             argumentList={result.arguments}
           />
         )}
-        {selectedChart === 'scatterAll' && (
+        {(selectedChart === 'scatterAll' || selectedChart === 'scatterDensity') && (
           <ScatterChart
             clusterList={result.clusters}
             argumentList={result.arguments}
-            targetLevel={1}
-          />
-        )}
-        {selectedChart === 'scatterDensity' && (
-          <ScatterChart
-            clusterList={result.clusters}
-            argumentList={result.arguments}
-            targetLevel={Math.max(...result.clusters.map(c => c.level))}
+            targetLevel={selectedChart === 'scatterAll' ? 1 : Math.max(...result.clusters.map(c => c.level))}
           />
         )}
       </Box>

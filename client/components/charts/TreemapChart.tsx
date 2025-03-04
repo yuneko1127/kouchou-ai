@@ -9,17 +9,16 @@ type Props = {
 }
 
 export function TreemapChart({clusterList, argumentList}: Props) {
-
-  // TODO 末尾に arguments を追加する対応
-  console.log(argumentList)
-
-  const filteredClusterList = clusterList
-    .map((cluster, index) => index === 0 ? { ...cluster, parent: '' } : cluster)
-  const ids = filteredClusterList.map(node => node.id)
-  const labels = filteredClusterList.map(node => node.label)
-  const parents = filteredClusterList.map(node => node.parent)
-  const values = filteredClusterList.map(node => node.value)
-
+  const convertedArgumentList = argumentList.map(convertArgumentToCluster)
+  const list = [
+    { ...clusterList[0], parent: '' },
+    ...clusterList.slice(1),
+    ...convertedArgumentList
+  ]
+  const ids = list.map(node => node.id)
+  const labels = list.map(node => node.label)
+  const parents = list.map(node => node.parent)
+  const values = list.map(node => node.value)
   const data: Partial<PlotData & {maxdepth: number, pathbar: { thickness: number }}> = {
     type: 'treemap',
     ids: ids,
@@ -29,7 +28,7 @@ export function TreemapChart({clusterList, argumentList}: Props) {
     branchvalues: 'total',
     hovertemplate: '<b>%{label}</b><br>%{value:,}件<br>%{percentEntry:.2%}<extra></extra>',
     texttemplate: '%{label}<br>%{percentEntry:.2%}',
-    maxdepth: 3,
+    maxdepth: 2,
     pathbar: {
       thickness: 28,
     },
@@ -52,4 +51,16 @@ export function TreemapChart({clusterList, argumentList}: Props) {
       }}
     />
   )
+}
+
+function convertArgumentToCluster(argument: Argument): Cluster {
+  return {
+    level: 3,
+    id: argument.arg_id,
+    label: argument.argument,
+    takeaway: '',
+    value: 1,
+    parent: argument.cluster_ids[2],
+    density_rank_percentile: 0
+  }
 }
