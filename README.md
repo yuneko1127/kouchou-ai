@@ -17,5 +17,3 @@
   - レポートデータAPI
 - utils/dummy-server
   - 開発用ダミーAPI
-- utils/export-single-page
-  - 単一HTML出力ユーティリティ

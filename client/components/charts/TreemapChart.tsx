@@ -1,10 +1,11 @@
-import {Cluster} from '@/type'
+import {Argument, Cluster} from '@/type'
 import {PlotData} from 'plotly.js'
 import React from 'react'
 import {ChartCore} from './ChartCore'
 
 type Props = {
   clusterList: Cluster[]
+  argumentList: Argument[] // TODO 現状結合できていない、最下層のクラスタに argument を紐づけたい
   rootLevel: number
 }
 
