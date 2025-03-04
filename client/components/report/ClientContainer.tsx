@@ -23,6 +23,7 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
   const [selectedChart, setSelectedChart] = useState('scatterAll')
   const [maxDensity, setMaxDensity] = useState(0.2)
   const [minValue, setMinValue] = useState(5)
+  const [isFullscreen, setIsFullscreen] = useState(false)
 
   useEffect(() => {
     fetchReport()
@@ -111,10 +112,13 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
           }
         }}
         onClickDensitySetting={() => {setOpenDensityFilterSetting(true)}}
+        onClickFullscreen={() => {setIsFullscreen(true)}}
       />
       <Chart
         result={filteredResult}
         selectedChart={selectedChart}
+        isFullscreen={isFullscreen}
+        onExitFullscreen={() => {setIsFullscreen(false)}}
       />
       { children }
       <Analysis result={result} />

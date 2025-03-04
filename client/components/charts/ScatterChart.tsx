@@ -10,7 +10,7 @@ type Props = {
 
 export function ScatterChart({clusterList, argumentList, targetLevel}: Props) {
   const targetClusters = clusterList.filter((cluster) => cluster.level === targetLevel)
-  const softColors = ['#8fbf6a', '#e89bbd', '#a3c4e5', '#f3d07a', '#5a9bb0']
+  const softColors = ['#b4d8a4', '#f3c7d8', '#d6e5ef', '#f9ebc3', '#83b6c7', '#d1c0eb', '#f7d1b3', '#f7b3a1', '#a8e0d8', '#f0e4d7']
   const clusterColorMap = targetClusters.reduce((acc, cluster, index) => {
     acc[cluster.id] = softColors[index % softColors.length]
     return acc
@@ -21,7 +21,7 @@ export function ScatterChart({clusterList, argumentList, targetLevel}: Props) {
     const clusterArguments = argumentList.filter((arg) => arg.cluster_ids.includes(cluster.id))
     const xValues = clusterArguments.map((arg) => arg.x)
     const yValues = clusterArguments.map((arg) => arg.y)
-    const texts = clusterArguments.map((arg) => `<b>${cluster.label}</b><br>${arg.argument}`)
+    const texts = clusterArguments.map((arg) => `<b>${cluster.label}</b><br>${arg.argument.replace(/(.{30})/g, '$1<br />')}`)
 
     // クラスタ中心の座標を計算
     const centerX = xValues.reduce((sum, val) => sum + val, 0) / xValues.length
@@ -77,11 +77,11 @@ export function ScatterChart({clusterList, argumentList, targetLevel}: Props) {
           text: data.cluster.label,
           showarrow: false,
           font: {
-            color: clusterColorMap[data.cluster.id],
+            color: '#2577b1',
             size: 14,
             weight: 700,
           },
-          bgcolor: 'white',
+          bgcolor: '#fff',
           opacity: 0.8,
         })),
         showlegend: false,

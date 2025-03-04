@@ -16,7 +16,7 @@ export function TreemapChart({clusterList, argumentList}: Props) {
     ...convertedArgumentList
   ]
   const ids = list.map(node => node.id)
-  const labels = list.map(node => node.label)
+  const labels = list.map(node => node.label.replace(/(.{15})/g, '$1<br />'))
   const parents = list.map(node => node.parent)
   const values = list.map(node => node.value)
   const data: Partial<PlotData & {maxdepth: number, pathbar: { thickness: number }}> = {
@@ -35,8 +35,8 @@ export function TreemapChart({clusterList, argumentList}: Props) {
   }
 
   const layout = {
-    margin: { l: 0, r: 0, b: 0, t: 30 },
-    colorway: ['#b4d8a4','#f3c7d8','#d6e5ef','#f9ebc3','#83b6c7'],
+    margin: { l: 10, r: 10, b: 10, t: 30 },
+    colorway: ['#b4d8a4', '#f3c7d8', '#d6e5ef', '#f9ebc3', '#83b6c7', '#d1c0eb', '#f7d1b3', '#f7b3a1', '#a8e0d8', '#f0e4d7'],
   }
 
   return (
