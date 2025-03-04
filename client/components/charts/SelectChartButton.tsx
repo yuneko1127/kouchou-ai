@@ -1,7 +1,7 @@
 import {RadioCardItem, RadioCardRoot} from '@/components/ui/radio-card'
 import {Button, HStack, Icon, useBreakpointValue} from '@chakra-ui/react'
 import {
-  ChartScatterIcon, CogIcon,
+  ChartScatterIcon, CogIcon, FullscreenIcon,
   MessageCircleWarningIcon,
   SquareSquareIcon
 } from 'lucide-react'
@@ -9,14 +9,23 @@ import React from 'react'
 import {Tooltip} from '@/components/ui/tooltip'
 
 type Props = {
+  isFullscreen: boolean
   selected: string
   onChange: (value: string) => void
   onClickDensitySetting: () => void
+  onClickFullscreen: () => void
 }
 
-export function SelectChartButton({selected, onChange, onClickDensitySetting}: Props) {
+export function SelectChartButton({selected, onChange, onClickDensitySetting, onClickFullscreen}: Props) {
   return (
-    <HStack w={'100%'} maxW={'1200px'} mx={'auto'} justify={'space-between'} align={'center'} mb={2}>
+    <HStack
+      w={'100%'}
+      maxW={'1200px'}
+      mx={'auto'}
+      justify={'space-between'}
+      align={'center'}
+      mb={2}
+    >
       <RadioCardRoot
         orientation="horizontal"
         align="center"
@@ -53,15 +62,26 @@ export function SelectChartButton({selected, onChange, onClickDensitySetting}: P
           />
         </HStack>
       </RadioCardRoot>
-      <Tooltip content={'濃いクラスタ設定'} openDelay={0} closeDelay={0}>
-        <Button
-          onClick={onClickDensitySetting}
-          variant={'outline'}
-          h={'50px'}
-        >
-          <Icon><CogIcon /></Icon>
-        </Button>
-      </Tooltip>
+      <HStack>
+        <Tooltip content={'濃いクラスタ設定'} openDelay={0} closeDelay={0}>
+          <Button
+            onClick={onClickDensitySetting}
+            variant={'outline'}
+            h={'50px'}
+          >
+            <Icon><CogIcon /></Icon>
+          </Button>
+        </Tooltip>
+        <Tooltip content={'フルスクリーン表示'} openDelay={0} closeDelay={0}>
+          <Button
+            onClick={onClickFullscreen}
+            variant={'outline'}
+            h={'50px'}
+          >
+            <Icon><FullscreenIcon /></Icon>
+          </Button>
+        </Tooltip>
+      </HStack>
     </HStack>
   )
 }

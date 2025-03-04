@@ -45,7 +45,7 @@ export default function Page() {
   async function onSubmit() {
     setLoading(true)
     const precheck = [
-      /^[a-z](?:[a-z0-9-]*[a-z0-9])?$/.test(input),
+      /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(input),
       question.length > 0,
       intro.length > 0,
       clusterLv1 > 0,
