@@ -37,3 +37,8 @@ async def get_icon():
 @router.get("/meta/ogp.png")
 async def get_ogp():
     return FileResponse(META_DIR / "ogp.png")
+
+
+@router.get("/meta/metadata.json")
+async def get_metadata_json():
+    return FileResponse(META_DIR / "metadata.json")

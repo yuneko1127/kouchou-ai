@@ -1,6 +1,7 @@
 import {Alert, Heading, HStack, Image} from '@chakra-ui/react'
 import {XIcon} from 'lucide-react'
 
+
 export function Header() {
   return (
     <HStack justify="space-between" alignItems={'center'} mb={8} mx={'auto'} maxW={'1200px'}>

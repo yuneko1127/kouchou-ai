@@ -5,10 +5,11 @@ import {About} from '@/components/About'
 import {Box, Card, Heading, HStack, Text} from '@chakra-ui/react'
 import Link from 'next/link'
 import {Metadata} from 'next'
+import {getApiBaseUrl} from './utils/api'
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
+    const metaResponse = await fetch(getApiBaseUrl() + '/meta/metadata.json')
     const meta: Meta = await metaResponse.json()
     return {
       title: `${meta.reporter} - デジタル民主主義2030 ブロードリスニング`,
@@ -26,8 +27,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Page() {
   try {
-    const metaResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/metadata.json')
-    const reportsResponse = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/reports', {
+    const metaResponse = await fetch(getApiBaseUrl() + '/meta/metadata.json')
+    const reportsResponse = await fetch(getApiBaseUrl() + '/reports', {
       headers: {
         'x-api-key': process.env.NEXT_PUBLIC_PUBLIC_API_KEY || '',
         'Content-Type': 'application/json'

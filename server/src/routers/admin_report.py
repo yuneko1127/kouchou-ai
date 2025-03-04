@@ -40,15 +40,3 @@ async def create_report(report: ReportInput, api_key: str = Depends(verify_admin
         raise HTTPException(status_code=400, detail=str(e)) from e
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error") from e
-
-
-@router.options("/admin/reports")
-async def options_reports():
-    return ORJSONResponse(
-        content=None,
-        headers={
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type, x-api-key",
-        },
-    )

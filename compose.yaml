@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./server:/app
+    environment:
+      - ENVIRONMENT=development
+      - LOG_LEVEL=debug
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - app-network
+  
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_BASEPATH=http://localhost:8000
+        - API_BASEPATH=http://api:8000
+        - NEXT_PUBLIC_PUBLIC_API_KEY=public
+    depends_on:
+      api:
+        condition: service_healthy
+    volumes:
+    - ./client:/app
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_BASEPATH=http://localhost:8000
+      - API_BASEPATH=http://api:8000
+      - NEXT_PUBLIC_PUBLIC_API_KEY=public
+    restart: unless-stopped
+    networks:
+      - app-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  
+  client-admin:
+    build:
+      context: ./client-admin
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_CLIENT_BASEPATH=http://localhost:3000
+        - NEXT_PUBLIC_API_BASEPATH=http://localhost:8000
+        - NEXT_PUBLIC_ADMIN_API_KEY=admin
+    ports:
+      - "4000:4000"
+    environment:
+      - NEXT_PUBLIC_CLIENT_BASEPATH=http://localhost:3000
+      - NEXT_PUBLIC_API_BASEPATH=http://localhost:8000
+      - NEXT_PUBLIC_ADMIN_API_KEY=admin
+    restart: unless-stopped
+    networks:
+      - app-network
+      
+networks:
+  app-network:
+    driver: bridge

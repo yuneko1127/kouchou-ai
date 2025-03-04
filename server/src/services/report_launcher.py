@@ -69,7 +69,7 @@ def _monitor_process(process: subprocess.Popen, slug: str):
     if retcode == 0:
         set_status(slug, "ready")
     else:
-        set_status(slug, "failed")
+        set_status(slug, "error")
 
 
 def launch_report_generation(report_input: ReportInput) -> str:
@@ -92,5 +92,5 @@ def launch_report_generation(report_input: ReportInput) -> str:
         process = subprocess.Popen(cmd, cwd=execution_dir)
         threading.Thread(target=_monitor_process, args=(process, report_input.input), daemon=True).start()
     except Exception as e:
-        set_status(report_input.input, "failed")
+        set_status(report_input.input, "error")
         raise e
