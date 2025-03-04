@@ -33,7 +33,7 @@ export default function Page() {
   const [intro, setIntro] = useState<string>('')
   const [csv, setCsv] = useState<File | null>(null)
   const [model, setModel] = useState<string>('gpt-4o-mini')
-  const [cluster, setCluster] = useState<number[]>([3,9,27])
+  const [cluster, setCluster] = useState<number[]>([2,4,8])
   const [extraction, setExtraction] = useState<string>(extractionPrompt)
   const [initialLabelling, setInitialLabelling] = useState<string>(initialLabellingPrompt)
   const [mergeLabelling, setMergeLabelling] = useState<string>(mergeLabellingPrompt)

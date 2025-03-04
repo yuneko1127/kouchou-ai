@@ -6,11 +6,13 @@ import React, {PropsWithChildren, useEffect, useState} from 'react'
 import {Skeleton} from '@/components/ui/skeleton'
 import {Cluster, Result} from '@/type'
 import {LoadingBar} from '@/components/report/LoadingBar'
-import {FilterSettingDialog} from '@/components/report/FilterSettingDialog'
+import {ClusterFilterSettingDialog} from '@/components/report/ClusterFilterSettingDialog'
 import {ClusterOverview} from '@/components/report/ClusterOverview'
 import {SelectChartButton} from '@/components/charts/SelectChartButton'
 import {ClusterBreadcrumb} from '@/components/report/ClusterBreadcrumb'
+import {DensityFilterSettingDialog} from '@/components/report/DensityFilterSettingDialog'
 import {getApiBaseUrl} from '../../app/utils/api'
+
 type Props = {
   reportName: string
   resultSize: number
@@ -22,23 +24,45 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
   const [rootLevel, setRootLevel] = useState(0)
   const [filteredResult, setFilteredResult] = useState<Result>()
   const [selectedClusters, setSelectedClusters] = useState<Cluster[]>([])
-  const [openFilterSetting, setOpenFilterSetting] = useState(false)
-  const [selectedChart, setSelectedChart] = useState('scatter')
-  const [maxDensity, setMaxDensity] = useState<number>(1)
-  const [minValue, setMinValue] = useState<number>(0)
+  const [openClusterFilterSetting, setOpenClusterFilterSetting] = useState(false)
+  const [openDensityFilterSetting, setOpenDensityFilterSetting] = useState(false)
+  const [selectedChart, setSelectedChart] = useState('scatterAll')
+  const [maxDensity, setMaxDensity] = useState(0.2)
+  const [minValue, setMinValue] = useState(5)
 
   useEffect(() => {
     fetchReport()
   }, [])
 
-  function onChangeFilter(maxDensity: number, minValue: number, lv1: string, lv2: string, lv3: string, lv4: string) {
+  function updateFilteredResult(maxDensity: number, minValue: number, selectedClusters: Cluster[]) {
     if (!result) return
-    setRootLevel(getRootLevel(lv1, lv2, lv3, lv4))
-    setSelectedClusters(getSelectedClusters(result.clusters || [], lv1, lv2, lv3, lv4))
     setFilteredResult({
       ...result,
-      clusters: getFilteredClusters(result.clusters || [], maxDensity, minValue, lv1, lv2, lv3, lv4)
+      clusters: getFilteredClusters(
+        result.clusters || [],
+        maxDensity,
+        minValue,
+        selectedClusters[0]?.id || '0',
+        selectedClusters[1]?.id || '0',
+        selectedClusters[2]?.id || '0',
+        selectedClusters[3]?.id || '0'
+      )
     })
+  }
+
+  function onChangeClusterFilter(lv1: string, lv2: string, lv3: string, lv4: string) {
+    setRootLevel(getRootLevel(lv1, lv2, lv3, lv4))
+    const selectedClusters = getSelectedClusters(result?.clusters || [], lv1, lv2, lv3, lv4)
+    setSelectedClusters(selectedClusters)
+    updateFilteredResult(maxDensity, minValue, selectedClusters)
+  }
+
+  function onChangeDensityFilter(maxDensity: number, minValue: number) {
+    setMaxDensity(maxDensity)
+    setMinValue(minValue)
+    if (selectedChart === 'scatterDensity') {
+      updateFilteredResult(maxDensity, minValue, selectedClusters)
+    }
   }
 
   async function fetchReport() {
@@ -84,18 +108,20 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
   }
   return (
     <>
-      {openFilterSetting && (
-        <FilterSettingDialog
+      {openClusterFilterSetting && (
+        <ClusterFilterSettingDialog
           result={result}
           selectedClusters={selectedClusters}
-          onClose={() => {setOpenFilterSetting(false)}}
-          onChangeFilter={(maxDensity, minValue, level1, level2, level3, level4) => {
-            setMaxDensity(maxDensity)
-            setMinValue(minValue)
-            onChangeFilter(maxDensity, minValue, level1, level2, level3, level4)
-          }}
+          onClose={() => {setOpenClusterFilterSetting(false)}}
+          onChangeFilter={onChangeClusterFilter}
+        />
+      )}
+      {openDensityFilterSetting && (
+        <DensityFilterSettingDialog
           currentMaxDensity={maxDensity}
           currentMinValue={minValue}
+          onClose={() => {setOpenDensityFilterSetting(false)}}
+          onChangeFilter={onChangeDensityFilter}
         />
       )}
       <Chart
@@ -105,13 +131,24 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
       />
       <SelectChartButton
         selected={selectedChart}
-        onChange={setSelectedChart}
-        onClickSetting={() => {setOpenFilterSetting(true)}}
-        isApplyFilter={result.clusters.length !== filteredResult.clusters.length || maxDensity !== 1 || minValue !== 0}
+        onChange={(selectedChart) => {
+          setSelectedChart(selectedChart)
+          if (selectedChart === 'scatterAll' || selectedChart === 'treemap') {
+            updateFilteredResult(1, 0, selectedClusters)
+          }
+          if (selectedChart === 'scatterDensity') {
+            updateFilteredResult(maxDensity, minValue, selectedClusters)
+          }
+        }}
+        onClickClusterSetting={() => {setOpenClusterFilterSetting(true)}}
+        onClickDensitySetting={() => {setOpenDensityFilterSetting(true)}}
+        isApplyClusterFilter={rootLevel !== 0}
       />
       <ClusterBreadcrumb
         selectedClusters={selectedClusters}
-        onChangeFilter={(level1, level2, level3, level4) => {onChangeFilter(maxDensity, minValue, level1, level2, level3, level4)}}
+        onChangeFilter={(level1, level2, level3, level4) => {
+          onChangeClusterFilter(level1, level2, level3, level4)
+        }}
       />
       { rootLevel === 0 && children }
       { rootLevel !== 0 && (
