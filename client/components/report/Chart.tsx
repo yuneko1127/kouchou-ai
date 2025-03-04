@@ -10,7 +10,7 @@ type ReportProps = {
 
 export function Chart({result, selectedChart}: ReportProps) {
   return (
-    <Box mx={'auto'} w={'100%'} maxW={'1200px'}>
+    <Box mx={'auto'} w={'100%'} maxW={'1200px'} mb={10}>
       <Box h={'500px'} mb={5}>
         {selectedChart === 'treemap' && (
           <TreemapChart
