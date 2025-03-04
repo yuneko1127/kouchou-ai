@@ -60,7 +60,7 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
   function onChangeDensityFilter(maxDensity: number, minValue: number) {
     setMaxDensity(maxDensity)
     setMinValue(minValue)
-    if (selectedChart === 'scatterDensity') {
+    if (selectedChart !== 'scatterAll') {
       updateFilteredResult(maxDensity, minValue, selectedClusters)
     }
   }
@@ -133,10 +133,10 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
         selected={selectedChart}
         onChange={(selectedChart) => {
           setSelectedChart(selectedChart)
-          if (selectedChart === 'scatterAll' || selectedChart === 'treemap') {
+          if (selectedChart === 'scatterAll') {
             updateFilteredResult(1, 0, selectedClusters)
           }
-          if (selectedChart === 'scatterDensity') {
+          if (selectedChart === 'scatterDensity' || selectedChart === 'treemap') {
             updateFilteredResult(maxDensity, minValue, selectedClusters)
           }
         }}

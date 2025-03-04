@@ -26,10 +26,6 @@ export function DensityFilterSettingDialog({onClose, onChangeFilter, currentMaxD
     onChangeFilter(maxDensity, minValue)
     onClose()
   }
-  function onReset() {
-    onChangeFilter(1, 0)
-    onClose()
-  }
 
   return (
     <DialogRoot lazyMount open={true} onOpenChange={onClose}>
@@ -71,7 +67,6 @@ export function DensityFilterSettingDialog({onClose, onChangeFilter, currentMaxD
         <DialogFooter justifyContent={'space-between'}>
           <Spacer />
           <Box>
-            <Button variant={'outline'} onClick={onReset} mr={2}>リセット</Button>
             <Button onClick={onApply}>設定を適用</Button>
           </Box>
         </DialogFooter>
