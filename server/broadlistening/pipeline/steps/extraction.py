@@ -12,6 +12,7 @@ from services.parse_json_list import parse_response
 
 from utils import update_progress
 
+
 COMMA_AND_SPACE_AND_RIGHT_BRACKET = re.compile(r",\s*(\])")
 
 
@@ -35,15 +36,6 @@ def extraction(config):
     limit = config["extraction"]["limit"]
     property_columns = config["extraction"]["properties"]
     _validate_property_columns(property_columns, comments)
-    try:
-        # test all comment-id can be parsed as int
-        list(map(int, comments["comment-id"].values))
-    except Exception as e:
-        print(
-            f"inputs/{config['input']}.csv の comment-id に整数でないものが含まれています",
-            e,
-        )
-        raise e
     comment_ids = (comments["comment-id"].values)[:limit]
     comments.set_index("comment-id", inplace=True)
     results = pd.DataFrame()
@@ -64,7 +56,7 @@ def extraction(config):
                     }
                     new_row = {
                         "arg-id": f"A{comment_id}_{j}",
-                        "comment-id": int(comment_id),
+                        "comment-id": comment_id,
                         "argument": arg,
                         **properties,
                     }
