@@ -159,7 +159,7 @@ export default function Page() {
               />
               <FileUploadList />
             </FileUploadRoot>
-            <Field.HelperText>カラムに id と body を含む CSVファイルが必要です</Field.HelperText>
+            <Field.HelperText>カラムに<b>&quot;comment&quot;</b>を含むCSVファイルが必要です(それ以外のカラムは無視されます)</Field.HelperText>
           </Field.Root>
           <HStack justify={'flex-end'} w={'full'}>
             <Button onClick={onToggle} variant={'outline'} w={'200px'}>

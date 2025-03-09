@@ -1,8 +1,9 @@
 import Papa from 'papaparse'
+import { v4 } from 'uuid'
 
 type Comment = {
-  id: string
-  body: string
+  'comment-id': string
+  'comment-body': string
 }
 
 export async function parseCsv(csvFile: File): Promise<Comment[]> {
@@ -11,16 +12,14 @@ export async function parseCsv(csvFile: File): Promise<Comment[]> {
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
-        const requiredFields = ['id', 'body']
         const fields = results.meta.fields || []
-        const missingFields = requiredFields.filter(field => !fields.includes(field))
-        if (missingFields.length > 0) {
-          return reject(new Error(`必須カラムが存在しません: ${missingFields.join(', ')}`))
+        if (!fields.includes('comment')) {
+          return reject(new Error('必須カラム "comment" が存在しません'))
         }
-        const data = results.data as Array<{ id: string; body: string }>
+        const data = results.data as Array<{ comment: string }>
         const comments: Comment[] = data.map(row => ({
-          id: row['id'],
-          body: row['body']
+          'comment-id': v4(),
+          'comment-body': row['comment']
         }))
         resolve(comments)
       },
