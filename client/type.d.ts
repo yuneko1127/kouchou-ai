@@ -22,6 +22,7 @@ export type Result = {
   translations: Record<string, any> // 翻訳情報
   overview: string // 解析概要
   config: Config // 設定情報
+  comment_num: number // コメント数
 }
 
 type Argument = {
