@@ -1,9 +1,10 @@
-from src.schemas.base import SchemaBaseModel
+from src.schemas.base import SchemaBaseModel    
 
 
 class Comment(SchemaBaseModel):
     id: str
     body: str
+    source: str | None = None
 
 
 class Prompt(SchemaBaseModel):
@@ -21,3 +22,4 @@ class ReportInput(SchemaBaseModel):
     model: str  # 利用するLLMの名称
     prompt: Prompt  # プロンプト
     comments: list[Comment]  # コメントのリスト
+    hidden_source: str | None = None
