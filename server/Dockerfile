@@ -11,9 +11,10 @@ RUN apt-get update \
 
 RUN pip install uv
 
-COPY . .
+COPY pyproject.toml requirements.lock requirements-dev.lock README.md ./
 RUN uv pip install --no-cache --system -r requirements.lock
 
+COPY . .
 # アプリケーションの実行
 EXPOSE 8000
 CMD ["python", "-m", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
