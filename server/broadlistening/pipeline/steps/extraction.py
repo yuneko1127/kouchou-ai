@@ -58,7 +58,7 @@ def extraction(config):
                         "arg-id": f"A{comment_id}_{j}",
                         "comment-id": comment_id,
                         "argument": arg,
-                        "source": comments.loc[comment_id]["source"],
+                        # "source": comments.loc[comment_id]["source"],
                         **properties,
                     }
                     results = pd.concat(

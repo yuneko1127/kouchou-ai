@@ -10,11 +10,6 @@ from src.services.report_status import add_new_report_to_status, set_status
 
 
 def _build_config(report_input: ReportInput) -> dict:
-    def _build_hidden_properties():
-        if report_input.hidden_source is None:
-            return {}
-        return {"source": [report_input.hidden_source]}
-
     comment_num = len(report_input.comments)
 
     config = {
@@ -44,7 +39,6 @@ def _build_config(report_input: ReportInput) -> dict:
         },
         "hierarchical_aggregation": {
             "sampling_num": 30,
-            "hidden_properties": _build_hidden_properties()
         }
     }
     return config
@@ -63,7 +57,6 @@ def save_input_file(report_input: ReportInput):
         {
             "comment-id": comment.id,
             "comment-body": comment.body,
-            "source": comment.source
         }
         for comment in report_input.comments
     ]

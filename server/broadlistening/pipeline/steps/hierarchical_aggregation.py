@@ -57,9 +57,11 @@ def hierarchical_aggregation(config):
 
     results["arguments"] = _build_arguments(clusters)
     results["clusters"] = _build_cluster_value(labels, arg_num)
-    results["comments"] = _build_comments_value(
-        comments, arguments, hidden_properties_map
-    )
+    # NOTE: 属性に応じたコメントフィルタ機能が実装されておらず、全てのコメントが含まれてしまうので、コメントアウト
+    # results["comments"] = _build_comments_value(
+    #     comments, arguments, hidden_properties_map
+    # )
+    results["comment_num"] = len(comments)
     results["translations"] = _build_translations(config)
     # 属性情報のカラムは、元データに対して指定したカラムとclassificationするカテゴリを合わせたもの
     results["propertyMap"] = _build_property_map(
