@@ -11,6 +11,7 @@ from src.services.report_status import add_new_report_to_status, set_status
 
 def _build_config(report_input: ReportInput) -> dict:
     comment_num = len(report_input.comments)
+
     config = {
         "name": report_input.input,
         "input": report_input.input,
@@ -37,7 +38,7 @@ def _build_config(report_input: ReportInput) -> dict:
             "prompt": report_input.prompt.overview
         },
         "hierarchical_aggregation": {
-            "sampling_num": 30
+            "sampling_num": 30,
         }
     }
     return config
@@ -55,7 +56,7 @@ def save_input_file(report_input: ReportInput):
     comments = [
         {
             "comment-id": comment.id,
-            "comment-body": comment.body
+            "comment-body": comment.body,
         }
         for comment in report_input.comments
     ]

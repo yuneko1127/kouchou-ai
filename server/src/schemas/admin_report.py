@@ -1,4 +1,4 @@
-from src.schemas.base import SchemaBaseModel
+from src.schemas.base import SchemaBaseModel    
 
 
 class Comment(SchemaBaseModel):
