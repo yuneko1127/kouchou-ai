@@ -43,7 +43,7 @@ export function Analysis({result}: ReportProps) {
         <Tooltip content={'全てのコメントをAIで分析し、意見が含まれるコメントを抽出します。意見が含まれないコメントや、議題と関係のないコメントは除外されます。'} openDelay={0} closeDelay={0}>
           <VStack gap={0} w={'200px'}>
             <Icon mb={2}><MessageCircleWarningIcon size={'30px'} /></Icon>
-            <Text className={'headingColor'}  fontSize={'3xl'} fontWeight={'bold'} lineHeight={1} mb={1}>{Object.keys(result.comments).length.toLocaleString()}</Text>
+            <Text className={'headingColor'}  fontSize={'3xl'} fontWeight={'bold'} lineHeight={1} mb={1}>{result.comment_num.toLocaleString()}</Text>
             <Text fontSize={'xs'}>意見が含まれるコメント数</Text>
           </VStack>
         </Tooltip>
