@@ -6,8 +6,8 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    ADMIN_API_KEY: str = Field(env="ADMIN_API_KEY")
-    PUBLIC_API_KEY: str = Field(env="PUBLIC_API_KEY")
+    ADMIN_API_KEY: str = Field(env="NEXT_PUBLIC_ADMIN_API_KEY")
+    PUBLIC_API_KEY: str = Field(env="NEXT_PUBLIC_PUBLIC_API_KEY")
     OPENAI_API_KEY: str = Field(env="OPENAI_API_KEY")
     BASE_DIR: Path = Path(__file__).parent.parent
     TOOL_DIR: Path = BASE_DIR / "broadlistening"
