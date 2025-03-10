@@ -2,8 +2,8 @@ import Papa from 'papaparse'
 import { v4 } from 'uuid'
 
 type Comment = {
-  'comment-id': string
-  'comment-body': string
+  id: string
+  body: string
 }
 
 export async function parseCsv(csvFile: File): Promise<Comment[]> {
@@ -18,8 +18,8 @@ export async function parseCsv(csvFile: File): Promise<Comment[]> {
         }
         const data = results.data as Array<{ comment: string }>
         const comments: Comment[] = data.map(row => ({
-          'comment-id': v4(),
-          'comment-body': row['comment']
+          id: v4(),
+          body: row['comment']
         }))
         resolve(comments)
       },
