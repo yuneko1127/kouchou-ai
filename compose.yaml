@@ -12,6 +12,8 @@ services:
     environment:
       - ENVIRONMENT=development
       - LOG_LEVEL=debug
+    env_file:
+      - .env
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000"]
@@ -26,10 +28,6 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-      args:
-        - NEXT_PUBLIC_API_BASEPATH=http://localhost:8000
-        - API_BASEPATH=http://api:8000
-        - NEXT_PUBLIC_PUBLIC_API_KEY=public
     depends_on:
       api:
         condition: service_healthy
@@ -37,10 +35,8 @@ services:
     - ./client:/app
     ports:
       - "3000:3000"
-    environment:
-      - NEXT_PUBLIC_API_BASEPATH=http://localhost:8000
-      - API_BASEPATH=http://api:8000
-      - NEXT_PUBLIC_PUBLIC_API_KEY=public
+    env_file:
+      - .env
     restart: unless-stopped
     networks:
       - app-network
@@ -51,16 +47,10 @@ services:
     build:
       context: ./client-admin
       dockerfile: Dockerfile
-      args:
-        - NEXT_PUBLIC_CLIENT_BASEPATH=http://localhost:3000
-        - NEXT_PUBLIC_API_BASEPATH=http://localhost:8000
-        - NEXT_PUBLIC_ADMIN_API_KEY=admin
     ports:
       - "4000:4000"
-    environment:
-      - NEXT_PUBLIC_CLIENT_BASEPATH=http://localhost:3000
-      - NEXT_PUBLIC_API_BASEPATH=http://localhost:8000
-      - NEXT_PUBLIC_ADMIN_API_KEY=admin
+    env_file:
+      - .env
     restart: unless-stopped
     networks:
       - app-network
