@@ -1,4 +1,4 @@
-import { Slider as ChakraSlider, For, HStack } from '@chakra-ui/react'
+import {For, HStack, Slider as ChakraSlider} from '@chakra-ui/react'
 import * as React from 'react'
 
 export interface SliderProps extends ChakraSlider.RootProps {
@@ -9,11 +9,11 @@ export interface SliderProps extends ChakraSlider.RootProps {
 
 export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
   function Slider(props, ref) {
-    const { marks: marksProp, label, showValue, ...rest } = props
+    const {marks: marksProp, label, showValue, ...rest} = props
     const value = props.defaultValue ?? props.value
 
     const marks = marksProp?.map((mark) => {
-      if (typeof mark === 'number') return { value: mark, label: undefined }
+      if (typeof mark === 'number') return {value: mark, label: undefined}
       return mark
     })
 
@@ -27,15 +27,15 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         {label && showValue && (
           <HStack justify="space-between">
             <ChakraSlider.Label>{label}</ChakraSlider.Label>
-            <ChakraSlider.ValueText />
+            <ChakraSlider.ValueText/>
           </HStack>
         )}
         <ChakraSlider.Control data-has-mark-label={hasMarkLabel || undefined}>
           <ChakraSlider.Track>
-            <ChakraSlider.Range />
+            <ChakraSlider.Range/>
           </ChakraSlider.Track>
-          <SliderThumbs value={value} />
-          <SliderMarks marks={marks} />
+          <SliderThumbs value={value}/>
+          <SliderMarks marks={marks}/>
         </ChakraSlider.Control>
       </ChakraSlider.Root>
     )
@@ -43,12 +43,12 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 )
 
 function SliderThumbs(props: { value?: number[] }) {
-  const { value } = props
+  const {value} = props
   return (
     <For each={value}>
       {(_, index) => (
         <ChakraSlider.Thumb key={index} index={index}>
-          <ChakraSlider.HiddenInput />
+          <ChakraSlider.HiddenInput/>
         </ChakraSlider.Thumb>
       )}
     </For>
@@ -61,7 +61,7 @@ interface SliderMarksProps {
 
 const SliderMarks = React.forwardRef<HTMLDivElement, SliderMarksProps>(
   function SliderMarks(props, ref) {
-    const { marks } = props
+    const {marks} = props
     if (!marks?.length) return null
 
     return (
@@ -71,7 +71,7 @@ const SliderMarks = React.forwardRef<HTMLDivElement, SliderMarksProps>(
           const label = typeof mark === 'number' ? undefined : mark.label
           return (
             <ChakraSlider.Marker key={index} value={value}>
-              <ChakraSlider.MarkerIndicator />
+              <ChakraSlider.MarkerIndicator/>
               {label}
             </ChakraSlider.Marker>
           )

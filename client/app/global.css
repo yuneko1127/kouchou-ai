@@ -9,9 +9,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 .code {
   font-family: 'JetBrains Mono', monospace;
 }
+
 .container {
   padding: 1.2rem 1.5rem 3rem;
   border-radius: 2rem;
@@ -19,28 +21,34 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   color: #555;
 }
+
 footer {
   text-align: center;
   margin: 2rem 0 1rem;
   color: #555;
   font-size: 0.8rem;
 }
+
 .gradientBg {
   color: #ffffff;
   background: linear-gradient(90deg, rgb(37, 160, 57) 0%, rgb(37, 119, 177) 100%);
 }
+
 .gradientColor {
   color: transparent;
   background: linear-gradient(90deg, rgb(37, 160, 57) 0%, rgb(37, 119, 177) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 .headingColor {
   color: #2577b1;
 }
+
 .textLink {
   border-bottom: 1px dashed #aaa;
 }
+
 .shadow {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }

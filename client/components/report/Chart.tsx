@@ -31,7 +31,7 @@ export function Chart({result, selectedChart, isFullscreen, onExitFullscreen}: R
             zIndex={1}
             borderWidth={2}
           >
-            <Icon><Undo2Icon /></Icon>
+            <Icon><Undo2Icon/></Icon>
           </Button>
         </Tooltip>
         {(selectedChart === 'scatterAll' || selectedChart === 'scatterDensity') && (

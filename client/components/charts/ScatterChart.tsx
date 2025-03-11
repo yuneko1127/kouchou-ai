@@ -1,5 +1,5 @@
 import React from 'react'
-import { ChartCore } from './ChartCore'
+import {ChartCore} from './ChartCore'
 import {Argument, Cluster} from '@/type'
 
 type Props = {
@@ -61,7 +61,7 @@ export function ScatterChart({clusterList, argumentList, targetLevel}: Props) {
         },
       }))}
       layout={{
-        margin: { l: 0, r: 0, b: 0, t: 0 },
+        margin: {l: 0, r: 0, b: 0, t: 0},
         xaxis: {
           zeroline: false,
           showticklabels: false

@@ -11,4 +11,4 @@ export const ChartCore = dynamic(async () => {
   const createPlotlyComponent = (await import('react-plotly.js/factory')).default
   Plotly.register([Scatter, Sunburst, Treemap])
   return createPlotlyComponent(Plotly)
-}, { ssr: false, loading: () => <LoadingBar loaded={100} max={100} isVisualizing /> })
+}, {ssr: false, loading: () => <LoadingBar loaded={100} max={100} isVisualizing/>})

@@ -5,6 +5,7 @@ import {Meta} from '@/type'
 import {ExternalLinkIcon} from 'lucide-react'
 import Link from 'next/link'
 import {getApiBaseUrl} from '@/app/utils/api'
+
 type AboutProps = {
   meta: Meta
 }
@@ -28,9 +29,9 @@ export function About({meta}: AboutProps) {
         {meta.webLink && (
           <Link href={meta.webLink} target={'_blank'} rel={'noopener noreferrer'}>
             <Button size={'2xl'} minW={'300px'} bgColor={meta.brandColor || '#2577B1'}>
-              <Image src={getApiBaseUrl() + '/meta/icon.png'} w={30} alt={meta.reporter} />
+              <Image src={getApiBaseUrl() + '/meta/icon.png'} w={30} alt={meta.reporter}/>
               {meta.reporter}のページへ
-              <ExternalLinkIcon />
+              <ExternalLinkIcon/>
             </Button>
           </Link>
         )}
