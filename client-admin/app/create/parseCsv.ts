@@ -1,27 +1,20 @@
 import Papa from 'papaparse'
 import {v4} from 'uuid'
 
-type Comment = {
-  id: string
-  body: string
-}
+type CsvData = Record<string, unknown>
 
-export async function parseCsv(csvFile: File): Promise<Comment[]> {
+export async function parseCsv(csvFile: File): Promise<CsvData[]> {
   return new Promise((resolve, reject) => {
     Papa.parse(csvFile, {
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
-        const fields = results.meta.fields || []
-        if (!fields.includes('comment')) {
-          return reject(new Error('必須カラム "comment" が存在しません'))
-        }
-        const data = results.data as Array<{ comment: string }>
-        const comments: Comment[] = data.map(row => ({
+        const data = results.data as CsvData[]
+        const converted = data.map(row => ({
+          ...row,
           id: v4(),
-          body: row['comment']
         }))
-        resolve(comments)
+        resolve(converted)
       },
       error: (error) => {
         reject(error)
