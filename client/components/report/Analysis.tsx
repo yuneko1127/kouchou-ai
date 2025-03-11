@@ -33,9 +33,18 @@ type ReportProps = {
   result: Result
 }
 
+function getClusterNum(result: Result): Record<number, number> {
+  const array = result.clusters.map(c => c.level)
+  return array.reduce((acc, num) => {
+    acc[num] = (acc[num] || 0) + 1
+    return acc
+  }, {} as Record<number, number>)
+}
+
 export function Analysis({result}: ReportProps) {
 
   const [selectedData, setSelectedData] = useState<{ title: string, body: string } | null>(null)
+  const clusterNum = getClusterNum(result)
 
   return (
     <Box mx={'auto'} maxW={'750px'} mb={12} cursor={'default'}>
@@ -69,8 +78,27 @@ export function Analysis({result}: ReportProps) {
           openDelay={0} closeDelay={0}>
           <VStack gap={0} w={'200px'}>
             <Icon mb={2}><ClipboardCheckIcon size={'30px'}/></Icon>
-            <Text className={'headingColor'} fontSize={'3xl'} fontWeight={'bold'} lineHeight={1}
-              mb={1}>{result.clusters.length.toLocaleString()}</Text>
+            <HStack gap={1} alignItems={'center'}>
+              <Text
+                className={'headingColor'}
+                fontSize={'3xl'}
+                fontWeight={'bold'}
+                lineHeight={1}
+                mb={1}
+              >
+                {clusterNum['1'].toLocaleString()}
+              </Text>
+              <Text fontSize={'md'}>/</Text>
+              <Text
+                className={'headingColor'}
+                fontSize={'3xl'}
+                fontWeight={'bold'}
+                lineHeight={1}
+                mb={1}
+              >
+                {clusterNum['2'].toLocaleString()}
+              </Text>
+            </HStack>
             <Text fontSize={'xs'}>集約したクラスター数</Text>
           </VStack>
         </Tooltip>
