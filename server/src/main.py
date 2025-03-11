@@ -18,7 +18,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Shotokutaishi API",
+    title="KouchoAI API",
     default_response_class=ORJSONResponse,
     lifespan=lifespan,
 )
