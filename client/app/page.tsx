@@ -2,7 +2,7 @@ import {Header} from '@/components/Header'
 import {Footer} from '@/components/Footer'
 import {Meta, Report} from '@/type'
 import {About} from '@/components/About'
-import {Box, Card, Heading, HStack, Text} from '@chakra-ui/react'
+import {Box, Card, Heading, HStack, Text, VStack} from '@chakra-ui/react'
 import Link from 'next/link'
 import {Metadata} from 'next'
 import {getApiBaseUrl} from './utils/api'
@@ -12,15 +12,15 @@ export async function generateMetadata(): Promise<Metadata> {
     const metaResponse = await fetch(getApiBaseUrl() + '/meta/metadata.json')
     const meta: Meta = await metaResponse.json()
     return {
-      title: `${meta.reporter} - デジタル民主主義2030 ブロードリスニング`,
+      title: `${meta.reporter} - 広聴AI(デジタル民主主義2030ブロードリスニング)`,
       description: `${meta.message}`,
       openGraph: {
         images: [process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/ogp.png'],
       },
     }
-  } catch(_e) {
+  } catch (_e) {
     return {
-      title: 'デジタル民主主義2030 ブロードリスニング'
+      title: '広聴AI(デジタル民主主義2030ブロードリスニング)'
     }
   }
 }
@@ -39,10 +39,15 @@ export default async function Page() {
     return (
       <>
         <div className={'container'}>
-          <Header meta={meta} />
+          <Header meta={meta}/>
           <Box mx={'auto'} maxW={'900px'} mb={10}>
             <Heading textAlign={'center'} fontSize={'xl'} mb={5}>Reports</Heading>
-            {reports.map(report => (
+            {!reports && (
+              <VStack my={10}>
+                <Text>レポートがありません</Text>
+              </VStack>
+            )}
+            {reports && reports.map(report => (
               <Link
                 key={report.slug}
                 href={`/${report.slug}`}
@@ -76,12 +81,12 @@ export default async function Page() {
               </Link>
             ))}
           </Box>
-          <About meta={meta} />
+          <About meta={meta}/>
         </div>
-        <Footer meta={meta} />
+        <Footer meta={meta}/>
       </>
     )
-  } catch(_e) {
-    return <p>エラー：データの取得に失敗しました<br />Error: fetch failed to {process.env.NEXT_PUBLIC_API_BASEPATH}.</p>
+  } catch (_e) {
+    return <p>エラー：データの取得に失敗しました<br/>Error: fetch failed to {process.env.NEXT_PUBLIC_API_BASEPATH}.</p>
   }
 }

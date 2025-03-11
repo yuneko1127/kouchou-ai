@@ -1,5 +1,5 @@
-# shotokutaishi-server
-ShotokutaishiのAPIサーバーです。
+# kouchou-ai-server
+kouchou-aiのAPIサーバーです。
 レポートの作成、取得などを行うことができます。
 
 ## 開発環境

@@ -20,7 +20,7 @@ export function LoadingBar({loaded, max, isVisualizing}: Props) {
       >
         <HStack gap="5">
           <Progress.Track flex="1">
-            <Progress.Range />
+            <Progress.Range/>
           </Progress.Track>
           <Progress.Label>Visualizing...</Progress.Label>
         </HStack>
@@ -39,7 +39,7 @@ export function LoadingBar({loaded, max, isVisualizing}: Props) {
     >
       <HStack gap="5">
         <Progress.Track flex="1">
-          <Progress.Range />
+          <Progress.Range/>
         </Progress.Track>
         <Progress.ValueText>
           {Math.floor(loaded / 1024).toLocaleString()} KB / {Math.floor(max / 1024).toLocaleString()} KB

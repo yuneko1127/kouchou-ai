@@ -32,12 +32,12 @@ export async function generateStaticParams() {
       .map((report) => ({
         slug: report.slug,
       }))
-  } catch(_e) {
+  } catch (_e) {
     return []
   }
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   try {
     const slug = (await params).slug
     const metaResponse = await fetch(getApiBaseUrl() + '/meta/metadata.json')
@@ -82,20 +82,20 @@ export default async function Page({params}: PageProps) {
     return (
       <>
         <div className={'container'}>
-          <Header meta={meta} />
-          <Overview result={result} />
+          <Header meta={meta}/>
+          <Overview result={result}/>
           <ClientContainer resultSize={resultSize} reportName={slug}>
             {result.clusters.filter(c => c.level === 1).map(c => (
-              <ClusterOverview key={c.id} cluster={c} />
+              <ClusterOverview key={c.id} cluster={c}/>
             ))}
           </ClientContainer>
           <Separator my={12} maxW={'750px'} mx={'auto'}/>
-          <About meta={meta} />
+          <About meta={meta}/>
         </div>
-        <Footer meta={meta} />
+        <Footer meta={meta}/>
       </>
     )
-  } catch(_e) {
-    return <p>エラー：データの取得に失敗しました<br />Error: fetch failed to {process.env.NEXT_PUBLIC_API_BASEPATH}.</p>
+  } catch (_e) {
+    return <p>エラー：データの取得に失敗しました<br/>Error: fetch failed to {process.env.NEXT_PUBLIC_API_BASEPATH}.</p>
   }
 }

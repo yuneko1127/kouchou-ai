@@ -61,7 +61,7 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
     if (reader) {
       const chunks: Uint8Array[] = []
       while (true) {
-        const { done, value } = await reader.read()
+        const {done, value} = await reader.read()
         if (done) break
         chunks.push(value)
         loaded += value.length
@@ -83,10 +83,10 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
   if (!result || !filteredResult) {
     return (
       <>
-        <LoadingBar loaded={loadedSize} max={resultSize} />
-        <Skeleton height="534px" mb={5} mx={'auto'} w={'100%'} maxW={'1200px'} />
-        { children }
-        <LoadingBar loaded={loadedSize} max={resultSize} />
+        <LoadingBar loaded={loadedSize} max={resultSize}/>
+        <Skeleton height="534px" mb={5} mx={'auto'} w={'100%'} maxW={'1200px'}/>
+        {children}
+        <LoadingBar loaded={loadedSize} max={resultSize}/>
       </>
     )
   }
@@ -96,7 +96,9 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
         <DensityFilterSettingDialog
           currentMaxDensity={maxDensity}
           currentMinValue={minValue}
-          onClose={() => {setOpenDensityFilterSetting(false)}}
+          onClose={() => {
+            setOpenDensityFilterSetting(false)
+          }}
           onChangeFilter={onChangeDensityFilter}
         />
       )}
@@ -111,17 +113,23 @@ export function ClientContainer({reportName, resultSize, children}: PropsWithChi
             updateFilteredResult(maxDensity, minValue)
           }
         }}
-        onClickDensitySetting={() => {setOpenDensityFilterSetting(true)}}
-        onClickFullscreen={() => {setIsFullscreen(true)}}
+        onClickDensitySetting={() => {
+          setOpenDensityFilterSetting(true)
+        }}
+        onClickFullscreen={() => {
+          setIsFullscreen(true)
+        }}
       />
       <Chart
         result={filteredResult}
         selectedChart={selectedChart}
         isFullscreen={isFullscreen}
-        onExitFullscreen={() => {setIsFullscreen(false)}}
+        onExitFullscreen={() => {
+          setIsFullscreen(false)
+        }}
       />
-      { children }
-      <Analysis result={result} />
+      {children}
+      <Analysis result={result}/>
     </>
   )
 }

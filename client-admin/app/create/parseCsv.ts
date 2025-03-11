@@ -1,5 +1,5 @@
 import Papa from 'papaparse'
-import { v4 } from 'uuid'
+import {v4} from 'uuid'
 
 type Comment = {
   id: string
