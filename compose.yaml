@@ -35,8 +35,6 @@ services:
     depends_on:
       api:
         condition: service_healthy
-    volumes:
-    - ./client:/app
     ports:
       - "3000:3000"
     env_file:
