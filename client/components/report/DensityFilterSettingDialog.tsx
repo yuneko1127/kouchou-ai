@@ -32,7 +32,7 @@ export function DensityFilterSettingDialog({onClose, onChangeFilter, currentMaxD
       <DialogContent>
         <DialogHeader>
           <DialogTitle>濃いクラスタ設定</DialogTitle>
-          <Text>濃いクラスタ設定を設定すると、表示件数を絞って詳細を確認できます<br />（全体図には適用されません）</Text>
+          <Text>濃いクラスタ設定を設定すると、表示件数を絞って詳細を確認できます<br/>（全体図には適用されません）</Text>
         </DialogHeader>
         <DialogBody>
           <Box mb={4}>
@@ -44,8 +44,8 @@ export function DensityFilterSettingDialog({onClose, onChangeFilter, currentMaxD
               value={[maxDensity]}
               onValueChange={(e) => setMaxDensity(Number(e.value[0]))}
               marks={[
-                { value: 0.1, label: '10%' },
-                { value: 1, label: '100%' },
+                {value: 0.1, label: '10%'},
+                {value: 1, label: '100%'},
               ]}
             />
           </Box>
@@ -58,19 +58,19 @@ export function DensityFilterSettingDialog({onClose, onChangeFilter, currentMaxD
               value={[minValue]}
               onValueChange={(e) => setMinValue(Number(e.value[0]))}
               marks={[
-                { value: 0, label: '0' },
-                { value: 10, label: '10' },
+                {value: 0, label: '0'},
+                {value: 10, label: '10'},
               ]}
             />
           </Box>
         </DialogBody>
         <DialogFooter justifyContent={'space-between'}>
-          <Spacer />
+          <Spacer/>
           <Box>
             <Button onClick={onApply}>設定を適用</Button>
           </Box>
         </DialogFooter>
-        <DialogCloseTrigger />
+        <DialogCloseTrigger/>
       </DialogContent>
     </DialogRoot>
   )

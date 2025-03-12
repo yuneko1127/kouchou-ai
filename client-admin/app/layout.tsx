@@ -11,16 +11,16 @@ export const metadata: Metadata = {
   }
 }
 
-export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
+export default function RootLayout({children}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html suppressHydrationWarning lang={'ja'}>
       <head>
-        <link rel={'icon'} href={process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/icon.png'} sizes={'any'} />
+        <link rel={'icon'} href={process.env.NEXT_PUBLIC_API_BASEPATH + '/meta/icon.png'} sizes={'any'}/>
       </head>
       <body>
         <ClientProvider>
           {children}
-          <Toaster />
+          <Toaster/>
         </ClientProvider>
         <footer>デジタル民主主義2030プロジェクト</footer>
       </body>

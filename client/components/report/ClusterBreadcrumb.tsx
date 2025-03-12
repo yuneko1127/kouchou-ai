@@ -45,7 +45,9 @@ export function ClusterBreadcrumb({selectedClusters, onChangeFilter}: Props) {
         <BreadcrumbLink
           fontSize={'sm'}
           w={'30px'}
-          onClick={() => {onChange(0)}}
+          onClick={() => {
+            onChange(0)
+          }}
           cursor={'pointer'}
         >全て</BreadcrumbLink>
         {selectedClusters.map((cluster, i) => (
@@ -53,7 +55,9 @@ export function ClusterBreadcrumb({selectedClusters, onChangeFilter}: Props) {
             key={i}
             fontSize={'sm'}
             fontWeight={i === selectedClusters.length - 1 ? 'bold' : 'normal'}
-            onClick={() => {onChange(cluster.level)}}
+            onClick={() => {
+              onChange(cluster.level)
+            }}
             cursor={'pointer'}
           >{cluster.label}</BreadcrumbLink>
         ))}

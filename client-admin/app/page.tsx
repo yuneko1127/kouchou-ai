@@ -9,7 +9,7 @@ import {MenuContent, MenuItem, MenuRoot, MenuTrigger} from '@/components/ui/menu
 import {useEffect, useState} from 'react'
 
 export default function Page() {
-  const [reports, setReports] = useState<Report[]>([])
+  const [reports, setReports] = useState<Report[]>()
   useEffect(() => {
     (async () => {
       const response = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/admin/reports', {
@@ -30,12 +30,17 @@ export default function Page() {
       <Box mx={'auto'} maxW={'1000px'} mb={5}>
         <Heading textAlign={'center'} fontSize={'xl'} mb={5}>Admin Dashboard</Heading>
         <Heading textAlign={'center'} fontSize={'xl'} mb={5}>Reports</Heading>
-        {reports.length === 0 && (
+        {!reports && (
           <VStack>
-            <Spinner />
+            <Spinner/>
           </VStack>
         )}
-        {reports.map(report => (
+        {reports && reports.length === 0 && (
+          <VStack my={10}>
+            <Text>レポートがありません</Text>
+          </VStack>
+        )}
+        {reports && reports.map(report => (
           <Card.Root
             size="md"
             key={report.slug}

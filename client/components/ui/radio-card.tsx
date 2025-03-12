@@ -1,4 +1,4 @@
-import { RadioCard } from '@chakra-ui/react'
+import {RadioCard} from '@chakra-ui/react'
 import * as React from 'react'
 
 interface RadioCardItemProps extends RadioCard.ItemProps {
@@ -21,7 +21,7 @@ export const RadioCardItem = React.forwardRef<
     description,
     addon,
     icon,
-    indicator = <RadioCard.ItemIndicator />,
+    indicator = <RadioCard.ItemIndicator/>,
     indicatorPlacement = 'end',
     ...rest
   } = props

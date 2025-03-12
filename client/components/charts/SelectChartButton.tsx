@@ -1,10 +1,6 @@
 import {RadioCardItem, RadioCardRoot} from '@/components/ui/radio-card'
 import {Button, HStack, Icon, useBreakpointValue} from '@chakra-ui/react'
-import {
-  ChartScatterIcon, CogIcon, FullscreenIcon,
-  MessageCircleWarningIcon,
-  SquareSquareIcon
-} from 'lucide-react'
+import {ChartScatterIcon, CogIcon, FullscreenIcon, MessageCircleWarningIcon, SquareSquareIcon} from 'lucide-react'
 import React from 'react'
 import {Tooltip} from '@/components/ui/tooltip'
 
@@ -40,23 +36,23 @@ export function SelectChartButton({selected, onChange, onClickDensitySetting, on
         <HStack align={'stretch'}>
           <RadioCardItem
             value={'scatterAll'}
-            label={useBreakpointValue({ base: '', md: '全体図' })}
+            label={useBreakpointValue({base: '', md: '全体図'})}
             indicator={false}
-            icon={<Icon><ChartScatterIcon /></Icon>}
+            icon={<Icon><ChartScatterIcon/></Icon>}
             cursor={'pointer'}
           />
           <RadioCardItem
             value={'scatterDensity'}
-            label={useBreakpointValue({ base: '', md: '濃いクラスタ' })}
+            label={useBreakpointValue({base: '', md: '濃いクラスタ'})}
             indicator={false}
-            icon={<Icon><MessageCircleWarningIcon /></Icon>}
+            icon={<Icon><MessageCircleWarningIcon/></Icon>}
             cursor={'pointer'}
           />
           <RadioCardItem
             value={'treemap'}
-            label={useBreakpointValue({ base: '', md: '階層図' })}
+            label={useBreakpointValue({base: '', md: '階層図'})}
             indicator={false}
-            icon={<Icon><SquareSquareIcon /></Icon>}
+            icon={<Icon><SquareSquareIcon/></Icon>}
             cursor={'pointer'}
           />
         </HStack>
@@ -68,7 +64,7 @@ export function SelectChartButton({selected, onChange, onClickDensitySetting, on
             variant={'outline'}
             h={'50px'}
           >
-            <Icon><CogIcon /></Icon>
+            <Icon><CogIcon/></Icon>
           </Button>
         </Tooltip>
         <Tooltip content={'全画面表示'} openDelay={0} closeDelay={0}>
@@ -77,7 +73,7 @@ export function SelectChartButton({selected, onChange, onClickDensitySetting, on
             variant={'outline'}
             h={'50px'}
           >
-            <Icon><FullscreenIcon /></Icon>
+            <Icon><FullscreenIcon/></Icon>
           </Button>
         </Tooltip>
       </HStack>

@@ -5,7 +5,8 @@ import {
   Box,
   Button,
   Field,
-  Heading, HStack,
+  Heading,
+  HStack,
   Input,
   NativeSelect,
   Presence,
@@ -24,11 +25,11 @@ import {initialLabellingPrompt} from '@/app/create/initialLabellingPrompt'
 import {mergeLabellingPrompt} from '@/app/create/mergeLabellingPrompt'
 import {overviewPrompt} from '@/app/create/overviewPrompt'
 import {ChevronRightIcon} from 'lucide-react'
-import { v4 } from 'uuid'
+import {v4} from 'uuid'
 
 export default function Page() {
   const router = useRouter()
-  const { open, onToggle } = useDisclosure()
+  const {open, onToggle} = useDisclosure()
   const [loading, setLoading] = useState<boolean>(false)
   const [input, setInput] = useState<string>(v4())
   const [question, setQuestion] = useState<string>('')
@@ -123,7 +124,7 @@ export default function Page() {
 
   return (
     <div className={'container'}>
-      <Header />
+      <Header/>
       <Box mx={'auto'} maxW={'800px'}>
         <Heading textAlign={'center'} my={10}>新しいレポートを作成する</Heading>
         <VStack gap={5}>
@@ -157,7 +158,7 @@ export default function Page() {
                 label="分析するコメントファイルを選択してください"
                 description=".csv"
               />
-              <FileUploadList />
+              <FileUploadList/>
             </FileUploadRoot>
             <Field.HelperText>カラムに<b>&quot;comment&quot;</b>を含むCSVファイルが必要です(それ以外のカラムは無視されます)</Field.HelperText>
           </Field.Root>
@@ -190,7 +191,7 @@ export default function Page() {
                       setClusterLv1(v)
                     }}
                   />
-                  <ChevronRightIcon />
+                  <ChevronRightIcon/>
                   <StepperInput
                     value={clusterLv2.toString()}
                     min={2}

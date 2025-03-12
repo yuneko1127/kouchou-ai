@@ -102,15 +102,21 @@ export function Footer({meta}: Props) {
                 </Box>
                 <Box mb={8} maxW={'700px'} mx={'auto'}>
                   <Heading size={'lg'} mb={2} textAlign={'center'}>免責</Heading>
-                  <Text mb={2}>このレポートはデジタル民主主義2030プロジェクトが開発するオープンソースを利用して出力されています。<br />このレポート内容に関する質問や意見はレポート発行者へお問い合わせください。</Text>
-                  <Text>LLM（大規模言語モデル）にはバイアスがあり、信頼できない結果を出すことが知られています。我々はこれらの問題を軽減するために積極的に取り組んでいますが、現段階では結果の保証はできません。重要な意思決定を行う際には、パイプラインの結果だけに依存せず、必ず結果を検証することをお勧めします。</Text>
+                  <Text mb={2}>このレポート内容に関する質問や意見はレポート発行責任者へお問い合わせください。</Text>
+                  <Text>大規模言語モデル（LLM）にはバイアスがあり、信頼性の低い結果を生成することが知られています。私たちはこれらの問題を軽減する方法に積極的に取り組んでいますが、現段階ではいかなる保証も提供することはできません。特に重要な決定を下す際は、本アプリの出力結果のみに依存せず、必ず内容を検証してください。</Text>
                 </Box>
                 <Box mb={8} maxW={'700px'} mx={'auto'}>
                   <Heading size={'lg'} mb={2} textAlign={'center'}>謝辞</Heading>
-                  <Text>このブロードリスニングは <a className={'textLink'} href={'https://ai.objectives.institute/'} target={'_blank'}>AI Objectives Institute</a> の {'Talk to the City'} を元に開発されました。</Text>
+                  <Text>
+                    このプロジェクトは <a className={'textLink'} href={'https://ai.objectives.institute/'}
+                      target={'_blank'}>AI Objectives Institute</a> が開発した <a
+                      className={'textLink'} href={'https://github.com/AIObjectives/talk-to-the-city-reports'}
+                      target={'_blank'}>{'Talk to the City'}</a> を参考に開発されています。<br/>
+                    ライセンスに基づいてソースコードを一部活用し、機能追加や改善を実施しています。
+                  </Text>
                 </Box>
                 <Box mb={8}>
-                  <Heading size={'lg'} mb={2} textAlign={'center'}>ブロードリスニング開発チーム</Heading>
+                  <Heading size={'lg'} mb={2} textAlign={'center'}>広聴AI 開発チーム</Heading>
                   <Stack direction={'row'} flexWrap={'wrap'} justify={'center'}>
                     {members.map((member, i) => (
                       <Box key={i} mx={5}>

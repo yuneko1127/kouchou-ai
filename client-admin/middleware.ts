@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import {NextRequest, NextResponse} from 'next/server'
 
 export function middleware(req: NextRequest) {
   if (
@@ -19,9 +19,9 @@ export function middleware(req: NextRequest) {
     }
   }
   return NextResponse.json(
-    { error: 'Basic Auth Required' },
+    {error: 'Basic Auth Required'},
     {
-      headers: { 'WWW-Authenticate': 'Basic realm="Secure Area"' },
+      headers: {'WWW-Authenticate': 'Basic realm="Secure Area"'},
       status: 401,
     }
   )

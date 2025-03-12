@@ -1,4 +1,3 @@
-import logging
 from contextlib import asynccontextmanager
 
 import structlog
@@ -18,7 +17,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="KouchoAI API",
+    title="kouchou-ai API",
     default_response_class=ORJSONResponse,
     lifespan=lifespan,
 )

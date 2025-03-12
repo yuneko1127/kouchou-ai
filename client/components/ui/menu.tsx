@@ -1,8 +1,8 @@
 'use client'
 
-import { AbsoluteCenter, Menu as ChakraMenu, Portal } from '@chakra-ui/react'
+import {AbsoluteCenter, Menu as ChakraMenu, Portal} from '@chakra-ui/react'
 import * as React from 'react'
-import { LuCheck, LuChevronRight } from 'react-icons/lu'
+import {LuCheck, LuChevronRight} from 'react-icons/lu'
 
 interface MenuContentProps extends ChakraMenu.ContentProps {
   portalled?: boolean
@@ -11,7 +11,7 @@ interface MenuContentProps extends ChakraMenu.ContentProps {
 
 export const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
   function MenuContent(props, ref) {
-    const { portalled = true, portalRef, ...rest } = props
+    const {portalled = true, portalRef, ...rest} = props
     return (
       <Portal disabled={!portalled} container={portalRef}>
         <ChakraMenu.Positioner>
@@ -28,7 +28,7 @@ export const MenuArrow = React.forwardRef<
 >(function MenuArrow(props, ref) {
   return (
     <ChakraMenu.Arrow ref={ref} {...props}>
-      <ChakraMenu.ArrowTip />
+      <ChakraMenu.ArrowTip/>
     </ChakraMenu.Arrow>
   )
 })
@@ -41,7 +41,7 @@ export const MenuCheckboxItem = React.forwardRef<
     <ChakraMenu.CheckboxItem ps="8" ref={ref} {...props}>
       <AbsoluteCenter axis="horizontal" insetStart="4" asChild>
         <ChakraMenu.ItemIndicator>
-          <LuCheck />
+          <LuCheck/>
         </ChakraMenu.ItemIndicator>
       </AbsoluteCenter>
       {props.children}
@@ -53,12 +53,12 @@ export const MenuRadioItem = React.forwardRef<
   HTMLDivElement,
   ChakraMenu.RadioItemProps
 >(function MenuRadioItem(props, ref) {
-  const { children, ...rest } = props
+  const {children, ...rest} = props
   return (
     <ChakraMenu.RadioItem ps="8" ref={ref} {...rest}>
       <AbsoluteCenter axis="horizontal" insetStart="4" asChild>
         <ChakraMenu.ItemIndicator>
-          <LuCheck />
+          <LuCheck/>
         </ChakraMenu.ItemIndicator>
       </AbsoluteCenter>
       <ChakraMenu.ItemText>{children}</ChakraMenu.ItemText>
@@ -70,7 +70,7 @@ export const MenuItemGroup = React.forwardRef<
   HTMLDivElement,
   ChakraMenu.ItemGroupProps
 >(function MenuItemGroup(props, ref) {
-  const { title, children, ...rest } = props
+  const {title, children, ...rest} = props
   return (
     <ChakraMenu.ItemGroup ref={ref} {...rest}>
       {title && (
@@ -91,12 +91,12 @@ export const MenuTriggerItem = React.forwardRef<
   HTMLDivElement,
   MenuTriggerItemProps
 >(function MenuTriggerItem(props, ref) {
-  const { startIcon, children, ...rest } = props
+  const {startIcon, children, ...rest} = props
   return (
     <ChakraMenu.TriggerItem ref={ref} {...rest}>
       {startIcon}
       {children}
-      <LuChevronRight />
+      <LuChevronRight/>
     </ChakraMenu.TriggerItem>
   )
 })
