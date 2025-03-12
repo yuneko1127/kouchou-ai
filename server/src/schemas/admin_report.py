@@ -3,7 +3,12 @@ from src.schemas.base import SchemaBaseModel
 
 class Comment(SchemaBaseModel):
     id: str
-    body: str
+    comment: str
+    source: str | None = None
+    url: str | None = None
+
+    class Config:
+        extra = "allow"
 
 
 class Prompt(SchemaBaseModel):

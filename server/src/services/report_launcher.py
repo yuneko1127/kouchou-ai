@@ -56,7 +56,9 @@ def save_input_file(report_input: ReportInput):
     comments = [
         {
             "comment-id": comment.id,
-            "comment-body": comment.body,
+            "comment-body": comment.comment,
+            "source": comment.source,
+            "url": comment.url,
         }
         for comment in report_input.comments
     ]
