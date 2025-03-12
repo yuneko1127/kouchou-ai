@@ -7,7 +7,9 @@ from src.schemas.admin_report import ReportInput
 from src.schemas.report import Report
 from src.services.report_launcher import launch_report_generation
 from src.services.report_status import load_status_as_reports
+from src.utils.logger import setup_logger
 
+slogger = setup_logger()
 router = APIRouter()
 
 
@@ -37,6 +39,8 @@ async def create_report(report: ReportInput, api_key: str = Depends(verify_admin
             },
         )
     except ValueError as e:
+        slogger.error(f"ValueError: {e}", exc_info=True)
         raise HTTPException(status_code=400, detail=str(e)) from e
     except Exception as e:
+        slogger.error(f"Exception: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail="Internal server error") from e

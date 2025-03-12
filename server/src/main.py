@@ -1,13 +1,13 @@
 from contextlib import asynccontextmanager
 
-import structlog
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
 from src.routers import router
 from src.services.report_status import load_status
+from src.utils.logger import setup_logger
 
-slogger = structlog.stdlib.get_logger(__name__)
+slogger = setup_logger()
 
 
 @asynccontextmanager
@@ -30,6 +30,7 @@ app.add_middleware(
     allow_headers=["*"],
     expose_headers=["*"],
 )
+
 
 app.include_router(
     router,

@@ -5,9 +5,10 @@ from fastapi.security.api_key import APIKeyHeader
 from src.config import settings
 from src.schemas.report import Report, ReportStatus
 from src.services.report_status import load_status_as_reports
+import logging
+logger = logging.getLogger("uvicorn")
 
 router = APIRouter()
-
 
 api_key_header = APIKeyHeader(name="x-api-key", auto_error=False)
 
@@ -42,3 +43,9 @@ async def report(slug: str, api_key: str = Depends(verify_public_api_key)) -> di
         report_result = json.load(f)
 
     return report_result
+
+
+@router.get("/test-error")
+async def test_error():
+    logger.info("This is a test log message")
+    raise ValueError("Test error to check logging")
