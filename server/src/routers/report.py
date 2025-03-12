@@ -1,11 +1,12 @@
 import json
+import logging
 
 from fastapi import APIRouter, Depends, HTTPException, Security
 from fastapi.security.api_key import APIKeyHeader
 from src.config import settings
 from src.schemas.report import Report, ReportStatus
 from src.services.report_status import load_status_as_reports
-import logging
+
 logger = logging.getLogger("uvicorn")
 
 router = APIRouter()

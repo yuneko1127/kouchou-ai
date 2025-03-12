@@ -1,16 +1,15 @@
 import logging
 import os
 import sys
-from typing import Optional, Dict, Any, Union
 
 import structlog
 from structlog.types import Processor
 
 
 def setup_logger(
-    log_level: Optional[str] = None,
+    log_level: str | None = None,
     json_logs: bool = False,
-    log_file: Optional[str] = None,
+    log_file: str | None = None,
 ) -> structlog.stdlib.BoundLogger:
     """
     Uvicornおよびアプリケーション全体で使用する一貫したロガーを設定する
