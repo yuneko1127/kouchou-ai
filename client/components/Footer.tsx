@@ -17,39 +17,6 @@ type Props = {
   meta: Meta
 }
 
-type Member = {
-  name: string
-  enName: string
-  role: string
-}
-const members: Member[] = [
-  {
-    name: '安野 貴博',
-    enName: 'ANNO Takahiro',
-    role: 'Organizer',
-  },
-  {
-    name: '根本 紘志',
-    enName: 'NEMOTO Hiroshi',
-    role: 'Lead',
-  },
-  {
-    name: '西尾 泰和',
-    enName: 'NISHIO Hirokazu',
-    role: 'ML Research',
-  },
-  {
-    name: '角野 為耶',
-    enName: 'SUMINO Nasuka',
-    role: 'ML Research',
-  },
-  {
-    name: '小林 修平',
-    enName: 'KOBAYASHI Syuhei',
-    role: 'Web Develop / Design',
-  },
-]
-
 export function Footer({meta}: Props) {
   return (
     <footer>
@@ -114,17 +81,6 @@ export function Footer({meta}: Props) {
                       target={'_blank'}>{'Talk to the City'}</a> を参考に開発されています。<br/>
                     ライセンスに基づいてソースコードを一部活用し、機能追加や改善を実施しています。
                   </Text>
-                </Box>
-                <Box mb={8}>
-                  <Heading size={'lg'} mb={2} textAlign={'center'}>広聴AI 開発チーム</Heading>
-                  <Stack direction={'row'} flexWrap={'wrap'} justify={'center'}>
-                    {members.map((member, i) => (
-                      <Box key={i} mx={5}>
-                        <Text fontWeight={'bold'}>{member.role}</Text>
-                        <Text>{member.name}<Text ml={2} as={'span'} fontSize={'xs'}>{member.enName}</Text></Text>
-                      </Box>
-                    ))}
-                  </Stack>
                 </Box>
                 <DrawerActionTrigger>
                   <Button variant={'outline'}>閉じる</Button>
