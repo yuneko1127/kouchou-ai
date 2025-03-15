@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
+from src.middleware.security_middleware import register_security_middleware
 from src.routers import router
 from src.services.report_status import load_status
 from src.utils.logger import setup_logger
@@ -31,10 +32,11 @@ app.add_middleware(
     expose_headers=["*"],
 )
 
-
 app.include_router(
     router,
 )
+
+register_security_middleware(app)
 
 
 @app.exception_handler(Exception)
