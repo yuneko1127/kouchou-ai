@@ -1,4 +1,3 @@
-# Talk to the City (TttC)
 ## 概要
 
 `broadlistening` 配下では、自然言語処理技術を用いてテキストデータの解析を行います。処理は`hierarchical_main.py`を起点に実行され、複数のステップから構成されるパイプラインとして実装されています。
