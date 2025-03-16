@@ -4,7 +4,7 @@ import {Header} from '@/components/Header'
 import {Report} from '@/type'
 import {Box, Button, Card, Heading, HStack, Spinner, Text, VStack} from '@chakra-ui/react'
 import Link from 'next/link'
-import {CircleCheckIcon, CircleFadingArrowUpIcon, EllipsisIcon, ExternalLinkIcon} from 'lucide-react'
+import {CircleCheckIcon, CircleFadingArrowUpIcon, CircleAlertIcon, EllipsisIcon, ExternalLinkIcon} from 'lucide-react'
 import {MenuContent, MenuItem, MenuRoot, MenuTrigger} from '@/components/ui/menu'
 import {useEffect, useState} from 'react'
 
@@ -46,20 +46,30 @@ export default function Page() {
             key={report.slug}
             mb={4}
             borderLeftWidth={10}
-            borderLeftColor={report.status === 'ready' ? 'green' : 'gray'}
+            borderLeftColor={
+              report.status === 'ready' ? 'green' :
+                report.status === 'error' ? 'red.600' : 'gray'
+            }
           >
             <Card.Body>
               <HStack justify={'space-between'}>
                 <HStack>
-                  <Box mr={3} color={report.status === 'ready' ? 'green' : 'gray'}>
-                    {report.status === 'ready' ? (<CircleCheckIcon size={30}/>) : (
-                      <CircleFadingArrowUpIcon size={30}/>)}
+                  <Box mr={3} color={
+                    report.status === 'ready' ? 'green' :
+                      report.status === 'error' ? 'red.600' : 'gray'
+                  }>
+                    {report.status === 'ready' ? (<CircleCheckIcon size={30}/>) :
+                      report.status === 'error' ? (<CircleAlertIcon size={30}/>) :
+                        (<CircleFadingArrowUpIcon size={30}/>)}
                   </Box>
                   <Box>
                     <Card.Title>
                       <Text
                         fontSize={'md'}
-                        color={report.status === 'ready' ? '#2577b1' : 'gray'}
+                        color={
+                          report.status === 'ready' ? '#2577b1' :
+                            report.status === 'error' ? 'red.600' : 'gray'
+                        }
                       >{report.title}</Text>
                     </Card.Title>
                     <Card.Description>
