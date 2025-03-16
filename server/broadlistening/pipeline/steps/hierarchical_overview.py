@@ -27,7 +27,7 @@ def hierarchical_overview(config):
     target_records.set_index("id", inplace=True)
 
     input = ""
-    for i, id in enumerate(ids):
+    for i, _ in enumerate(ids):
         input += f"# Cluster {i}/{len(ids)}: {labels[i]}\n\n"
         input += descriptions[i] + "\n\n"
 

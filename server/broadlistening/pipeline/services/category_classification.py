@@ -91,7 +91,7 @@ def _build_batch_args_string(batch_args: pd.DataFrame) -> str:
     return "\n".join(
         [
             f"- {arg_id}: {argument}"
-            for arg_id, argument in zip(batch_args["arg-id"], batch_args["argument"])
+            for arg_id, argument in zip(batch_args["arg-id"], batch_args["argument"], strict=False)
         ]
     )
 
