@@ -1,5 +1,5 @@
-import re
 import json
+import re
 
 COMMA_AND_SPACE_AND_RIGHT_BRACKET = re.compile(r",\s*(\])")
 
@@ -45,7 +45,7 @@ def parse_response(response):
             obj = [obj]
         items = [a.strip() for a in obj if a.strip()]
         return items
-    except:
+    except Exception:
         # 不要なコードブロックを除去
         response = response.replace("```json", "").replace("```", "")
 
@@ -53,7 +53,7 @@ def parse_response(response):
         match = re.search(r"\[.*?\]", response, flags=re.DOTALL)
         if not match:
             # JSON配列が見つからなければraise
-            raise RuntimeError("JSON list not found")
+            raise RuntimeError("JSON list not found") from None
 
         json_str = match.group(0)
         # ", ]" のようなパターンを "]" に置換

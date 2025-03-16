@@ -142,9 +142,9 @@ def melt_cluster_data(df: pd.DataFrame) -> pd.DataFrame:
         行形式に変換されたDataFrame
     """
     id_columns: list[str] = _filter_id_columns(df.columns)
-    levels: set[int] = set(
+    levels: set[int] = {
         int(col.replace("cluster-level-", "").replace("-id", "")) for col in id_columns
-    )
+    }
     all_rows: list[dict] = []
 
     # levelごとに各クラスタの出現件数を集計・縦持ちにする
@@ -198,7 +198,7 @@ def merge_labelling(
             config=config,
         )
 
-        current_cluster_ids = list(sorted(clusters_df[current_columns.id].unique()))
+        current_cluster_ids = sorted(clusters_df[current_columns.id].unique())
         with ThreadPoolExecutor(
             max_workers=config["hierarchical_merge_labelling"]["workers"]
         ) as executor:
@@ -311,7 +311,7 @@ def calculate_cluster_density(melted_df: pd.DataFrame, config: dict):
     hierarchical_cluster_df = pd.read_csv(f"outputs/{config['output_dir']}/hierarchical_clusters.csv")
 
     densities = []
-    for level, c_id in zip(melted_df["level"], melted_df["id"]):
+    for level, c_id in zip(melted_df["level"], melted_df["id"], strict=False):
         cluster_embeds = hierarchical_cluster_df[hierarchical_cluster_df[f"cluster-level-{level}-id"] == c_id][["x", "y"]].values
         density = calculate_density(cluster_embeds)
         densities.append(density)

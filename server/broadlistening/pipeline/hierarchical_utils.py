@@ -1,8 +1,7 @@
 import json
 import os
 import traceback
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 with open("./hierarchical_specs.json") as f:
     specs = json.load(f)
@@ -33,7 +32,7 @@ def decide_what_to_run(config, previous):
     # find last previously tracked jobs (digging in case previous run failed)
     previous_jobs = []
     _previous = config.get("previous", None)
-    while _previous and _previous.get("previous", None) != None:
+    while _previous and _previous.get("previous", None) is not None:
         _previous = _previous["previous"]
     if _previous:
         previous_jobs = _previous.get("completed_jobs", []) + _previous.get(
@@ -70,7 +69,7 @@ def decide_what_to_run(config, previous):
             run = False
         elif config.get("force", False):
             reason = "forced with -f"
-        elif config.get("only", None) != None and config["only"] != stepname:
+        elif config.get("only", None) is not None and config["only"] != stepname:
             run = False
             reason = "forced another step with -o"
         elif config.get("only") == stepname:
@@ -82,7 +81,7 @@ def decide_what_to_run(config, previous):
         else:
             deps = step["dependencies"]["steps"]
             changing_deps = [
-                x["step"] for x in plan if (x["step"] in deps and x["run"] == True)
+                x["step"] for x in plan if (x["step"] in deps and x["run"])
             ]
             if len(changing_deps) > 0:
                 reason = "some dependent steps will re-run: " + (
@@ -155,7 +154,7 @@ def initialization(sysargv):
         try:
             with open(f"steps/{step}.py") as f:
                 config[step]["source_code"] = f.read()
-        except:
+        except Exception:
             print(f"Warning: could not find source code for step '{step}'")
         # resolve common options for llm-based jobs
         if step_spec.get("use_llm", False):
@@ -259,7 +258,6 @@ def run_step(step, func, config):
 def termination(config, error=None):
     if "previous" in config:
         # remember all previously completed jobs
-        previously_completed = []
         old_jobs = config["previous"].get("completed_jobs", []) + config[
             "previous"
         ].get("previously_completed_jobs", [])
