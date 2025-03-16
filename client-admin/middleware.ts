@@ -3,7 +3,9 @@ import {NextRequest, NextResponse} from 'next/server'
 export function middleware(req: NextRequest) {
   if (
     process.env.BASIC_AUTH_USERNAME === undefined ||
-    process.env.BASIC_AUTH_PASSWORD === undefined
+    process.env.BASIC_AUTH_PASSWORD === undefined ||
+    process.env.BASIC_AUTH_USERNAME === '' ||
+    process.env.BASIC_AUTH_PASSWORD === ''
   ) {
     return NextResponse.next()
   }
