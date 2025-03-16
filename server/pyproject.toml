@@ -66,6 +66,7 @@ lint.select = [
 ]
 lint.ignore = [
     "E501",  # ignore line length
+    "C402",  # ignore dict.fromkeys() usage
 ]
 
 [tool.ruff.lint.isort]

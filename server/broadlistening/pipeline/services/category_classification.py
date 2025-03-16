@@ -104,7 +104,7 @@ def _parse_arg_result(classification_results: dict, arg_id: str, categories: lis
     if not isinstance(arg_result, dict):
         return {
             "arg-id": arg_id,
-            **{category: None for category in categories},
+            **dict.fromkeys(categories, None)
         }
 
     parsed_result = {"arg-id": arg_id}
