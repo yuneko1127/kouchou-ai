@@ -9,9 +9,7 @@ from tqdm import tqdm
 from services.category_classification import classify_args
 from services.llm import request_to_chat_openai
 from services.parse_json_list import parse_response
-
 from utils import update_progress
-
 
 COMMA_AND_SPACE_AND_RIGHT_BRACKET = re.compile(r",\s*(\])")
 
@@ -47,7 +45,7 @@ def extraction(config):
         batch = comment_ids[i : i + workers]
         batch_inputs = [comments.loc[id]["comment-body"] for id in batch]
         batch_results = extract_batch(batch_inputs, prompt, model, workers)
-        for comment_id, extracted_args in zip(batch, batch_results):
+        for comment_id, extracted_args in zip(batch, batch_results, strict=False):
             for j, arg in enumerate(extracted_args):
                 if arg not in existing_arguments:
                     properties = {

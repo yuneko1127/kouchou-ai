@@ -38,9 +38,9 @@ def messages(prompt, input):
 
 
 def validate_config(config):
-    if not "input" in config:
+    if "input" not in config:
         raise Exception("Missing required field 'input' in config")
-    if not "question" in config:
+    if "question" not in config:
         raise Exception("Missing required field 'question' in config")
     valid_fields = ["input", "question", "model", "name", "intro"]
     step_names = [x["step"] for x in specs]
@@ -62,7 +62,7 @@ def decide_what_to_run(config, previous):
     # find last previously tracked jobs (digging in case previous run failed)
     previous_jobs = []
     _previous = config.get("previous", None)
-    while _previous and _previous.get("previous", None) != None:
+    while _previous and _previous.get("previous", None) is not None:
         _previous = _previous["previous"]
     if _previous:
         previous_jobs = _previous.get("completed_jobs", []) + _previous.get(
@@ -95,7 +95,7 @@ def decide_what_to_run(config, previous):
         found_prev = len([x for x in previous_jobs if x["step"] == step["step"]]) > 0
         if config.get("force", False):
             reason = "forced with -f"
-        elif config.get("only", None) != None and config["only"] != stepname:
+        elif config.get("only", None) is not None and config["only"] != stepname:
             run = False
             reason = "forced another step with -o"
         elif config.get("only") == stepname:
@@ -107,7 +107,7 @@ def decide_what_to_run(config, previous):
         else:
             deps = step["dependencies"]["steps"]
             changing_deps = [
-                x["step"] for x in plan if (x["step"] in deps and x["run"] == True)
+                x["step"] for x in plan if (x["step"] in deps and x["run"])
             ]
             if len(changing_deps) > 0:
                 reason = "some dependent steps will re-run: " + (
@@ -161,34 +161,34 @@ def initialization(sysargv):
             print("Hum, the last Job crashed a while ago...Proceeding!")
 
     # set default LLM model
-    if not "model" in config:
+    if "model" not in config:
         config["model"] = "gpt-3.5-turbo"
 
     # prepare configs for each jobs
     for step_spec in specs:
         step = step_spec["step"]
-        if not step in config:
+        if step not in config:
             config[step] = {}
         # set default option values
         if "options" in step_spec:
             for key, value in step_spec["options"].items():
-                if not key in config[step]:
+                if key not in config[step]:
                     config[step][key] = value
         # try and include source code
         try:
             with open(f"steps/{step}.py") as f:
                 config[step]["source_code"] = f.read()
-        except:
+        except Exception:
             print(f"Warning: could not find source code for step '{step}'")
         # resolve common options for llm-based jobs
         if step_spec.get("use_llm", False):
             # resolve prompt
-            if not "prompt" in config.get(step):
+            if "prompt" not in config.get(step):
                 file = config.get(step).get("prompt_file", "default")
                 with open(f"prompts/{step}/{file}.txt") as f:
                     config[step]["prompt"] = f.read()
             # resolve model
-            if not "model" in config.get(step):
+            if "model" not in config.get(step):
                 if "model" in config:
                     config[step]["model"] = config["model"]
 
@@ -282,7 +282,6 @@ def run_step(step, func, config):
 def termination(config, error=None):
     if "previous" in config:
         # remember all previously completed jobs
-        previously_completed = []
         old_jobs = config["previous"].get("completed_jobs", []) + config[
             "previous"
         ].get("previously_completed_jobs", [])

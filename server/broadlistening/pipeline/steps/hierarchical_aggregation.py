@@ -102,7 +102,7 @@ def create_custom_intro(config):
         intro=intro, processed_num=processed_num, args_count=args_count
     )
 
-    with open(result_path, "r") as f:
+    with open(result_path) as f:
         result = json.load(f)
     result["config"]["intro"] = custom_intro
     with open(result_path, "w") as f:

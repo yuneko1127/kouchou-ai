@@ -1,9 +1,7 @@
 import argparse
 import sys
 
-from hierarchical_utils import initialization
-from hierarchical_utils import run_step
-from hierarchical_utils import termination
+from hierarchical_utils import initialization, run_step, termination
 from steps.embedding import embedding
 from steps.extraction import extraction
 from steps.hierarchical_aggregation import hierarchical_aggregation
