@@ -1,3 +1,5 @@
+'use client'
+
 import {Box, HStack, Image, Text} from '@chakra-ui/react'
 import {XIcon} from 'lucide-react'
 import {BroadlisteningGuide} from '@/components/report/BroadlisteningGuide'
