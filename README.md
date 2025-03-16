@@ -1,5 +1,13 @@
-# kouchou-ai
+# 広聴AI / kouchou-ai
 デジタル民主主義2030プロジェクトにおいて、ブロードリスニングを実現するためのソフトウェア「広聴AI」のリポジトリです。
+
+このプロジェクトは、[AI Objectives Institute](https://www.aiobjectivesinstitute.org/) が開発した [Talk to the City](https://github.com/AIObjectives/talk-to-the-city-reports)を参考に、日本の自治体や政治家の実務に合わせた機能改善を進めています。
+
+- 機能例
+  - 開発者以外でも扱いやすいような機能 (CSV Upload)
+  - 濃いクラスタ抽出機能
+  - パブリックコメント用分析機能（予定）
+  - 多数派攻撃に対する防御機能（予定）
 
 ## 前提条件
 * docker, docker-compose
