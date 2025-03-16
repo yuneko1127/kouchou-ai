@@ -10,6 +10,33 @@ import {useEffect, useState} from 'react'
 
 export default function Page() {
   const [reports, setReports] = useState<Report[]>()
+
+  const getStatusDisplay = (status: string) => {
+    switch (status) {
+      case 'ready':
+        return {
+          borderColor: 'green',
+          iconColor: 'green',
+          textColor: '#2577b1',
+          icon: <CircleCheckIcon size={30}/>
+        }
+      case 'error':
+        return {
+          borderColor: 'red.600',
+          iconColor: 'red.600',
+          textColor: 'red.600',
+          icon: <CircleAlertIcon size={30}/>
+        }
+      default:
+        return {
+          borderColor: 'gray',
+          iconColor: 'gray',
+          textColor: 'gray',
+          icon: <CircleFadingArrowUpIcon size={30}/>
+        }
+    }
+  }
+
   useEffect(() => {
     (async () => {
       const response = await fetch(process.env.NEXT_PUBLIC_API_BASEPATH + '/admin/reports', {
@@ -40,74 +67,67 @@ export default function Page() {
             <Text>レポートがありません</Text>
           </VStack>
         )}
-        {reports && reports.map(report => (
-          <Card.Root
-            size="md"
-            key={report.slug}
-            mb={4}
-            borderLeftWidth={10}
-            borderLeftColor={
-              report.status === 'ready' ? 'green' :
-                report.status === 'error' ? 'red.600' : 'gray'
-            }
-          >
-            <Card.Body>
-              <HStack justify={'space-between'}>
-                <HStack>
-                  <Box mr={3} color={
-                    report.status === 'ready' ? 'green' :
-                      report.status === 'error' ? 'red.600' : 'gray'
-                  }>
-                    {report.status === 'ready' ? (<CircleCheckIcon size={30}/>) :
-                      report.status === 'error' ? (<CircleAlertIcon size={30}/>) :
-                        (<CircleFadingArrowUpIcon size={30}/>)}
-                  </Box>
-                  <Box>
-                    <Card.Title>
-                      <Text
-                        fontSize={'md'}
-                        color={
-                          report.status === 'ready' ? '#2577b1' :
-                            report.status === 'error' ? 'red.600' : 'gray'
-                        }
-                      >{report.title}</Text>
-                    </Card.Title>
-                    <Card.Description>
-                      {`${process.env.NEXT_PUBLIC_CLIENT_BASEPATH}/${report.slug}`}
-                    </Card.Description>
-                  </Box>
+        {reports && reports.map(report => {
+          const statusDisplay = getStatusDisplay(report.status)
+
+          return (
+            <Card.Root
+              size="md"
+              key={report.slug}
+              mb={4}
+              borderLeftWidth={10}
+              borderLeftColor={statusDisplay.borderColor}
+            >
+              <Card.Body>
+                <HStack justify={'space-between'}>
+                  <HStack>
+                    <Box mr={3} color={statusDisplay.iconColor}>
+                      {statusDisplay.icon}
+                    </Box>
+                    <Box>
+                      <Card.Title>
+                        <Text
+                          fontSize={'md'}
+                          color={statusDisplay.textColor}
+                        >{report.title}</Text>
+                      </Card.Title>
+                      <Card.Description>
+                        {`${process.env.NEXT_PUBLIC_CLIENT_BASEPATH}/${report.slug}`}
+                      </Card.Description>
+                    </Box>
+                  </HStack>
+                  <HStack>
+                    {report.status === 'ready' && (
+                      <Link href={`${process.env.NEXT_PUBLIC_CLIENT_BASEPATH}/${report.slug}`} target={'_blank'}>
+                        <Button variant={'ghost'}>
+                          <ExternalLinkIcon/>
+                        </Button>
+                      </Link>
+                    )}
+                    <MenuRoot>
+                      <MenuTrigger asChild>
+                        <Button variant="ghost" size="lg">
+                          <EllipsisIcon/>
+                        </Button>
+                      </MenuTrigger>
+                      <MenuContent>
+                        <MenuItem value={'duplicate'}>
+                          レポートを複製して新規作成(開発中)
+                        </MenuItem>
+                        <MenuItem
+                          value="delete"
+                          color="fg.error"
+                        >
+                          レポートを削除する(開発中)
+                        </MenuItem>
+                      </MenuContent>
+                    </MenuRoot>
+                  </HStack>
                 </HStack>
-                <HStack>
-                  {report.status === 'ready' && (
-                    <Link href={`${process.env.NEXT_PUBLIC_CLIENT_BASEPATH}/${report.slug}`} target={'_blank'}>
-                      <Button variant={'ghost'}>
-                        <ExternalLinkIcon/>
-                      </Button>
-                    </Link>
-                  )}
-                  <MenuRoot>
-                    <MenuTrigger asChild>
-                      <Button variant="ghost" size="lg">
-                        <EllipsisIcon/>
-                      </Button>
-                    </MenuTrigger>
-                    <MenuContent>
-                      <MenuItem value={'duplicate'}>
-                        レポートを複製して新規作成(開発中)
-                      </MenuItem>
-                      <MenuItem
-                        value="delete"
-                        color="fg.error"
-                      >
-                        レポートを削除する(開発中)
-                      </MenuItem>
-                    </MenuContent>
-                  </MenuRoot>
-                </HStack>
-              </HStack>
-            </Card.Body>
-          </Card.Root>
-        ))}
+              </Card.Body>
+            </Card.Root>
+          )
+        })}
         <HStack justify={'center'} mt={10}>
           <Link href={'/create'}>
             <Button size={'xl'}>新しいレポートを作成する</Button>
