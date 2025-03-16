@@ -8,7 +8,6 @@ services:
     volumes:
       - ./server:/app
     environment:
-      - ENVIRONMENT=development
       - LOG_LEVEL=debug
     env_file:
       - .env

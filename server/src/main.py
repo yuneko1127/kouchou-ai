@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
+from src.config import settings
 from src.middleware.security_middleware import register_security_middleware
 from src.routers import router
 from src.services.report_status import load_status
@@ -11,17 +12,32 @@ from src.utils.logger import setup_logger
 slogger = setup_logger()
 
 
+def get_app():
+    print(settings.ENVIRONMENT)
+    if settings.ENVIRONMENT == "production":
+        return FastAPI(
+            title="kouchou-ai API",
+            default_response_class=ORJSONResponse,
+            lifespan=lifespan,
+            openapi_url=None,
+            docs_url=None,
+            redoc_url=None,
+        )
+    else:
+        return FastAPI(
+            title="kouchou-ai API",
+            default_response_class=ORJSONResponse,
+            lifespan=lifespan,
+        )
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     load_status()
     yield
 
 
-app = FastAPI(
-    title="kouchou-ai API",
-    default_response_class=ORJSONResponse,
-    lifespan=lifespan,
-)
+app = get_app()
 
 app.add_middleware(
     CORSMiddleware,
