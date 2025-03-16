@@ -14,13 +14,9 @@ from utils import update_progress
 COMMA_AND_SPACE_AND_RIGHT_BRACKET = re.compile(r",\s*(\])")
 
 
-def _validate_property_columns(
-    property_columns: list[str], comments: pd.DataFrame
-) -> None:
+def _validate_property_columns(property_columns: list[str], comments: pd.DataFrame) -> None:
     if not all(property in comments.columns for property in property_columns):
-        raise ValueError(
-            f"Properties {property_columns} not found in comments. Columns are {comments.columns}"
-        )
+        raise ValueError(f"Properties {property_columns} not found in comments. Columns are {comments.columns}")
 
 
 def extraction(config):
@@ -48,10 +44,7 @@ def extraction(config):
         for comment_id, extracted_args in zip(batch, batch_results, strict=False):
             for j, arg in enumerate(extracted_args):
                 if arg not in existing_arguments:
-                    properties = {
-                        prop: comments.loc[comment_id][prop]
-                        for prop in property_columns
-                    }
+                    properties = {prop: comments.loc[comment_id][prop] for prop in property_columns}
                     new_row = {
                         "arg-id": f"A{comment_id}_{j}",
                         "comment-id": comment_id,
@@ -59,9 +52,7 @@ def extraction(config):
                         # "source": comments.loc[comment_id]["source"],
                         **properties,
                     }
-                    results = pd.concat(
-                        [results, pd.DataFrame([new_row])], ignore_index=True
-                    )
+                    results = pd.concat([results, pd.DataFrame([new_row])], ignore_index=True)
                     existing_arguments.add(arg)
         update_progress(config, incr=len(batch))
     if results.shape == (0, 0):
@@ -79,13 +70,10 @@ logging.basicConfig(level=logging.ERROR)
 def extract_batch(batch, prompt, model, workers):
     with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
         futures_with_index = [
-            (i, executor.submit(extract_arguments, input, prompt, model))
-            for i, input in enumerate(batch)
+            (i, executor.submit(extract_arguments, input, prompt, model)) for i, input in enumerate(batch)
         ]
 
-        done, not_done = concurrent.futures.wait(
-            [f for _, f in futures_with_index], timeout=30
-        )
+        done, not_done = concurrent.futures.wait([f for _, f in futures_with_index], timeout=30)
         results = [[] for _ in range(len(batch))]
 
         for _, future in futures_with_index:

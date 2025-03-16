@@ -13,12 +13,8 @@ from steps.hierarchical_visualization import hierarchical_visualization
 
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(
-        description="Run the annotation pipeline with optional flags."
-    )
-    parser.add_argument(
-        "config", help="Path to config JSON file that defines the pipeline execution."
-    )
+    parser = argparse.ArgumentParser(description="Run the annotation pipeline with optional flags.")
+    parser.add_argument("config", help="Path to config JSON file that defines the pipeline execution.")
     parser.add_argument(
         "-f",
         "--force",
@@ -65,9 +61,7 @@ def main():
         run_step("extraction", extraction, config)
         run_step("embedding", embedding, config)
         run_step("hierarchical_clustering", hierarchical_clustering, config)
-        run_step(
-            "hierarchical_initial_labelling", hierarchical_initial_labelling, config
-        )
+        run_step("hierarchical_initial_labelling", hierarchical_initial_labelling, config)
         run_step("hierarchical_merge_labelling", hierarchical_merge_labelling, config)
         run_step("hierarchical_overview", hierarchical_overview, config)
         run_step("hierarchical_aggregation", hierarchical_aggregation, config)

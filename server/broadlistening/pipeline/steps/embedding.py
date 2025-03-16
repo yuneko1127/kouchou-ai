@@ -16,9 +16,7 @@ EMBDDING_MODELS = [
 
 def _validate_model(model):
     if model not in EMBDDING_MODELS:
-        raise RuntimeError(
-            f"Invalid embedding model: {model}, available models: {EMBDDING_MODELS}"
-        )
+        raise RuntimeError(f"Invalid embedding model: {model}, available models: {EMBDDING_MODELS}")
 
 
 def embed_by_openai(args, model):
@@ -42,13 +40,8 @@ def embedding(config):
     embeddings = []
     batch_size = 1000
     for i in tqdm(range(0, len(arguments), batch_size)):
-        args = arguments["argument"].tolist()[i: i + batch_size]
+        args = arguments["argument"].tolist()[i : i + batch_size]
         embeds = embed_by_openai(args, model)
         embeddings.extend(embeds)
-    df = pd.DataFrame(
-        [
-            {"arg-id": arguments.iloc[i]["arg-id"], "embedding": e}
-            for i, e in enumerate(embeddings)
-        ]
-    )
+    df = pd.DataFrame([{"arg-id": arguments.iloc[i]["arg-id"], "embedding": e} for i, e in enumerate(embeddings)])
     df.to_pickle(path)

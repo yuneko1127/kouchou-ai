@@ -9,18 +9,14 @@ def hierarchical_overview(config):
     dataset = config["output_dir"]
     path = f"outputs/{dataset}/hierarchical_overview.txt"
 
-    hierarchical_label_df = pd.read_csv(
-        f"outputs/{dataset}/hierarchical_merge_labels.csv"
-    )
+    hierarchical_label_df = pd.read_csv(f"outputs/{dataset}/hierarchical_merge_labels.csv")
 
     prompt = config["hierarchical_overview"]["prompt"]
     model = config["hierarchical_overview"]["model"]
 
     # TODO: level1で固定にしているが、設定で変えられるようにする
     target_level = 1
-    target_records = hierarchical_label_df[
-        hierarchical_label_df["level"] == target_level
-    ]
+    target_records = hierarchical_label_df[hierarchical_label_df["level"] == target_level]
     ids = target_records["id"].to_list()
     labels = target_records["label"].to_list()
     descriptions = target_records["description"].to_list()

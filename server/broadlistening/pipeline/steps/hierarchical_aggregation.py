@@ -48,12 +48,8 @@ def hierarchical_aggregation(config):
     arg_num = len(arguments)
     comments = pd.read_csv(f"inputs/{config['input']}.csv")
     clusters = pd.read_csv(f"outputs/{config['output_dir']}/hierarchical_clusters.csv")
-    labels = pd.read_csv(
-        f"outputs/{config['output_dir']}/hierarchical_merge_labels.csv"
-    )
-    hidden_properties_map: dict[str, list[str]] = config["hierarchical_aggregation"][
-        "hidden_properties"
-    ]
+    labels = pd.read_csv(f"outputs/{config['output_dir']}/hierarchical_merge_labels.csv")
+    hidden_properties_map: dict[str, list[str]] = config["hierarchical_aggregation"]["hidden_properties"]
 
     results["arguments"] = _build_arguments(clusters)
     results["clusters"] = _build_cluster_value(labels, arg_num)
@@ -64,9 +60,7 @@ def hierarchical_aggregation(config):
     results["comment_num"] = len(comments)
     results["translations"] = _build_translations(config)
     # 属性情報のカラムは、元データに対して指定したカラムとclassificationするカテゴリを合わせたもの
-    results["propertyMap"] = _build_property_map(
-        arguments, hidden_properties_map, config
-    )
+    results["propertyMap"] = _build_property_map(arguments, hidden_properties_map, config)
     with open(f"outputs/{config['output_dir']}/hierarchical_overview.txt") as f:
         overview = f.read()
     print("overview")
@@ -98,9 +92,7 @@ def create_custom_intro(config):
 """
 
     intro = config["intro"]
-    custom_intro = base_custom_intro.format(
-        intro=intro, processed_num=processed_num, args_count=args_count
-    )
+    custom_intro = base_custom_intro.format(intro=intro, processed_num=processed_num, args_count=args_count)
 
     with open(result_path) as f:
         result = json.load(f)
@@ -110,11 +102,7 @@ def create_custom_intro(config):
 
 
 def _build_arguments(clusters: pd.DataFrame) -> list[Argument]:
-    cluster_columns = [
-        col
-        for col in clusters.columns
-        if col.startswith("cluster-level-") and "id" in col
-    ]
+    cluster_columns = [col for col in clusters.columns if col.startswith("cluster-level-") and "id" in col]
 
     arguments: list[Argument] = []
     for _, row in clusters.iterrows():
@@ -172,10 +160,7 @@ def _build_comments_value(
         id = row["comment-id"]
         if id in useful_comment_ids:
             res = {"comment": row["comment-body"]}
-            should_skip = any(
-                row[prop] in hidden_values
-                for prop, hidden_values in hidden_properties_map.items()
-            )
+            should_skip = any(row[prop] in hidden_values for prop, hidden_values in hidden_properties_map.items())
             if should_skip:
                 continue
             comment_dict[str(id)] = res
@@ -195,9 +180,7 @@ def _build_translations(config):
 def _build_property_map(
     arguments: pd.DataFrame, hidden_properties_map: dict[str, list[str]], config: dict
 ) -> dict[str, dict[str, str]]:
-    property_columns = list(hidden_properties_map.keys()) + list(
-        config["extraction"]["categories"].keys()
-    )
+    property_columns = list(hidden_properties_map.keys()) + list(config["extraction"]["categories"].keys())
     property_map = defaultdict(dict)
 
     # 指定された property_columns が arguments に存在するかチェック

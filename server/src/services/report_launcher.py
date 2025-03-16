@@ -18,28 +18,16 @@ def _build_config(report_input: ReportInput) -> dict:
         "question": report_input.question,
         "intro": report_input.intro,
         "model": report_input.model,
-        "extraction": {
-            "prompt": report_input.prompt.extraction,
-            "workers": 30,
-            "limit": comment_num
-        },
+        "extraction": {"prompt": report_input.prompt.extraction, "workers": 30, "limit": comment_num},
         "hierarchical_clustering": {
             "cluster_nums": report_input.cluster,
         },
-        "hierarchical_initial_labelling": {
-            "prompt": report_input.prompt.initial_labelling,
-            "sampling_num": 30
-        },
-        "hierarchical_merge_labelling": {
-            "prompt": report_input.prompt.merge_labelling,
-            "sampling_num": 30
-        },
-        "hierarchical_overview": {
-            "prompt": report_input.prompt.overview
-        },
+        "hierarchical_initial_labelling": {"prompt": report_input.prompt.initial_labelling, "sampling_num": 30},
+        "hierarchical_merge_labelling": {"prompt": report_input.prompt.merge_labelling, "sampling_num": 30},
+        "hierarchical_overview": {"prompt": report_input.prompt.overview},
         "hierarchical_aggregation": {
             "sampling_num": 30,
-        }
+        },
     }
     return config
 
@@ -84,13 +72,7 @@ def launch_report_generation(report_input: ReportInput) -> str:
         add_new_report_to_status(report_input)
         config_path = save_config_file(report_input)
         save_input_file(report_input)
-        cmd = [
-            "python",
-            "hierarchical_main.py",
-            config_path,
-            "--skip-interaction",
-            "--without-html"
-        ]
+        cmd = ["python", "hierarchical_main.py", config_path, "--skip-interaction", "--without-html"]
         execution_dir = settings.TOOL_DIR / "pipeline"
         process = subprocess.Popen(cmd, cwd=execution_dir)
         threading.Thread(target=_monitor_process, args=(process, report_input.input), daemon=True).start()

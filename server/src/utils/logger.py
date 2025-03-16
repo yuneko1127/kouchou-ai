@@ -93,12 +93,7 @@ def setup_logger(
 
         # ロガーを返す
         logger = structlog.get_logger(app_name)
-        logger.info(
-            "Logger setup complete", 
-            log_level=log_level, 
-            json_logs=json_logs, 
-            log_file=log_file or "stdout"
-        )
+        logger.info("Logger setup complete", log_level=log_level, json_logs=json_logs, log_file=log_file or "stdout")
         return logger
     except Exception as e:
         # セットアップ中に例外が発生した場合はフォールバックロガーを返す
@@ -140,11 +135,7 @@ def _setup_handlers(log_file: str | None = None) -> list[logging.Handler]:
     return handlers
 
 
-def _configure_third_party_loggers(
-    logger_names: list[str],
-    level: int,
-    handlers: list[logging.Handler]
-) -> None:
+def _configure_third_party_loggers(logger_names: list[str], level: int, handlers: list[logging.Handler]) -> None:
     """サードパーティのロガーを設定する"""
     for logger_name in logger_names:
         module_logger = logging.getLogger(logger_name)
@@ -174,8 +165,6 @@ def _get_structlog_processors(json_logs: bool = False) -> list[Processor]:
     if json_logs:
         processors.append(structlog.processors.JSONRenderer())
     else:
-        processors.append(
-            structlog.dev.ConsoleRenderer(colors=True, exception_formatter=structlog.dev.plain_traceback)
-        )
+        processors.append(structlog.dev.ConsoleRenderer(colors=True, exception_formatter=structlog.dev.plain_traceback))
 
     return processors

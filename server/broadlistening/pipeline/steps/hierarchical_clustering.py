@@ -36,9 +36,7 @@ def hierarchical_clustering(config):
     )
 
     for cluster_level, final_labels in enumerate(cluster_results.values(), start=1):
-        result_df[f"cluster-level-{cluster_level}-id"] = [
-            f"{cluster_level}_{label}" for label in final_labels
-        ]
+        result_df[f"cluster-level-{cluster_level}-id"] = [f"{cluster_level}_{label}" for label in final_labels]
 
     result_df.to_csv(path, index=False)
 
@@ -56,7 +54,6 @@ def generate_cluster_count_list(min_clusters: int, max_clusters: int):
         next_triple = current * 3
 
         if next_double >= max_clusters:
-
             if cluster_counts[-1] != max_clusters:
                 cluster_counts.append(max_clusters)
             break
@@ -79,7 +76,6 @@ def merge_clusters_with_hierarchy(
     umap_array: np.ndarray,
     n_cluster_cut: int,
 ):
-
     Z = sch.linkage(cluster_centers, method="ward")
     cluster_labels_merged = sch.fcluster(Z, t=n_cluster_cut, criterion="maxclust")
 

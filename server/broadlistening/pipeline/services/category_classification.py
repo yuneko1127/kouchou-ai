@@ -102,10 +102,7 @@ def _parse_arg_result(classification_results: dict, arg_id: str, categories: lis
 
     arg_result = classification_results.get(arg_id, {})
     if not isinstance(arg_result, dict):
-        return {
-            "arg-id": arg_id,
-            **dict.fromkeys(categories, None)
-        }
+        return {"arg-id": arg_id, **dict.fromkeys(categories, None)}
 
     parsed_result = {"arg-id": arg_id}
     for category in categories:
@@ -118,9 +115,7 @@ def _parse_arg_result(classification_results: dict, arg_id: str, categories: lis
 def classify_batch_args(batch_args: pd.DataFrame, categories: dict, model: str) -> dict:
     category_string = _build_categories_string(categories)
     batch_args_string = _build_batch_args_string(batch_args)
-    prompt = BASE_CLASSIFICATION_PROMPT.format(
-        categories_string=category_string, args_string=batch_args_string
-    )
+    prompt = BASE_CLASSIFICATION_PROMPT.format(categories_string=category_string, args_string=batch_args_string)
     result = request_to_openai(
         messages=[
             {"role": "system", "content": prompt},
@@ -143,7 +138,7 @@ def classify_args(args: pd.DataFrame, config, workers: int) -> pd.DataFrame:
         future_to_batch = {
             executor.submit(
                 classify_batch_args,
-                args.loc[batch_idx: batch_idx + batch_size],
+                args.loc[batch_idx : batch_idx + batch_size],
                 config["extraction"]["categories"],
                 config["extraction"]["model"],
             ): batch_idx
@@ -152,7 +147,7 @@ def classify_args(args: pd.DataFrame, config, workers: int) -> pd.DataFrame:
         for future in tqdm(
             concurrent.futures.as_completed(future_to_batch),
             total=len(batch_start_indices),
-            desc="Classifying arguments"
+            desc="Classifying arguments",
         ):
             result = future.result()
             classification_results.update(result)

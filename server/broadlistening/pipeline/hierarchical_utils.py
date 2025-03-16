@@ -23,9 +23,7 @@ def validate_config(config):
             valid_options = valid_options + ["prompt", "model", "prompt_file"]
         for key in config.get(step_spec["step"], {}):
             if key not in valid_options:
-                raise Exception(
-                    f"Unknown option '{key}' for step '{step_spec['step']}' in config"
-                )
+                raise Exception(f"Unknown option '{key}' for step '{step_spec['step']}' in config")
 
 
 def decide_what_to_run(config, previous):
@@ -35,9 +33,7 @@ def decide_what_to_run(config, previous):
     while _previous and _previous.get("previous", None) is not None:
         _previous = _previous["previous"]
     if _previous:
-        previous_jobs = _previous.get("completed_jobs", []) + _previous.get(
-            "previously_completed_jobs", []
-        )
+        previous_jobs = _previous.get("completed_jobs", []) + _previous.get("previously_completed_jobs", [])
 
     # utility function to check if params changed
 
@@ -51,9 +47,7 @@ def decide_what_to_run(config, previous):
         next = config[step["step"]]
         diff = [key for key in keys if prev.get(key, None) != next.get(key, None)]
         for key in diff:
-            print(
-                f"(!) {step} step parameter '{key}' changed from '{prev.get(key)}' to '{next.get(key)}'"
-            )
+            print(f"(!) {step} step parameter '{key}' changed from '{prev.get(key)}' to '{next.get(key)}'")
         return diff
 
     # figure out which steps need to run and why
@@ -80,13 +74,9 @@ def decide_what_to_run(config, previous):
             reason = "previous data not found"
         else:
             deps = step["dependencies"]["steps"]
-            changing_deps = [
-                x["step"] for x in plan if (x["step"] in deps and x["run"])
-            ]
+            changing_deps = [x["step"] for x in plan if (x["step"] in deps and x["run"])]
             if len(changing_deps) > 0:
-                reason = "some dependent steps will re-run: " + (
-                    ", ".join(changing_deps)
-                )
+                reason = "some dependent steps will re-run: " + (", ".join(changing_deps))
             else:
                 diff_params = different_params(step)
                 if len(diff_params) > 0:
@@ -211,9 +201,7 @@ def update_progress(config, incr=None, total=None):
     if total is not None:
         update_status(config, {"current_job_progress": 0, "current_jop_tasks": total})
     elif incr is not None:
-        update_status(
-            config, {"current_job_progress": config["current_job_progress"] + incr}
-        )
+        update_status(config, {"current_job_progress": config["current_job_progress"] + incr})
 
 
 def run_step(step, func, config):
@@ -258,13 +246,11 @@ def run_step(step, func, config):
 def termination(config, error=None):
     if "previous" in config:
         # remember all previously completed jobs
-        old_jobs = config["previous"].get("completed_jobs", []) + config[
-            "previous"
-        ].get("previously_completed_jobs", [])
+        old_jobs = config["previous"].get("completed_jobs", []) + config["previous"].get(
+            "previously_completed_jobs", []
+        )
         newly_completed = [j["step"] for j in config.get("completed_jobs", [])]
-        config["previously_completed_jobs"] = [
-            o for o in old_jobs if o["step"] not in newly_completed
-        ]
+        config["previously_completed_jobs"] = [o for o in old_jobs if o["step"] not in newly_completed]
         # now we can drop previous key (we don't want to store infinite history)
         del config["previous"]
     if error is None:
