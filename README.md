@@ -43,39 +43,6 @@
     * `ogp.png`: レポートのOGP画像。
   * ファイルを配置しない場合は、`public/meta/default` ディレクトリに配置されているデフォルトの各ファイルが使用される。
 
-## client の開発環境の構築手順
-
-### 1. client の環境構築
-
-```sh
-cd client
-npm i
-cp .env-sample .env
-```
-
-### 2. client-admin の環境構築
-
-```sh
-cd client-admin
-npm i
-cp .env-sample .env
-```
-
-### 3. dummy-server の環境構築
-
-```sh
-cd utils/dummy-server
-npm i
-cp .env-sample .env
-```
-
-### 4. 開発サーバーを起動
-
-プロジェクトルートで以下のコマンドを実行
-
-```sh
-make client-dev -j 3
-```
 
 ## アーキテクチャ概要
 本システムは以下のサービスで構成されています。
@@ -119,6 +86,18 @@ make client-dev -j 3
 - 役割: 開発用ダミーAPI
 - 用途: 開発環境でのAPIモックとして使用
 
+## client の開発環境の構築手順
+フロントエンドのアプリケーション(client と client-admin) を開発用のダミーサーバ (dummy-server) をバックエンドとして起動する手順です。
+
+### 1. client, client-admin, dummy-server の環境構築
+```sh
+make client-setup
+```
+
+### 2. 開発サーバーを起動
+```sh
+make client-dev -j 3
+```
 
 ## 免責事項
 大規模言語モデル（LLM）にはバイアスがあり、信頼性の低い結果を生成することが知られています。私たちはこれらの問題を軽減する方法に積極的に取り組んでいますが、現段階ではいかなる保証も提供することはできません。特に重要な決定を下す際は、本アプリの出力結果のみに依存せず、必ず内容を検証してください。

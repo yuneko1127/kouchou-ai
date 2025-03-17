@@ -1,4 +1,4 @@
-.PHONY: build up down client-dev client-dev-server client-admin-dev-server dummy-server
+.PHONY: build up down client-setup client-dev client-dev-server client-admin-dev-server dummy-server
 
 build:
 	docker compose build
@@ -8,6 +8,11 @@ up:
 
 down:
 	docker compose down
+
+client-setup:
+	cd client && npm install && cp .env-sample .env
+	cd client-admin && npm install && cp .env-sample .env
+	cd utils/dummy-server && npm install && cp .env-sample .env
 
 client-dev: client-dev-server client-admin-dev-server dummy-server
 
