@@ -10,7 +10,7 @@ type Props = {
 
 export function ScatterChart({clusterList, argumentList, targetLevel}: Props) {
   const targetClusters = clusterList.filter((cluster) => cluster.level === targetLevel)
-  const softColors = ['#b3daa1', '#f5c5d7', '#d5e5f0', '#fbecc0', '#80b8ca', '#dabeed', '#fad1af', '#fbb09d', '#a6e3ae', '#f1e4d6']
+  const softColors = ['#7ac943', '#3fa9f5', '#ff7997', '#e0dd02', '#d6410f', '#b39647', '#7cccc3', '#a147e6']
   const clusterColorMap = targetClusters.reduce((acc, cluster, index) => {
     acc[cluster.id] = softColors[index % softColors.length]
     return acc
@@ -77,12 +77,15 @@ export function ScatterChart({clusterList, argumentList, targetLevel}: Props) {
           text: data.cluster.label,
           showarrow: false,
           font: {
-            color: '#2577b1',
+            color: 'white',
             size: 14,
             weight: 700,
           },
-          bgcolor: '#fff',
+          bgcolor: clusterColorMap[data.cluster.id],
           opacity: 0.8,
+          bordercolor: clusterColorMap[data.cluster.id],
+          borderpad: 4,
+          borderwidth: 1,
         })),
         showlegend: false,
       }}
