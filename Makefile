@@ -1,3 +1,5 @@
+.PHONY: build up down client-dev client-dev-server client-admin-dev-server dummy-server
+
 build:
 	docker compose build
 
