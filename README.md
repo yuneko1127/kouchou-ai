@@ -43,6 +43,39 @@
     * `ogp.png`: レポートのOGP画像。
   * ファイルを配置しない場合は、`public/meta/default` ディレクトリに配置されているデフォルトの各ファイルが使用される。
 
+## client の開発環境の構築手順
+
+### 1. client の環境構築
+
+```sh
+cd client
+npm i
+cp .env-sample .env
+```
+
+### 2. client-admin の環境構築
+
+```sh
+cd client-admin
+npm i
+cp .env-sample .env
+```
+
+### 3. dummy-server の環境構築
+
+```sh
+cd utils/dummy-server
+npm i
+cp .env-sample .env
+```
+
+### 4. 開発サーバーを起動
+
+プロジェクトルートで以下のコマンドを実行
+
+```sh
+make client-dev -j 3
+```
 
 ## アーキテクチャ概要
 本システムは以下のサービスで構成されています。
