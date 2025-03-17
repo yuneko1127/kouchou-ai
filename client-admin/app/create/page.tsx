@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link';
 import {Header} from '@/components/Header'
 import {
   Box,
@@ -24,7 +25,7 @@ import {extractionPrompt} from './extractionPrompt'
 import {initialLabellingPrompt} from '@/app/create/initialLabellingPrompt'
 import {mergeLabellingPrompt} from '@/app/create/mergeLabellingPrompt'
 import {overviewPrompt} from '@/app/create/overviewPrompt'
-import {ChevronRightIcon} from 'lucide-react'
+import {ChevronRightIcon, DownloadIcon} from 'lucide-react'
 import {v4} from 'uuid'
 
 export default function Page() {
@@ -147,20 +148,38 @@ export default function Page() {
             <Field.HelperText>コメントの集計期間や、コメントの収集元など、調査の概要を記載します</Field.HelperText>
           </Field.Root>
           <Field.Root>
-            <Field.Label>コメントファイル</Field.Label>
-            <FileUploadRoot
-              w={'full'}
-              alignItems="stretch"
-              accept={['text/csv']}
-              onFileChange={(e) => setCsv(e.acceptedFiles[0])}
-            >
-              <FileUploadDropzone
-                label="分析するコメントファイルを選択してください"
-                description=".csv"
-              />
-              <FileUploadList/>
-            </FileUploadRoot>
-            <Field.HelperText>カラムに<b>&quot;comment&quot;</b>を含むCSVファイルが必要です(それ以外のカラムは無視されます)</Field.HelperText>
+            <Field.Label>
+              コメントファイル
+              <Link href="/sample_comments.csv"
+                download
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  marginLeft: '8px',
+                  textDecoration: 'underline',
+                  fontSize: '0.8rem',
+                }}
+              >
+                <DownloadIcon size={14} />
+                サンプルCSV
+              </Link>
+            </Field.Label>
+            <VStack alignItems="stretch" w="full">
+              <FileUploadRoot
+                w={'full'}
+                alignItems="stretch"
+                accept={['text/csv']}
+                onFileChange={(e) => setCsv(e.acceptedFiles[0])}
+              >
+                <FileUploadDropzone
+                  label="分析するコメントファイルを選択してください"
+                  description=".csv"
+                />
+                <FileUploadList/>
+              </FileUploadRoot>
+              <Field.HelperText>カラムに<b>&quot;comment&quot;</b>を含むCSVファイルが必要です(それ以外のカラムは無視されます)</Field.HelperText>
+            </VStack>
           </Field.Root>
           <HStack justify={'flex-end'} w={'full'}>
             <Button onClick={onToggle} variant={'outline'} w={'200px'}>
