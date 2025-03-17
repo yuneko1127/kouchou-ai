@@ -3,3 +3,4 @@
 .next
 .DS_Store
 node_modules
+docker-compose.override.y*ml
