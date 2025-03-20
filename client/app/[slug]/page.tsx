@@ -4,6 +4,7 @@ import {Header} from '@/components/Header'
 import {Overview} from '@/components/report/Overview'
 import {Footer} from '@/components/Footer'
 import {ClusterOverview} from '@/components/report/ClusterOverview'
+import {BackButton} from '@/components/report/BackButton'
 import {About} from '@/components/About'
 import {Separator} from '@chakra-ui/react'
 import {Metadata} from 'next'
@@ -89,6 +90,7 @@ export default async function Page({params}: PageProps) {
               <ClusterOverview key={c.id} cluster={c}/>
             ))}
           </ClientContainer>
+          <BackButton/>
           <Separator my={12} maxW={'750px'} mx={'auto'}/>
           <About meta={meta}/>
         </div>
