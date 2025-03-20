@@ -35,14 +35,14 @@ def request_to_openai(
     return response.choices[0].message.content
 
 
-def request_to_azure_openai(
+def request_to_azure_chatcompletion(
     messages: list[dict],
     is_json: bool = False,
 ) -> dict:
-    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-    deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME")
-    api_key = os.getenv("AZURE_OPENAI_API_KEY")
-    api_version = os.getenv("AZURE_OPENAI_VERSION")
+    azure_endpoint = os.getenv("AZURE_CHATCOMPLETION_ENDPOINT")
+    deployment = os.getenv("AZURE_CHATCOMPLETION_DEPLOYMENT_NAME")
+    api_key = os.getenv("AZURE_CHATCOMPLETION_API_KEY")
+    api_version = os.getenv("AZURE_CHATCOMPLETION_VERSION")
     assert azure_endpoint and deployment and api_key and api_version
 
     client = AzureOpenAI(
@@ -76,7 +76,7 @@ def request_to_chat_openai(
 ) -> dict:
     use_azure = os.getenv("USE_AZURE", "false").lower()
     if use_azure == "true":
-        return request_to_azure_openai(messages, is_json)
+        return request_to_azure_chatcompletion(messages, is_json)
     else:
         return request_to_openai(messages, model, is_json)
 
