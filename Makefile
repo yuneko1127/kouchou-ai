@@ -1,4 +1,4 @@
-.PHONY: build up down client-setup client-dev client-dev-server client-admin-dev-server dummy-server
+.PHONY: build up down client-setup client-dev client-dev-server client-admin-dev-server dummy-server lint/server-check lint/server-format
 
 build:
 	docker compose build
@@ -24,3 +24,10 @@ client-admin-dev-server:
 
 dummy-server:
 	cd utils/dummy-server && npm run dev
+
+# Docker環境でのlint/check, format
+lint/api-check:
+	docker compose run --rm api python -m ruff check .
+
+lint/api-format:
+	docker compose run --rm api python -m ruff check --fix .

@@ -2,10 +2,10 @@ import os
 
 import openai
 from dotenv import load_dotenv
-from openai import AzureOpenAI
 
 # FIXME: Issue #58
 from langchain.embeddings import OpenAIEmbeddings
+from openai import AzureOpenAI
 
 # from langchain_openai import AzureOpenAIEmbeddings
 
