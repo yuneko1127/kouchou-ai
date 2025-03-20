@@ -6,7 +6,8 @@ from openai import AzureOpenAI
 
 # FIXME: Issue #58
 from langchain.embeddings import OpenAIEmbeddings
-from langchain_openai import AzureOpenAIEmbeddings
+
+# from langchain_openai import AzureOpenAIEmbeddings
 
 
 DOTENV_PATH = os.path.abspath(
@@ -41,7 +42,7 @@ def request_to_azure_openai(
     azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
     deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME")
     api_key = os.getenv("AZURE_OPENAI_API_KEY")
-    api_version = os.getenv("AZURE_API_VERSION")
+    api_version = os.getenv("AZURE_OPENAI_VERSION")
     assert azure_endpoint and deployment and api_key and api_version
 
     client = AzureOpenAI(
@@ -96,16 +97,29 @@ def _validate_model(model):
 def request_to_embed(args, model):
     use_azure = os.getenv("USE_AZURE", "false").lower()
     if use_azure == "true":
-        azure_endpoint = os.getenv("AZURE_EMBEDDING_ENDPOINT")
-        assert azure_endpoint
-        embeds = AzureOpenAIEmbeddings(
-            model=model,
-            azure_endpoint=azure_endpoint,
-        ).embed_documents(args)
+        return request_to_azure_embed(args, model)
+
     else:
         _validate_model(model)
         embeds = OpenAIEmbeddings(model=model).embed_documents(args)
     return embeds
+
+
+def request_to_azure_embed(args, model):
+    azure_endpoint = os.getenv("AZURE_EMBEDDING_ENDPOINT")
+    api_key = os.getenv("AZURE_EMBEDDING_API_KEY")
+    api_version = os.getenv("AZURE_EMBEDDING_VERSION")
+    deployment = os.getenv("AZURE_EMBEDDING_DEPLOYMENT_NAME")
+    assert azure_endpoint and deployment and api_key and api_version
+
+    client = AzureOpenAI(
+        api_version=api_version,
+        azure_endpoint=azure_endpoint,
+        api_key=api_key,
+    )
+
+    response = client.embeddings.create(input=args, model=deployment)
+    return [item.embedding for item in response.data]
 
 
 def _test():
@@ -115,7 +129,8 @@ def _test():
     # ]
     # response = request_to_chat_openai(messages=messages, model="gpt-4o", is_json=False)
     # print(response)
-    print(request_to_embed("Hello", "text-embedding-3-large"))
+    # print(request_to_embed("Hello", "text-embedding-3-large"))
+    print(request_to_azure_embed("Hello", "text-embedding-3-large"))
 
 
 if __name__ == "__main__":
