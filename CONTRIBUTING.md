@@ -10,8 +10,11 @@
     - 同意する手順は、Pull Requestのテンプレートに記載があります
 
 # Issue/Pull Requestについて
-- 重複して同じIssueに取り組むのを避けるため、Issueに着手される際はasigneeとしてご自身のアカウントを指定してください
+- 重複して同じIssueに取り組むのを避けるため、Issueに着手される際はご自身のアカウントをasigneeに指定してください
+  - イシュー上で、 `/assign` というコメントを記載していただくと、Issueのasigneeとして登録されます
+    - 権限の関係で、一部のコントリビューターを除いてアサインの割当ができないためこのような運用にしています
+  - 割当を解除したい場合は、 `/unassign` というコメントを記載していただくと、Issueのasigneeから外れます
 - Issueはどなたでも起票いただいて構いません。ツールの利用時に感じた改善点やバグについてぜひIssueを起票してください。
 - 初めてのIssueとしてキャッチアップしやすいタスクについては、[good first issueラベル](https://github.com/digitaldemocracy2030/kouchou-ai/labels/good%20first%20issue)がついています。コミットに興味がある方は、ぜひそちらのIssueを御覧ください！
-- 現時点でのコードオーナーは@nasukaと@nanocloudxの2人で、どちらかがapproveした場合にmainへのマージを行います
+- 現時点でのコードオーナーは[@nasuka](https://github.com/nasuka)と[@nanocloudx](https://github.com/nanocloudx)の2人で、どちらかがapproveした場合にmainへのマージを行います
   - コードオーナーは将来的に増やしていきたいと考えていますが、当面はこの体制で運用していく予定です（2025/03/18時点）
