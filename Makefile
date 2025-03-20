@@ -28,6 +28,7 @@ dummy-server:
 # Docker環境でのlint/check, format
 lint/api-check:
 	docker compose run --rm api python -m ruff check .
+	docker compose run --rm api python -m ruff format . --check
 
 lint/api-format:
-	docker compose run --rm api python -m ruff check --fix .
+	docker compose run --rm api python -m ruff format .

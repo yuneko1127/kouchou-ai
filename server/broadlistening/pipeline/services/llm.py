@@ -10,9 +10,7 @@ from openai import AzureOpenAI
 # from langchain_openai import AzureOpenAIEmbeddings
 
 
-DOTENV_PATH = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "../../../../.env")
-)
+DOTENV_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../.env"))
 load_dotenv(DOTENV_PATH)
 
 
@@ -89,9 +87,7 @@ EMBDDING_MODELS = [
 
 def _validate_model(model):
     if model not in EMBDDING_MODELS:
-        raise RuntimeError(
-            f"Invalid embedding model: {model}, available models: {EMBDDING_MODELS}"
-        )
+        raise RuntimeError(f"Invalid embedding model: {model}, available models: {EMBDDING_MODELS}")
 
 
 def request_to_embed(args, model):
