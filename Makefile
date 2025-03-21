@@ -1,4 +1,4 @@
-.PHONY: build up down client-setup client-dev client-dev-server client-admin-dev-server dummy-server azure-cli azure-login azure-build azure-push azure-deploy azure-info azure-config-update azure-cleanup azure-status azure-logs-client azure-logs-api azure-logs-admin
+.PHONY: build up down client-setup client-dev client-dev-server client-admin-dev-server dummy-server azure-cli azure-login azure-build azure-push azure-deploy azure-info azure-config-update azure-cleanup azure-status azure-logs-client azure-logs-api azure-logs-admin azure-apply-policies
 
 ##############################################################################
 # ローカル開発環境のコマンド
@@ -258,6 +258,12 @@ azure-setup-all:
 	@echo ">>> 5. Container Appsへのデプロイ..."
 	@$(MAKE) azure-deploy
 
+	@echo ">>> コンテナアプリ作成を待機中（20秒）..."
+	@sleep 20
+
+	@echo ">>> 5a. ポリシーとヘルスチェックの適用..."
+	@$(MAKE) azure-apply-policies
+
 	@echo ">>> 6. 環境変数の設定..."
 	@$(MAKE) azure-config-update
 
@@ -324,3 +330,23 @@ azure-logs-admin:
 # リソースの完全削除
 azure-cleanup:
 	docker run -it --rm -v $(HOME)/.azure:/root/.azure mcr.microsoft.com/azure-cli az group delete --name kouchou-ai-rg --yes
+
+# ヘルスチェック設定とイメージプルポリシーの適用
+azure-apply-policies:
+	@echo ">>> すべてのコンテナにポリシーを適用します..."
+	@docker run --rm -v $(shell pwd):/workspace -v $(HOME)/.azure:/root/.azure -w /workspace mcr.microsoft.com/azure-cli /bin/bash -c "\
+	    echo '>>> APIコンテナにヘルスチェック設定とイメージプルポリシーを適用...' && \
+	    az containerapp update --name api --resource-group kouchou-ai-rg \
+	        --yaml /workspace/.azure/policies/api-pull-policy.yaml || echo '警告: APIポリシー適用に失敗しました' && \
+	    az containerapp update --name api --resource-group kouchou-ai-rg \
+	        --yaml /workspace/.azure/health/api-health-probe.yaml || echo '警告: APIヘルスプローブ適用に失敗しました' && \
+	    echo '>>> クライアントコンテナにヘルスチェック設定とイメージプルポリシーを適用...' && \
+	    az containerapp update --name client --resource-group kouchou-ai-rg \
+	        --yaml /workspace/.azure/policies/client-pull-policy.yaml || echo '警告: クライアントポリシー適用に失敗しました' && \
+	    az containerapp update --name client --resource-group kouchou-ai-rg \
+	        --yaml /workspace/.azure/health/client-health-probe.yaml || echo '警告: クライアントヘルスプローブ適用に失敗しました' && \
+	    echo '>>> 管理者クライアントコンテナにヘルスチェック設定とイメージプルポリシーを適用...' && \
+	    az containerapp update --name client-admin --resource-group kouchou-ai-rg \
+	        --yaml /workspace/.azure/policies/client-admin-pull-policy.yaml || echo '警告: 管理者クライアントポリシー適用に失敗しました' && \
+	    az containerapp update --name client-admin --resource-group kouchou-ai-rg \
+	        --yaml /workspace/.azure/health/client-admin-health-probe.yaml || echo '警告: 管理者クライアントヘルスプローブ適用に失敗しました'"
