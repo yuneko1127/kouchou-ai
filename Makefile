@@ -36,12 +36,10 @@ dummy-server:
 define read-env
 $(eval include .env)
 $(eval -include .env.azure)
-# 未設定の場合は自動生成または初期値を設定
 $(eval AZURE_RESOURCE_GROUP ?= kouchou-ai-rg)
 $(eval AZURE_LOCATION ?= japaneast)
 $(eval AZURE_CONTAINER_ENV ?= kouchou-ai-env)
 $(eval AZURE_WORKSPACE_NAME ?= kouchou-ai-logs)
-# コンテナレジストリ名が未設定の場合はランダム値を生成
 $(eval AZURE_ACR_NAME ?= kouchouai$(shell date +%s | sha256sum | head -c 8))
 $(eval AZURE_ACR_SKU ?= Basic)
 $(eval export)
