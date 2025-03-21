@@ -1,5 +1,6 @@
 import pandas as pd
 from tqdm import tqdm
+
 from services.llm import request_to_embed
 
 
@@ -15,10 +16,5 @@ def embedding(config):
         args = arguments["argument"].tolist()[i : i + batch_size]
         embeds = request_to_embed(args, model)
         embeddings.extend(embeds)
-    df = pd.DataFrame(
-        [
-            {"arg-id": arguments.iloc[i]["arg-id"], "embedding": e}
-            for i, e in enumerate(embeddings)
-        ]
-    )
+    df = pd.DataFrame([{"arg-id": arguments.iloc[i]["arg-id"], "embedding": e} for i, e in enumerate(embeddings)])
     df.to_pickle(path)
