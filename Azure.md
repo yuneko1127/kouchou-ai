@@ -71,6 +71,8 @@ make azure-setup-all
 9. 環境の検証
 10. サービスURLの確認
 
+全体のプロセスは初回実行時に約20分程度かかることがあります。
+
 表示された client-admin の URL にアクセスし、BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD で設定した認証情報を入力することで、レポート生成ができます。
 
 ## 参考情報
