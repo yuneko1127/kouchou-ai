@@ -19,7 +19,7 @@
 
 ### 1. 環境変数の設定
 
-.env.exampleをコピーして`.env`ファイルを作成し、必要な環境変数を設定します。
+`.env.example`をコピーして`.env`ファイルを作成し、必要な環境変数を設定します。
 
 ```bash
 cp .env.example .env
@@ -39,6 +39,26 @@ BASIC_AUTH_PASSWORD=your_password
 # OpenAI API設定
 OPENAI_API_KEY=your_openai_key
 ```
+
+また、Azure環境設定をカスタマイズする必要がある場合は、オプションで`.env.azure`ファイルを作成することができます。このファイルは必須ではなく、作成しなくても自動的にデフォルト値が使用されます。
+
+```bash
+cp .env.azure.example .env.azure
+```
+
+`.env.azure`ファイルでは以下のパラメータをカスタマイズできます：
+
+```
+# Azure環境特有の設定（すべてオプション）
+AZURE_RESOURCE_GROUP=your-resource-group
+AZURE_LOCATION=japaneast
+AZURE_ACR_NAME=yourregistry
+AZURE_ACR_SKU=Basic
+AZURE_CONTAINER_ENV=your-container-env
+AZURE_WORKSPACE_NAME=your-logs
+```
+
+これらの設定は任意で、未設定の場合はシステムが自動的に以下のデフォルト値を使用します：
 
 ### 2. Azureにログイン
 
