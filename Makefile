@@ -1,4 +1,4 @@
-.PHONY: build up down client-setup client-dev client-dev-server client-admin-dev-server dummy-server azure-cli azure-login azure-build azure-push azure-deploy azure-info azure-config-update azure-cleanup azure-status azure-logs-client azure-logs-api azure-logs-admin azure-apply-policies prepare-yaml azure-save-env
+.PHONY: build up down client-setup client-dev client-dev-server client-admin-dev-server dummy-server azure-cli azure-login azure-build azure-push azure-deploy azure-info azure-config-update azure-cleanup azure-status azure-logs-client azure-logs-api azure-logs-admin azure-apply-policies prepare-yaml azure-save-env lint/server-check lint/server-format
 
 ##############################################################################
 # ローカル開発環境のコマンド
@@ -28,6 +28,14 @@ client-admin-dev-server:
 
 dummy-server:
 	cd utils/dummy-server && npm run dev
+
+# Docker環境でのlint/check, format
+lint/api-check:
+	docker compose run --rm api python -m ruff check .
+	docker compose run --rm api python -m ruff format . --check
+
+lint/api-format:
+	docker compose run --rm api python -m ruff format .
 
 ##############################################################################
 # Azure初期デプロイのコマンド
