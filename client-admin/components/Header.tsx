@@ -1,5 +1,4 @@
-import {Alert, Box, HStack, Image, Text} from '@chakra-ui/react'
-import {XIcon} from 'lucide-react'
+import {Alert, HStack, Image} from '@chakra-ui/react'
 
 
 export function Header() {
@@ -14,19 +13,6 @@ export function Header() {
           maxW={{base: '120px', md: '200px'}}
           alt={'レポート発行者'}
         />
-        <XIcon color={'gray'}/>
-        <Box
-          fontWeight={'bold'}
-          className={'gradientColor'}
-        >
-          <Text
-            fontSize={{base: 'md', md: 'lg'}}
-          >広聴AI</Text>
-          <Text
-            fontSize={{base: 'xs', md: 'sm'}}
-            lineHeight={1.1}
-          >デジタル民主主義2030<br/>ブロードリスニング</Text>
-        </Box>
       </HStack>
       <HStack>
         <Alert.Root status="warning">
