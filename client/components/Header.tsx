@@ -1,7 +1,6 @@
 'use client'
 
-import {Box, HStack, Image, Text} from '@chakra-ui/react'
-import {XIcon} from 'lucide-react'
+import {HStack, Image} from '@chakra-ui/react'
 import {BroadlisteningGuide} from '@/components/report/BroadlisteningGuide'
 import {Meta} from '@/type'
 import {getApiBaseUrl} from '@/app/utils/api'
@@ -24,21 +23,8 @@ export function Header({meta}: Props) {
               maxW={{base: '120px', md: '200px'}}
               alt={meta.reporter}
             />
-            <XIcon color={'gray'}/>
           </>
         )}
-        <Box
-          fontWeight={'bold'}
-          className={'gradientColor'}
-        >
-          <Text
-            fontSize={{base: 'md', md: 'lg'}}
-          >広聴AI</Text>
-          <Text
-            fontSize={{base: 'xs', md: 'sm'}}
-            lineHeight={1.1}
-          >デジタル民主主義2030<br/>ブロードリスニング</Text>
-        </Box>
       </HStack>
       <BroadlisteningGuide/>
     </HStack>
