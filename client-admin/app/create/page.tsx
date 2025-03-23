@@ -39,6 +39,7 @@ export default function Page() {
   const [model, setModel] = useState<string>('gpt-4o-mini')
   const [clusterLv1, setClusterLv1] = useState<number>(5)
   const [clusterLv2, setClusterLv2] = useState<number>(50)
+  const [workers, setWorkers] = useState<number>(30)
   const [extraction, setExtraction] = useState<string>(extractionPrompt)
   const [initialLabelling, setInitialLabelling] = useState<string>(initialLabellingPrompt)
   const [mergeLabelling, setMergeLabelling] = useState<string>(mergeLabellingPrompt)
@@ -92,6 +93,7 @@ export default function Page() {
           comments,
           cluster: [clusterLv1, clusterLv2],
           model,
+          workers,
           prompt: {
             extraction,
             initialLabelling,
@@ -223,6 +225,22 @@ export default function Page() {
                 </HStack>
                 <Field.HelperText>
                   階層ごとのクラスタ生成数です
+                </Field.HelperText>
+              </Field.Root>
+              <Field.Root>
+                <Field.Label>並列実行数</Field.Label>
+                <StepperInput
+                  w={'40%'}
+                  value={workers.toString()}
+                  min={1}
+                  max={100}
+                  onValueChange={(e) => {
+                    const v = Number(e.value)
+                    setWorkers(v)
+                  }}
+                />
+                <Field.HelperText>
+                  OpenAI APIの並列実行数です。値を大きくすることでレポート出力が速くなりますが、OpenAIアカウントのTierによってはレートリミットの上限に到達し、レポート出力が失敗する可能性があります。
                 </Field.HelperText>
               </Field.Root>
               <Field.Root>
