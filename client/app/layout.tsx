@@ -1,4 +1,4 @@
-import { Provider } from '@/components/ui/provider'
+import {Provider} from '@/components/ui/provider'
 import './global.css'
 import {getApiBaseUrl} from './utils/api'
 

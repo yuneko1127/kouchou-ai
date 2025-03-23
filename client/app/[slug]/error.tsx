@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from '@chakra-ui/react'
-import { useEffect } from 'react'
+import {Button} from '@chakra-ui/react'
+import {useEffect} from 'react'
 
 type Props = {
   error: Error & { digest?: string }
