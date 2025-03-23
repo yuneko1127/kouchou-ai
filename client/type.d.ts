@@ -45,6 +45,19 @@ export type Cluster = {
   density_rank_percentile: number // 密度ランクのパーセンタイル
 }
 
+export type JaLocaleType = {
+  moduleType: 'locale'
+  name: string
+  dictionary: Record<string, string>
+  format: {
+    days: string[]
+    shortDays: string[]
+    months: string[]
+    shortMonths: string[]
+    date: string
+  }
+}
+
 type Comments = Record<string, { comment: string }> // コメントIDをキーに持つオブジェクト
 
 type Config = {
