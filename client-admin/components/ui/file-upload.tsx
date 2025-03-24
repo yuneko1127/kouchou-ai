@@ -16,6 +16,7 @@ import {LuFile, LuUpload, LuX} from 'react-icons/lu'
 
 export interface FileUploadRootProps extends ChakraFileUpload.RootProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>
+  onFileRemove?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const FileUploadRoot = React.forwardRef<

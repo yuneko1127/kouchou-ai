@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import {Header} from '@/components/Header'
+import { Header } from '@/components/Header'
 import {
   Box,
   Button,
@@ -15,22 +15,22 @@ import {
   useDisclosure,
   VStack
 } from '@chakra-ui/react'
-import {FileUploadDropzone, FileUploadList, FileUploadRoot} from '@/components/ui/file-upload'
-import {useState} from 'react'
-import {StepperInput} from '@/components/ui/stepper-input'
-import {parseCsv} from '@/app/create/parseCsv'
-import {useRouter} from 'next/navigation'
-import {toaster} from '@/components/ui/toaster'
-import {extractionPrompt} from './extractionPrompt'
-import {initialLabellingPrompt} from '@/app/create/initialLabellingPrompt'
-import {mergeLabellingPrompt} from '@/app/create/mergeLabellingPrompt'
-import {overviewPrompt} from '@/app/create/overviewPrompt'
-import {ChevronRightIcon, DownloadIcon} from 'lucide-react'
-import {v4} from 'uuid'
+import { FileUploadDropzone, FileUploadList, FileUploadRoot } from '@/components/ui/file-upload'
+import { useState } from 'react'
+import { StepperInput } from '@/components/ui/stepper-input'
+import { parseCsv } from '@/app/create/parseCsv'
+import { useRouter } from 'next/navigation'
+import { toaster } from '@/components/ui/toaster'
+import { extractionPrompt } from './extractionPrompt'
+import { initialLabellingPrompt } from '@/app/create/initialLabellingPrompt'
+import { mergeLabellingPrompt } from '@/app/create/mergeLabellingPrompt'
+import { overviewPrompt } from '@/app/create/overviewPrompt'
+import { ChevronRightIcon, DownloadIcon } from 'lucide-react'
+import { v4 } from 'uuid'
 
 export default function Page() {
   const router = useRouter()
-  const {open, onToggle} = useDisclosure()
+  const { open, onToggle } = useDisclosure()
   const [loading, setLoading] = useState<boolean>(false)
   const [input, setInput] = useState<string>(v4())
   const [question, setQuestion] = useState<string>('')
@@ -127,7 +127,7 @@ export default function Page() {
 
   return (
     <div className={'container'}>
-      <Header/>
+      <Header />
       <Box mx={'auto'} maxW={'800px'}>
         <Heading textAlign={'center'} my={10}>新しいレポートを作成する</Heading>
         <VStack gap={5}>
@@ -172,13 +172,17 @@ export default function Page() {
                 w={'full'}
                 alignItems="stretch"
                 accept={['text/csv']}
+                inputProps={{ multiple: false }}
                 onFileChange={(e) => setCsv(e.acceptedFiles[0])}
+                onFileRemove={(_e) => setCsv(null)}
               >
-                <FileUploadDropzone
-                  label="分析するコメントファイルを選択してください"
-                  description=".csv"
-                />
-                <FileUploadList/>
+                <Box opacity={csv ? 0.5 : 1} pointerEvents={csv ? 'none' : 'auto'}>
+                  <FileUploadDropzone
+                    label="分析するコメントファイルを選択してください"
+                    description=".csv"
+                  />
+                </Box>
+                <FileUploadList clearable={true} />
               </FileUploadRoot>
               <Field.HelperText>カラムに<b>&quot;comment&quot;</b>を含むCSVファイルが必要です(それ以外のカラムは無視されます)</Field.HelperText>
             </VStack>
@@ -212,7 +216,7 @@ export default function Page() {
                       setClusterLv1(v)
                     }}
                   />
-                  <ChevronRightIcon/>
+                  <ChevronRightIcon />
                   <StepperInput
                     value={clusterLv2.toString()}
                     min={2}
@@ -251,7 +255,7 @@ export default function Page() {
                     <option value={'gpt-4o'}>OpenAI GPT-4o</option>
                     <option value={'o3-mini'}>OpenAI o3-mini</option>
                   </NativeSelect.Field>
-                  <NativeSelect.Indicator/>
+                  <NativeSelect.Indicator />
                 </NativeSelect.Root>
                 <Field.HelperText>
                   {model === 'gpt-4o-mini' && 'GPT-4o mini：最も安価に利用できるモデルです。価格の詳細はOpenAIが公開しているAPI料金のページをご参照ください。'}
