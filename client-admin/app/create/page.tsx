@@ -174,7 +174,6 @@ export default function Page() {
                 accept={['text/csv']}
                 inputProps={{ multiple: false }}
                 onFileChange={(e) => setCsv(e.acceptedFiles[0])}
-                onFileRemove={(_e) => setCsv(null)}
               >
                 <Box opacity={csv ? 0.5 : 1} pointerEvents={csv ? 'none' : 'auto'}>
                   <FileUploadDropzone
@@ -182,7 +181,10 @@ export default function Page() {
                     description=".csv"
                   />
                 </Box>
-                <FileUploadList clearable={true} />
+                <FileUploadList
+                  clearable={true}
+                  onRemove={() => setCsv(null)}
+                />
               </FileUploadRoot>
               <Field.HelperText>カラムに<b>&quot;comment&quot;</b>を含むCSVファイルが必要です(それ以外のカラムは無視されます)</Field.HelperText>
             </VStack>
