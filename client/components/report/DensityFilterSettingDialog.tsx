@@ -31,13 +31,13 @@ export function DensityFilterSettingDialog({onClose, onChangeFilter, currentMaxD
     <DialogRoot lazyMount open={true} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>濃いクラスタ設定</DialogTitle>
-          <Text>濃いクラスタ設定を設定すると、表示件数を絞って詳細を確認できます<br/>（全体図には適用されません）</Text>
+          <DialogTitle>濃い意見グループ設定</DialogTitle>
+          <Text>濃い意見グループ設定を設定すると、表示件数を絞って詳細を確認できます<br/>（全体図には適用されません）</Text>
         </DialogHeader>
         <DialogBody>
           <Box mb={4}>
             <Slider
-              label={`上位何％のクラスタを表示するか: ${maxDensity * 100}%`}
+              label={`上位何％の意見グループを表示するか: ${maxDensity * 100}%`}
               step={0.1}
               min={0.1}
               max={1}
@@ -51,7 +51,7 @@ export function DensityFilterSettingDialog({onClose, onChangeFilter, currentMaxD
           </Box>
           <Box>
             <Slider
-              label={`クラスタのサンプル数の最小数: ${minValue}`}
+              label={`意見グループのサンプル数の最小数: ${minValue}`}
               step={1}
               min={0}
               max={10}

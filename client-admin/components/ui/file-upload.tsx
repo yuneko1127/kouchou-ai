@@ -16,6 +16,7 @@ import {LuFile, LuUpload, LuX} from 'react-icons/lu'
 
 export interface FileUploadRootProps extends ChakraFileUpload.RootProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>
+  onFileRemove?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const FileUploadRoot = React.forwardRef<
@@ -59,6 +60,7 @@ export const FileUploadDropzone = React.forwardRef<
 interface VisibilityProps {
   showSize?: boolean
   clearable?: boolean
+  onRemove?: () => void
 }
 
 interface FileUploadItemProps extends VisibilityProps {
@@ -67,7 +69,7 @@ interface FileUploadItemProps extends VisibilityProps {
 
 const FileUploadItem = React.forwardRef<HTMLLIElement, FileUploadItemProps>(
   function FileUploadItem(props, ref) {
-    const {file, showSize, clearable} = props
+    const {file, showSize, clearable, onRemove} = props
     return (
       <ChakraFileUpload.Item file={file} ref={ref}>
         <ChakraFileUpload.ItemPreview asChild>
@@ -86,7 +88,10 @@ const FileUploadItem = React.forwardRef<HTMLLIElement, FileUploadItemProps>(
         )}
 
         {clearable && (
-          <ChakraFileUpload.ItemDeleteTrigger asChild>
+          <ChakraFileUpload.ItemDeleteTrigger
+            asChild
+            onClick={() => onRemove && onRemove()}
+          >
             <IconButton variant="ghost" color="fg.muted" size="xs">
               <LuX/>
             </IconButton>
@@ -107,7 +112,7 @@ export const FileUploadList = React.forwardRef<
   HTMLUListElement,
   FileUploadListProps
 >(function FileUploadList(props, ref) {
-  const {showSize, clearable, files, ...rest} = props
+  const {showSize, clearable, files, onRemove, ...rest} = props
 
   const fileUpload = useFileUploadContext()
   const acceptedFiles = files ?? fileUpload.acceptedFiles
@@ -122,6 +127,7 @@ export const FileUploadList = React.forwardRef<
           file={file}
           showSize={showSize}
           clearable={clearable}
+          onRemove={onRemove}
         />
       ))}
     </ChakraFileUpload.ItemGroup>

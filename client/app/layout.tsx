@@ -1,4 +1,4 @@
-import ClientProvider from './ClientProvider'
+import {Provider} from '@/components/ui/provider'
 import './global.css'
 import {getApiBaseUrl} from './utils/api'
 
@@ -9,9 +9,9 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
         <link rel={'icon'} href={getApiBaseUrl() + '/meta/icon.png'} sizes={'any'}/>
       </head>
       <body>
-        <ClientProvider>
+        <Provider>
           {children}
-        </ClientProvider>
+        </Provider>
       </body>
     </html>
   )

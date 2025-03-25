@@ -18,15 +18,27 @@ def _build_config(report_input: ReportInput) -> dict:
         "question": report_input.question,
         "intro": report_input.intro,
         "model": report_input.model,
-        "extraction": {"prompt": report_input.prompt.extraction, "workers": 30, "limit": comment_num},
+        "extraction": {
+            "prompt": report_input.prompt.extraction,
+            "workers": report_input.workers,
+            "limit": comment_num,
+        },
         "hierarchical_clustering": {
             "cluster_nums": report_input.cluster,
         },
-        "hierarchical_initial_labelling": {"prompt": report_input.prompt.initial_labelling, "sampling_num": 30},
-        "hierarchical_merge_labelling": {"prompt": report_input.prompt.merge_labelling, "sampling_num": 30},
+        "hierarchical_initial_labelling": {
+            "prompt": report_input.prompt.initial_labelling,
+            "sampling_num": 30,
+            "workers": report_input.workers,
+        },
+        "hierarchical_merge_labelling": {
+            "prompt": report_input.prompt.merge_labelling,
+            "sampling_num": 30,
+            "workers": report_input.workers,
+        },
         "hierarchical_overview": {"prompt": report_input.prompt.overview},
         "hierarchical_aggregation": {
-            "sampling_num": 30,
+            "sampling_num": report_input.workers,
         },
     }
     return config
