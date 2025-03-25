@@ -174,7 +174,6 @@ export default function Page() {
                 accept={['text/csv']}
                 inputProps={{ multiple: false }}
                 onFileChange={(e) => setCsv(e.acceptedFiles[0])}
-                onFileRemove={(_e) => setCsv(null)}
               >
                 <Box opacity={csv ? 0.5 : 1} pointerEvents={csv ? 'none' : 'auto'}>
                   <FileUploadDropzone
@@ -182,7 +181,10 @@ export default function Page() {
                     description=".csv"
                   />
                 </Box>
-                <FileUploadList clearable={true} />
+                <FileUploadList
+                  clearable={true}
+                  onRemove={() => setCsv(null)}
+                />
               </FileUploadRoot>
               <Field.HelperText>カラムに<b>&quot;comment&quot;</b>を含むCSVファイルが必要です(それ以外のカラムは無視されます)</Field.HelperText>
             </VStack>
@@ -205,7 +207,7 @@ export default function Page() {
                 <Field.HelperText>英字小文字と数字とハイフンのみ(URLで利用されます)</Field.HelperText>
               </Field.Root>
               <Field.Root>
-                <Field.Label>クラスター数</Field.Label>
+                <Field.Label>意見グループ数</Field.Label>
                 <HStack>
                   <StepperInput
                     value={clusterLv1.toString()}
@@ -228,7 +230,7 @@ export default function Page() {
                   />
                 </HStack>
                 <Field.HelperText>
-                  階層ごとのクラスタ生成数です
+                  階層ごとの意見グループ生成数です
                 </Field.HelperText>
               </Field.Root>
               <Field.Root>
