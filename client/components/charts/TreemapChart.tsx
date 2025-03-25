@@ -27,7 +27,7 @@ export function TreemapChart({clusterList, argumentList}: Props) {
     values: values,
     branchvalues: 'total',
     hovertemplate: '<b>%{label}</b><br>%{value:,}件<br>%{percentEntry:.2%}<extra></extra>',
-    texttemplate: '%{label}<br>%{percentEntry:.2%}',
+    texttemplate: '%{label}<br>%{value:,}件<br>%{percentEntry:.2%}',
     maxdepth: 2,
     pathbar: {
       thickness: 28,
@@ -48,6 +48,7 @@ export function TreemapChart({clusterList, argumentList}: Props) {
       config={{
         responsive: true,
         displayModeBar: false,
+        locale: 'ja',
       }}
     />
   )

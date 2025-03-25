@@ -4,10 +4,12 @@ import {Header} from '@/components/Header'
 import {Overview} from '@/components/report/Overview'
 import {Footer} from '@/components/Footer'
 import {ClusterOverview} from '@/components/report/ClusterOverview'
+import {BackButton} from '@/components/report/BackButton'
 import {About} from '@/components/About'
 import {Separator} from '@chakra-ui/react'
 import {Metadata} from 'next'
 import {getApiBaseUrl} from '../utils/api'
+import {notFound} from 'next/navigation'
 
 type PageProps = {
   params: Promise<{
@@ -65,37 +67,39 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 }
 
 export default async function Page({params}: PageProps) {
-  try {
-    const slug = (await params).slug
-    const metaResponse = await fetch(getApiBaseUrl() + '/meta/metadata.json')
-    const resultResponse = await fetch(getApiBaseUrl() + `/reports/${slug}`, {
-      headers: {
-        'x-api-key': process.env.NEXT_PUBLIC_PUBLIC_API_KEY || '',
-        'Content-Type': 'application/json'
-      },
-    })
-    const contentLength = resultResponse.headers.get('Content-Length')
-    const resultSize = contentLength ? parseInt(contentLength, 10) : 0
-    const meta: Meta = await metaResponse.json()
-    const result: Result = await resultResponse.json()
+  const slug = (await params).slug
+  const metaResponse = await fetch(getApiBaseUrl() + '/meta/metadata.json')
+  const resultResponse = await fetch(getApiBaseUrl() + `/reports/${slug}`, {
+    headers: {
+      'x-api-key': process.env.NEXT_PUBLIC_PUBLIC_API_KEY || '',
+      'Content-Type': 'application/json'
+    },
+  })
 
-    return (
-      <>
-        <div className={'container'}>
-          <Header meta={meta}/>
-          <Overview result={result}/>
-          <ClientContainer resultSize={resultSize} reportName={slug}>
-            {result.clusters.filter(c => c.level === 1).map(c => (
-              <ClusterOverview key={c.id} cluster={c}/>
-            ))}
-          </ClientContainer>
-          <Separator my={12} maxW={'750px'} mx={'auto'}/>
-          <About meta={meta}/>
-        </div>
-        <Footer meta={meta}/>
-      </>
-    )
-  } catch (_e) {
-    return <p>エラー：データの取得に失敗しました<br/>Error: fetch failed to {process.env.NEXT_PUBLIC_API_BASEPATH}.</p>
+  if (metaResponse.status === 404 || resultResponse.status === 404) {
+    notFound()
   }
+
+  const contentLength = resultResponse.headers.get('Content-Length')
+  const resultSize = contentLength ? parseInt(contentLength, 10) : 0
+  const meta: Meta = await metaResponse.json()
+  const result: Result = await resultResponse.json()
+
+  return (
+    <>
+      <div className={'container'}>
+        <Header meta={meta}/>
+        <Overview result={result}/>
+        <ClientContainer resultSize={resultSize} reportName={slug}>
+          {result.clusters.filter(c => c.level === 1).map(c => (
+            <ClusterOverview key={c.id} cluster={c}/>
+          ))}
+        </ClientContainer>
+        <BackButton/>
+        <Separator my={12} maxW={'750px'} mx={'auto'}/>
+        <About meta={meta}/>
+      </div>
+      <Footer meta={meta}/>
+    </>
+  )
 }

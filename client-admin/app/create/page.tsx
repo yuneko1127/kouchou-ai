@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import {Header} from '@/components/Header'
+import { Header } from '@/components/Header'
 import {
   Box,
   Button,
@@ -15,22 +15,22 @@ import {
   useDisclosure,
   VStack
 } from '@chakra-ui/react'
-import {FileUploadDropzone, FileUploadList, FileUploadRoot} from '@/components/ui/file-upload'
-import {useState} from 'react'
-import {StepperInput} from '@/components/ui/stepper-input'
-import {parseCsv} from '@/app/create/parseCsv'
-import {useRouter} from 'next/navigation'
-import {toaster} from '@/components/ui/toaster'
-import {extractionPrompt} from './extractionPrompt'
-import {initialLabellingPrompt} from '@/app/create/initialLabellingPrompt'
-import {mergeLabellingPrompt} from '@/app/create/mergeLabellingPrompt'
-import {overviewPrompt} from '@/app/create/overviewPrompt'
-import {ChevronRightIcon, DownloadIcon} from 'lucide-react'
-import {v4} from 'uuid'
+import { FileUploadDropzone, FileUploadList, FileUploadRoot } from '@/components/ui/file-upload'
+import { useState } from 'react'
+import { StepperInput } from '@/components/ui/stepper-input'
+import { parseCsv } from '@/app/create/parseCsv'
+import { useRouter } from 'next/navigation'
+import { toaster } from '@/components/ui/toaster'
+import { extractionPrompt } from './extractionPrompt'
+import { initialLabellingPrompt } from '@/app/create/initialLabellingPrompt'
+import { mergeLabellingPrompt } from '@/app/create/mergeLabellingPrompt'
+import { overviewPrompt } from '@/app/create/overviewPrompt'
+import { ChevronRightIcon, DownloadIcon } from 'lucide-react'
+import { v4 } from 'uuid'
 
 export default function Page() {
   const router = useRouter()
-  const {open, onToggle} = useDisclosure()
+  const { open, onToggle } = useDisclosure()
   const [loading, setLoading] = useState<boolean>(false)
   const [input, setInput] = useState<string>(v4())
   const [question, setQuestion] = useState<string>('')
@@ -39,6 +39,7 @@ export default function Page() {
   const [model, setModel] = useState<string>('gpt-4o-mini')
   const [clusterLv1, setClusterLv1] = useState<number>(5)
   const [clusterLv2, setClusterLv2] = useState<number>(50)
+  const [workers, setWorkers] = useState<number>(30)
   const [extraction, setExtraction] = useState<string>(extractionPrompt)
   const [initialLabelling, setInitialLabelling] = useState<string>(initialLabellingPrompt)
   const [mergeLabelling, setMergeLabelling] = useState<string>(mergeLabellingPrompt)
@@ -69,6 +70,17 @@ export default function Page() {
     let comments = []
     try {
       comments = await parseCsv(csv!)
+      if (comments.length < clusterLv2) {
+        const confirmProceed = window.confirm(
+          `csvファイルの行数 (${comments.length}) が設定された意見グループ数 (${clusterLv2}) を下回っています。このまま続けますか？
+          \n※コメントから抽出される意見が設定された意見グループ数に満たない場合、処理中にエラーになる可能性があります（一つのコメントから複数の意見が抽出されることもあるため、問題ない場合もあります）。
+          \n意見グループ数を変更する場合は、「AI詳細設定」を開いてください。`
+        )
+        if (!confirmProceed) {
+          setLoading(false)
+          return
+        }
+      }
     } catch (e) {
       toaster.create({
         type: 'error',
@@ -92,6 +104,7 @@ export default function Page() {
           comments,
           cluster: [clusterLv1, clusterLv2],
           model,
+          workers,
           prompt: {
             extraction,
             initialLabelling,
@@ -125,7 +138,7 @@ export default function Page() {
 
   return (
     <div className={'container'}>
-      <Header/>
+      <Header />
       <Box mx={'auto'} maxW={'800px'}>
         <Heading textAlign={'center'} my={10}>新しいレポートを作成する</Heading>
         <VStack gap={5}>
@@ -170,13 +183,19 @@ export default function Page() {
                 w={'full'}
                 alignItems="stretch"
                 accept={['text/csv']}
+                inputProps={{ multiple: false }}
                 onFileChange={(e) => setCsv(e.acceptedFiles[0])}
               >
-                <FileUploadDropzone
-                  label="分析するコメントファイルを選択してください"
-                  description=".csv"
+                <Box opacity={csv ? 0.5 : 1} pointerEvents={csv ? 'none' : 'auto'}>
+                  <FileUploadDropzone
+                    label="分析するコメントファイルを選択してください"
+                    description=".csv"
+                  />
+                </Box>
+                <FileUploadList
+                  clearable={true}
+                  onRemove={() => setCsv(null)}
                 />
-                <FileUploadList/>
               </FileUploadRoot>
               <Field.HelperText>カラムに<b>&quot;comment&quot;</b>を含むCSVファイルが必要です(それ以外のカラムは無視されます)</Field.HelperText>
             </VStack>
@@ -199,7 +218,7 @@ export default function Page() {
                 <Field.HelperText>英字小文字と数字とハイフンのみ(URLで利用されます)</Field.HelperText>
               </Field.Root>
               <Field.Root>
-                <Field.Label>クラスター数</Field.Label>
+                <Field.Label>意見グループ数</Field.Label>
                 <HStack>
                   <StepperInput
                     value={clusterLv1.toString()}
@@ -210,7 +229,7 @@ export default function Page() {
                       setClusterLv1(v)
                     }}
                   />
-                  <ChevronRightIcon/>
+                  <ChevronRightIcon />
                   <StepperInput
                     value={clusterLv2.toString()}
                     min={2}
@@ -222,7 +241,23 @@ export default function Page() {
                   />
                 </HStack>
                 <Field.HelperText>
-                  階層ごとのクラスタ生成数です
+                  階層ごとの意見グループ生成数です
+                </Field.HelperText>
+              </Field.Root>
+              <Field.Root>
+                <Field.Label>並列実行数</Field.Label>
+                <StepperInput
+                  w={'40%'}
+                  value={workers.toString()}
+                  min={1}
+                  max={100}
+                  onValueChange={(e) => {
+                    const v = Number(e.value)
+                    setWorkers(v)
+                  }}
+                />
+                <Field.HelperText>
+                  OpenAI APIの並列実行数です。値を大きくすることでレポート出力が速くなりますが、OpenAIアカウントのTierによってはレートリミットの上限に到達し、レポート出力が失敗する可能性があります。
                 </Field.HelperText>
               </Field.Root>
               <Field.Root>
@@ -233,7 +268,7 @@ export default function Page() {
                     <option value={'gpt-4o'}>OpenAI GPT-4o</option>
                     <option value={'o3-mini'}>OpenAI o3-mini</option>
                   </NativeSelect.Field>
-                  <NativeSelect.Indicator/>
+                  <NativeSelect.Indicator />
                 </NativeSelect.Root>
                 <Field.HelperText>
                   {model === 'gpt-4o-mini' && 'GPT-4o mini：最も安価に利用できるモデルです。価格の詳細はOpenAIが公開しているAPI料金のページをご参照ください。'}

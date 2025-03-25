@@ -12,7 +12,15 @@ RUN apt-get update \
 RUN pip install uv
 
 COPY pyproject.toml requirements.lock requirements-dev.lock README.md ./
-RUN uv pip install --no-cache --system -r requirements.lock
+
+RUN if [ "$ENVIRONMENT" = "development" ]; then \
+        echo "Installing development dependencies from requirements-dev.lock" && \
+        uv pip install --no-cache --system -r requirements-dev.lock; \
+    else \
+        echo "Installing production dependencies from requirements.lock" && \
+        uv pip install --no-cache --system -r requirements.lock; \
+    fi
+
 
 COPY . .
 # アプリケーションの実行

@@ -57,7 +57,7 @@ export function Footer({meta}: Props) {
                     AIやデジタル技術の進化により、これまで不可能だった新しい形の市民参加や政策運営が可能になるはずだという信念に基づいています。
                   </Text>
                   <Link
-                    href={'https://note.com/annotakahiro24/n/na0e296bc30b8'}
+                    href={'https://dd2030.org'}
                     target={'_blank'}
                     rel={'noreferrer noopener'}
                   >
