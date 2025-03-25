@@ -76,7 +76,7 @@ export default async function Page({params}: PageProps) {
     },
   })
 
-  if (resultResponse.status === 404) {
+  if (metaResponse.status === 404 || resultResponse.status === 404) {
     notFound()
   }
 
