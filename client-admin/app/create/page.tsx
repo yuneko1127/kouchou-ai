@@ -70,6 +70,15 @@ export default function Page() {
     let comments = []
     try {
       comments = await parseCsv(csv!)
+      if (comments.length < clusterLv2) {
+        toaster.create({
+          type: 'error',
+          title: 'コメント数が不足しています',
+          description: `指定されたクラスタ数（${clusterLv2}）よりコメント数（${comments.length}）が少ないため、分析できません。クラスタ数を減らしてください。`,
+        })
+        setLoading(false)
+        return
+      }
     } catch (e) {
       toaster.create({
         type: 'error',
