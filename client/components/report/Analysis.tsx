@@ -75,7 +75,7 @@ export function Analysis({result}: ReportProps) {
         </Tooltip>
         <ChevronRightIcon/>
         <Tooltip
-          content={'抽出した議論をAIで分析し、近しい議論を一つのクラスターに分類します。クラスターごとの議論を要約し、大量の意見を見える化します。'}
+          content={'抽出した議論をAIで分析し、近しい議論を一つの意見グループに分類します。意見グループごとの議論を要約し、大量の意見を見える化します。'}
           openDelay={0} closeDelay={0}>
           <VStack gap={0} w={'200px'}>
             <Icon mb={2}><ClipboardCheckIcon size={'30px'}/></Icon>
@@ -100,7 +100,7 @@ export function Analysis({result}: ReportProps) {
                 {clusterNum['2'].toLocaleString()}
               </Text>
             </HStack>
-            <Text fontSize={'xs'}>集約したクラスター数</Text>
+            <Text fontSize={'xs'}>集約した意見グループ数</Text>
           </VStack>
         </Tooltip>
       </HStack>
@@ -245,7 +245,7 @@ export function Analysis({result}: ReportProps) {
                     <TimelineTitle fontWeight={'bold'}>表示</TimelineTitle>
                     <TimelineDescription>
                       出力されたJSONファイルをグラフィカルに表示するステップです。<br/>
-                      クラスタの概要、議論の内容などを可視化します。あなたが見ているこの画面が出来上がります。
+                      意見グループの概要、議論の内容などを可視化します。あなたが見ているこの画面が出来上がります。
                     </TimelineDescription>
                     <HStack>
                       <Button variant={'outline'} size={'xs'} onClick={() => setSelectedData({
