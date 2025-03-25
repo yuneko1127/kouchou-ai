@@ -71,13 +71,15 @@ export default function Page() {
     try {
       comments = await parseCsv(csv!)
       if (comments.length < clusterLv2) {
-        toaster.create({
-          type: 'error',
-          title: 'コメント数が不足しています',
-          description: `指定されたクラスタ数（${clusterLv2}）よりコメント数（${comments.length}）が少ないため、分析できません。クラスタ数を減らしてください。`,
-        })
-        setLoading(false)
-        return
+        const confirmProceed = window.confirm(
+          `csvファイル内のコメント数 (${comments.length}) が設定されたクラスタ数 (${clusterLv2}) を下回っています。このまま続けますか？
+          \nコメントから抽出される意見の数がクラスタ数に満たない場合、適切にクラスタリングが行えない可能性があります。（一つのコメントから複数の意見が抽出されることもあるため、問題ない場合もあります）
+          \nクラスタ数を変更する場合は、AI詳細設定を開いてください。`
+        )
+        if (!confirmProceed) {
+          setLoading(false)
+          return
+        }
       }
     } catch (e) {
       toaster.create({
