@@ -72,9 +72,9 @@ export default function Page() {
       comments = await parseCsv(csv!)
       if (comments.length < clusterLv2) {
         const confirmProceed = window.confirm(
-          `csvファイル内のコメント数 (${comments.length}) が設定されたクラスタ数 (${clusterLv2}) を下回っています。このまま続けますか？
-          \nコメントから抽出される意見の数がクラスタ数に満たない場合、適切にクラスタリングが行えない可能性があります。（一つのコメントから複数の意見が抽出されることもあるため、問題ない場合もあります）
-          \nクラスタ数を変更する場合は、AI詳細設定を開いてください。`
+          `csvファイルの行数 (${comments.length}) が設定された意見グループ数 (${clusterLv2}) を下回っています。このまま続けますか？
+          \n※コメントから抽出される意見が設定された意見グループ数に満たない場合、処理中にエラーになる可能性があります（一つのコメントから複数の意見が抽出されることもあるため、問題ない場合もあります）。
+          \n意見グループ数を変更する場合は、「AI詳細設定」を開いてください。`
         )
         if (!confirmProceed) {
           setLoading(false)
