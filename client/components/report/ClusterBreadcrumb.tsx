@@ -38,7 +38,7 @@ export function ClusterBreadcrumb({selectedClusters, onChangeFilter}: Props) {
   if (!selectedClusters.length) return <></>
   return (
     <Box mx={'auto'} maxW={'870px'} mb={6} display={{base: 'none', md: 'block'}}>
-      <Text fontSize={'sm'} fontWeight={'bold'}>表示中のクラスター</Text>
+      <Text fontSize={'sm'} fontWeight={'bold'}>表示中の意見グループ</Text>
       <BreadcrumbRoot
         size="lg"
       >

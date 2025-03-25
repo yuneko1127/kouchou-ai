@@ -205,7 +205,7 @@ export default function Page() {
                 <Field.HelperText>英字小文字と数字とハイフンのみ(URLで利用されます)</Field.HelperText>
               </Field.Root>
               <Field.Root>
-                <Field.Label>クラスター数</Field.Label>
+                <Field.Label>意見グループ数</Field.Label>
                 <HStack>
                   <StepperInput
                     value={clusterLv1.toString()}
@@ -228,7 +228,7 @@ export default function Page() {
                   />
                 </HStack>
                 <Field.HelperText>
-                  階層ごとのクラスタ生成数です
+                  階層ごとの意見グループ生成数です
                 </Field.HelperText>
               </Field.Root>
               <Field.Root>

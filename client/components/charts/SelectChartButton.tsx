@@ -43,7 +43,7 @@ export function SelectChartButton({selected, onChange, onClickDensitySetting, on
           />
           <RadioCardItem
             value={'scatterDensity'}
-            label={useBreakpointValue({base: '', md: '濃いクラスタ'})}
+            label={useBreakpointValue({base: '', md: '濃い意見グループ'})}
             indicator={false}
             icon={<Icon><MessageCircleWarningIcon/></Icon>}
             cursor={'pointer'}
@@ -58,7 +58,7 @@ export function SelectChartButton({selected, onChange, onClickDensitySetting, on
         </HStack>
       </RadioCardRoot>
       <HStack>
-        <Tooltip content={'濃いクラスタ設定'} openDelay={0} closeDelay={0}>
+        <Tooltip content={'濃い意見グループ設定'} openDelay={0} closeDelay={0}>
           <Button
             onClick={onClickDensitySetting}
             variant={'outline'}
