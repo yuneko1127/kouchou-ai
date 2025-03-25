@@ -16,5 +16,5 @@
   - 割当を解除したい場合は、 `/unassign` というコメントを記載していただくと、Issueのasigneeから外れます
 - Issueはどなたでも起票いただいて構いません。ツールの利用時に感じた改善点やバグについてぜひIssueを起票してください。
 - 初めてのIssueとしてキャッチアップしやすいタスクについては、[good first issueラベル](https://github.com/digitaldemocracy2030/kouchou-ai/labels/good%20first%20issue)がついています。コミットに興味がある方は、ぜひそちらのIssueを御覧ください！
-- 現時点でのコードオーナーは[@nasuka](https://github.com/nasuka)と[@nanocloudx](https://github.com/nanocloudx)の2人で、どちらかがapproveした場合にmainへのマージを行います
-  - コードオーナーは将来的に増やしていきたいと考えていますが、当面はこの体制で運用していく予定です（2025/03/18時点）
+- 現時点でのコードオーナーは[@nasuka](https://github.com/nasuka)、[@nanocloudx](https://github.com/nanocloudx)、[@nishio](https://github.com/nishio)の3人で、誰か1人がapproveした場合にmainへのマージを行います
+  - コードオーナーは将来的に増やしていきたいと考えていますが、当面はこの体制で運用していく予定です（2025/03/25時点）
